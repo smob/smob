@@ -1,0 +1,6 @@
+- Download ARC2 (http://arc.semsol.org) and unzip it in the lib folder
+- Rename the arc_xxx folder to ARC2
+- Copy config_dist.php to config.php and edit parameters
+- Request a GoogleMaps API key and set it in the config file
+- Put the files somewhere on your webserver
+- That's all
