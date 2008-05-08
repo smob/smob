@@ -1,0 +1,50 @@
+<?php
+
+// Edit - this is the path where this file can be accessed - no trialing slash
+
+require_once(dirname(__FILE__).'/sioc_inc.php');
+require_once(dirname(__FILE__).'/../config.php');
+
+function send_data($url, $server) {
+  global $servers;
+  $key = $servers[$server];
+  $dest = "$server/load.php?key=$key&data=".urlencode($url);
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $dest);
+  curl_setopt($ch, CURLOPT_HEADER, 0);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  $data = curl_exec($ch);
+  curl_close($ch);
+}
+
+if($content=$_POST['content']) {
+  $ts = date('c');
+  $root =  substr(dirname($_SERVER['SCRIPT_URI']), 0, -strlen('/publish'));
+  $post = "$root/data/$ts";
+  $ex = new SIOCExporter();
+  $user = new SIOCUser($sioc_nick, "$root/user/$sioc_nick", 'name', 'mail', 'page', $foaf_uri, '', '', '', $foaf_url);
+  $ex->addObject(new SIOCPost($post, $ts, $content, '', $user, $ts, '', '', '', 'sioct:MicroBlogPost'));
+  $rdf = $ex->makeRDF();
+  $f = fopen(dirname(__FILE__)."/../data/$ts.rdf", 'w');
+  fwrite($f, $rdf);
+  fclose($f);
+  foreach($_POST['servers'] as $k => $server) {
+    send_data("$post.rdf", $server);
+    // The FOAF file should not be sent everytime - fix it
+    send_data($foaf_url, $server);
+  }
+}
+
+?>
+
+<h2>New content</h2>
+<form action="index.php" method="POST">
+<textarea name="content"></textarea>
+<br/>
+<?php
+foreach($servers as $server => $key) {
+  echo"<input type='checkbox' name='servers[]' value='$server' />$server<br/>";
+}
+?>
+<input type="submit" value="SMOB it!"/>
+</form>

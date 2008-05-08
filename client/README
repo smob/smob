@@ -1,0 +1,7 @@
+- Copy config_dist.php to config.php and edit parameters
+- If you don't have a FOAF profile, you can create one here: http://www.ldodds.com/foaf/foaf-a-matic
+- Set the list of SMOB server you want to be able to push data to
+- Chmod 777 the data directory
+- Put those files in a webserver directory that can be accessed by any SMOB server you want to publish your data to
+- You can add a .htaccess rule if you want to protect the publish interface
+- That's all
