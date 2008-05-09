@@ -35,7 +35,22 @@ Installation
    by the readers as well as by the SMOB clients which you want to aggregate.
 
 7. You can add access control rules (password, IP address) to a .htaccess file.
-  - Access to the 'load.php' file controls aggregation of new posts.
-  - Access to the directory controls read access to aggregated data.
+  - Access to the 'load' directory controls aggregation of new posts.
+  - Access to the main directory controls read access to aggregated data.
 
 8. That's all! You can now access the server with a web browser.
+
+
+Example .htaccess file for controlling new posts
+------------------------------------------------
+
+To restrict whose posts can show up in the aggregator, you can put 
+the following lines (please adjust accordinly) into load/.htaccess:
+
+Order deny,allow
+Deny from all
+
+# List IP addresses of the publishing services that should be allowed 
+Allow from 127.0.0.1 # localhost, ie. a publishing service on the local server
+Allow from 194.187.213.68 # tuukka.iki.fi
+
