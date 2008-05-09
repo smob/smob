@@ -11,6 +11,20 @@ The SMOB server complements the SMOB client, which lets you set up a
 personal microblog publishing service.
 
 
+Requirements
+------------
+
+1. You need to have a server on the internet to set up the service on.
+
+2. The server needs to have 
+  - a WWW server with PHP5 or PHP4.3 or higher.
+  - MySQL 4.0.4 or higher.
+
+3. PHP needs to have the CURL functions.
+  - For example, in Debian the package is called php5-curl or php4-curl
+  - Or, you can download libcurl from http://curl.haxx.se/dlwiz/?type=lib
+
+
 Installation
 ------------
 
