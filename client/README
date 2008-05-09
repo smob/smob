@@ -10,6 +10,19 @@ The SMOB client complements the SMOB server, which lets you set up your own
 microblog aggregators.
 
 
+Requirements
+------------
+
+1. You need to have a server on the internet to set up the service on - this
+   is like a blog.
+
+2. The server needs to have a WWW server with PHP5 or PHP4.
+
+3. PHP needs to have the CURL functions.
+  - For example, in Debian the package is called php5-curl or php4-curl
+  - Or, you can download libcurl from http://curl.haxx.se/dlwiz/?type=lib
+
+
 Installation
 ------------
 
