@@ -1,7 +1,32 @@
-- Copy config_dist.php to config.php and edit parameters
-- If you don't have a FOAF profile, you can create one here: http://www.ldodds.com/foaf/foaf-a-matic
-- Set the list of SMOB server you want to be able to push data to
-- Chmod 777 the data directory
-- Put those files in a webserver directory that can be accessed by any SMOB server you want to publish your data to
-- You can add a .htaccess rule if you want to protect the publish interface
-- That's all
+
+SMOB client - a personal microblog publishing service
+=====================================================
+
+The SMOB client enables you to publish your microblog postings. It 
+provides a web interface for entering new postings, stores the postings, 
+and lets the aggregators of your choice know of each new posting.
+
+The SMOB client complements the SMOB server, which lets you set up your own
+microblog aggregators.
+
+
+Installation
+------------
+
+1. Copy config_dist.php to config.php and edit the parameters.
+  -  If you don't have a FOAF profile yet:
+    - You can create one eg. here: http://www.ldodds.com/foaf/foaf-a-matic
+  - Tailor the list of SMOB servers to which you want to be able to push data.
+
+4. Allow the client to create files in the 'data' directory.
+  - Eg. the command: chmod 1777 data
+
+5. Move this 'client' directory to a web server directory that can be accessed 
+   by you as well as by the SMOB servers on which you want to publish your 
+   data.
+
+6. You can add access control rules (password, IP address) to a .htaccess file.
+  - Access to the 'publish' directory controls publishing new posts.
+  - Access to the 'data' directory controls read access to existing posts.
+
+7. That's all! You can now access the client with a web browser.
