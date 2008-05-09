@@ -3,7 +3,8 @@
 // Addresses of the servers where you want to publish your data
 // Use 'server' => 'apikey' format (API key can be empty for now)
 $servers = array(
-  'http://apassant.net/home/2008/03/smob/server'=>'',
+  'http://smob.sioc-project.org/server' => '',
+  'http://microplanet.sioc-project.org/' => '',
 );
 
 // The following settings configure your identity settings
