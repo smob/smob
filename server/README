@@ -1,6 +1,41 @@
-- Download ARC2 (http://arc.semsol.org) and unzip it in the lib folder
-- Rename the arc_xxx folder to ARC2
-- Copy config_dist.php to config.php and edit parameters
-- Request a GoogleMaps API key and set it in the config file
-- Put the files somewhere on your webserver
-- That's all
+
+SMOB server - a microblog aggregating service
+=============================================
+
+The SMOB server enables you to aggregate microblog postings for yourself or 
+for a community. It receives notifications of new postings from microblog 
+publishing services, keeps an up-to-date collection of the postings, and
+allows readers to browse the postings.
+
+The SMOB server complements the SMOB client, which lets you set up a 
+personal microblog publishing service.
+
+
+Installation
+------------
+
+1. Download ARC2 (http://arc.semsol.org) and unzip it in the 'lib' folder.
+  - Eg. http://arc.semsol.org/download/2008/04/09/arc_2008_04_09.zip
+
+2. Rename the resulting 'arc_xxx' folder as 'ARC2'.
+
+3. Copy config_dist.php to config.php and edit the parameters.
+  - You need a database such as MySQL.
+
+4. Create the database with the name you used for db_name in the config.
+  - Either use a graphical DB administration interface,
+  - Or run the SQL command "create database smob2_tuukka;"
+    - Eg. with the command "mysql -u yourusername -p"
+
+5. Get a GoogleMaps API key and put it in the config file.
+  - http://code.google.com/apis/maps/signup.html
+    - Fill in your webserver name (http://example.com) in the form
+
+6. Move this 'server' directory to a web server directory that can be accessed 
+   by the readers as well as by the SMOB clients which you want to aggregate.
+
+7. You can add access control rules (password, IP address) to a .htaccess file.
+  - Access to the 'load.php' file controls aggregation of new posts.
+  - Access to the directory controls read access to aggregated data.
+
+8. That's all! You can now access the server with a web browser.
