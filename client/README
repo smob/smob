@@ -30,3 +30,26 @@ Installation
   - Access to the 'data' directory controls read access to existing posts.
 
 7. That's all! You can now access the client with a web browser.
+
+
+Example .htaccess file
+----------------------
+
+To stop others from publishing as you using your publisher, you can put 
+the following lines (please adjust accordinly) into publish/.htaccess:
+
+Require valid-user
+Order deny,allow
+Deny from all
+Satisfy any
+
+AuthType Basic
+AuthName "Tuukka's SMOB publisher"
+AuthUserFile /home/tuukka/.auth-me
+
+# You can list IP addresses where the password shouldn't be required
+Allow from 123.456.0.789
+
+
+Then, create the authentication file and an account with the command:
+htpasswd -c /home/tuukka/.auth-me tuukka
