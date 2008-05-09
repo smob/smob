@@ -18,7 +18,8 @@ function send_data($url, $server) {
 }
 
 if($content=$_POST['content']) {
-  $ts = date('c');
+  // date('c') isn't implemented by PHP4:
+  $ts = date('Y-m-d\TH:i:s'). substr_replace(date('O'),':',3,0);
   // SCRIPT_URI isn't present on all servers, so we do this instead:
   $authority = "http://" . $_SERVER['HTTP_HOST'];
   $root = $authority . dirname(dirname($_SERVER['SCRIPT_NAME'])); 
