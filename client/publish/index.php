@@ -8,7 +8,7 @@ require_once(dirname(__FILE__).'/../config.php');
 function send_data($url, $server) {
   global $servers;
   $key = $servers[$server];
-  $dest = "$server/load.php?key=$key&data=".urlencode($url);
+  $dest = "$server/load/index.php?key=$key&data=".urlencode($url);
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $dest);
   curl_setopt($ch, CURLOPT_HEADER, 0);
