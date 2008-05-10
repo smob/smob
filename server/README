@@ -11,6 +11,11 @@ The SMOB server complements the SMOB client, which lets you set up a
 personal microblog publishing service.
 
 
+The code is accessible via Subversion using the following command:
+
+  svn co http://smob.googlecode.com/svn/trunk/server
+
+
 Requirements
 ------------
 

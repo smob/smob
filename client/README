@@ -10,6 +10,11 @@ The SMOB client complements the SMOB server, which lets you set up your own
 microblog aggregators.
 
 
+The code is accessible via Subversion using the following command:
+
+  svn co http://smob.googlecode.com/svn/trunk/client
+
+
 Requirements
 ------------
 
