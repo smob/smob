@@ -18,6 +18,3 @@
 - Admin interface for deleting bad data
 
 - Better authentication methods: list of API keys, base URIs, ...
-
-- Display URIs in postings as hyperlinks
-
