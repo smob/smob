@@ -63,7 +63,7 @@ foreach($rs['result']['rows'] as $r) {
   // Retrieve topics from content
   // should be added in the triple store directly 
   // (when inserting new data ?)
-  preg_match_all("/#(\w*(:\w*)?)(\s|$)/s", $content, $match);
+  preg_match_all("/#(\w+(:\w+)?)\b/s", $content, $match);
   $topics = '';
   $locations = '';
   $latlng = '';
