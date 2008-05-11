@@ -1,0 +1,16 @@
+
+- Report any errors while pinging
+
+- Provide a user interface for browsing the published data
+
+- Enrich the post data on the client side
+
+- Server-independent authentication methods
+
+- Multiuser version
+
+- Forward the postings to ping-the-semantic-web, Sindice, Twitter etc.
+
+- More user interfaces than the web one: Twitter clients, SMS, Facebook, ...
+
+- Admin interface for sending existing postings to a new aggregator

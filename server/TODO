@@ -1,0 +1,19 @@
+
+- RDF export of all aggregated data (for debugging)
+
+- Work with more (all) FOAF profiles out there
+
+- Auto-discoverable RDF of known microblogs (for linked data consumers)
+
+- Browsing of more than 20 latest posts
+
+  - Preferably faceted
+
+- Take timezones into account when sorting by date
+
+- Admin interface for deleting bad data
+
+- Better authentication methods: list of API keys, base URIs, ...
+
+- Display URIs in postings as hyperlinks
+
