@@ -2,6 +2,26 @@
 
 include_once(dirname(__FILE__).'/config.php');
 
+// PHP before 5.2.0 doesn't have JSON support built-in
+// This is based on the diagram on http://json.org/
+function json_quote($text) {
+  $encoding = array(
+    "\\" => "\\\\",
+    "\"" => "\\\"",
+    "\b" => "\\b",
+    "\f" => "\\f",
+    "\n" => "\\n",
+    "\r" => "\\r",
+    "\t" => "\\t",
+  );
+  $text = str_replace(array_keys($encoding), array_values($encoding), $text);
+
+  // convert remaining ASCII control characters to json unicode escapes
+  $text = preg_replace_callback("/[\\x00-\\x1f\\x7f]/", create_function( 
+              '$s', 'return sprintf("\\u%04x", ord($s[0]));'), $text);
+  return $text;
+}
+
 function curl_get_content($url) {
   $ch = curl_init();
   $timeout = 5; 
@@ -72,6 +92,7 @@ foreach($rs['result']['rows'] as $r) {
   }
   $topics = substr($topics, 0, -2);
   $locations = substr($locations, 0, -2);
+  $content = json_quote($content); // FIXME quote other parts properly too
   $json .= "\n{ type: \"MicroBlogPost\", label: \"$date\", date: \"$date\", day: \"$day\", content: \"$content\", name: \"$name\", depiction: \"$depiction\", topics: [$topics], locations: [$locations], latlng: \"$latlng\"},";
 }
 

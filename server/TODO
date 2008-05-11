@@ -1,3 +1,5 @@
+- grep FIXME -r .
+  - encode all the JSON properly
 
 - RDF export of all aggregated data (for debugging)
 
