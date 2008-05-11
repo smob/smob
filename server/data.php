@@ -60,14 +60,23 @@ $rs = $store->query($q);
 foreach($rs['result']['rows'] as $r) {
   list($post, $p, $date, $d, $content, $c, $maker, $m, $name, $n, $depiction, $d) = array_values($r);
   $day = date("Y-m-d", strtotime($date));
+
+  // Prettify the plain text content
+
+  // trying to be smart in extracting URIs, 
+  // based on http://tuukka.iki.fi/irclogs
+  $content = preg_replace("#(http(s)?://[^ ]*[^ ,.:])(\)(,? |$))?#", 
+                          "<a href='\\1'>\\1</a>,\\3", $content);
+
+
   // Retrieve topics from content
   // should be added in the triple store directly 
   // (when inserting new data ?)
-  preg_match_all("/#(\w+(:\w+)?)\b/s", $content, $match);
+  preg_match_all("/(^|\s)#(\w+(:\w+)?)\b/s", $content, $match);
   $topics = '';
   $locations = '';
   $latlng = '';
-  foreach($match[1] as $t) {
+  foreach($match[2] as $t) {
     $ex = explode(':', $t);
     if($ex[0]=='geo') {
       $place = $ex[1];
