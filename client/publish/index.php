@@ -18,6 +18,9 @@ function send_data($url, $server) {
 }
 
 if($content=$_POST['content']) {
+  // We know what to quote better than you PHP, thank you very much:
+  if(get_magic_quotes_gpc())
+    $content = stripslashes($content);
   // date('c') isn't implemented by PHP4:
   $ts = date('Y-m-d\TH:i:s'). substr_replace(date('O'),':',3,0);
   // SCRIPT_URI isn't present on all servers, so we do this instead:
