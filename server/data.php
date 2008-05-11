@@ -66,7 +66,7 @@ foreach($rs['result']['rows'] as $r) {
   // trying to be smart in extracting URIs, 
   // based on http://tuukka.iki.fi/irclogs
   $content = preg_replace("#(http(s)?://[^ ]*[^ ,.:])(\)(,? |$))?#", 
-                          "<a href='\\1'>\\1</a>,\\3", $content);
+                          "<a href='\\1'>\\1</a>\\3", $content);
 
 
   // Retrieve topics from content
