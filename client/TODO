@@ -1,3 +1,4 @@
+- validate all input properly, encode and quote all output properly
 
 - Report any errors while pinging
 

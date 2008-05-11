@@ -1,3 +1,5 @@
+- validate all input properly, encode and quote all output properly
+
 - grep FIXME -r .
   - encode all the JSON properly
 
