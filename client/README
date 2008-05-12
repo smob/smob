@@ -47,7 +47,10 @@ Installation
   - Access to the 'publish' directory controls publishing new posts.
   - Access to the 'data' directory controls read access to existing posts.
 
-7. That's all! You can now access the client with a web browser.
+7. The client allows you to publish data to your Twitter account.
+  - Just fill the twitter_user and twitter_pas values in the config.php file
+
+8. That's all! You can now access the client with a web browser.
 
 
 Example .htaccess file

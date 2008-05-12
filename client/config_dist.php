@@ -15,4 +15,9 @@ $foaf_uri = 'http://apassant.net/alex';
 // SIOC nick is used as your microblogger user name
 $sioc_nick = 'alex';
 
+// In case you want to publish to twitter via your SMOB client
+// setup the following parameters
+$twitter_user = '';
+$twitter_pass = '';
+
 ?>
