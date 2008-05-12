@@ -2,7 +2,11 @@
 
 include_once(dirname(__FILE__).'/../config.php');
 
-$store = ARC2::getStore($arc_config);
+$config = $arc_config + array(
+  'sem_html_formats' => 'rdfa' // From HTML documents, only load RDFa triples
+);
+
+$store = ARC2::getStore($config);
 if (!$store->isSetUp()) {
   $store->setUp();
 }
@@ -26,15 +30,20 @@ if ($data) {
 if ($errs = $store->getErrors()) {
   header("HTTP/1.0 500 Internal Server Error");
   header("Content-Type: text/html"); 
-  print "<p>The following operation failed: ";
-  print htmlspecialchars("LOAD <$data>\n\n");
-  print "\n\n<ul>\n";
+  print "Failed to load data:\n<ul>\n";
   foreach ($errs as $err)
     print "<li>" . htmlspecialchars($err) . "</li>\n";
-  print "</ul>";
+  print "</ul>\n";
   exit;
 }
 
-print "Done."
+if (!$rs['result']['t_count']) {
+  header("HTTP/1.0 500 Internal Server Error");
+  header("Content-Type: text/html"); 
+  print "Couldn't extract any RDF information!\n";
+  exit;
+}
+
+print "Done.\n";
 
 ?>
