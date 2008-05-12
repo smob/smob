@@ -39,30 +39,28 @@ Installation
 2. Rename the resulting 'arc_xxx' folder as 'ARC2'.
 
 3. Copy config_dist.php to config.php and edit the parameters.
-  - You need a database such as MySQL.
+  - Get a GoogleMaps API key at http://code.google.com/apis/maps/signup.html
+    - Fill in your webserver name (http://example.com) in the form.
 
 4. Create the database with the name you used for db_name in the config.
-  - Either use a graphical DB administration interface,
-  - Or run the SQL command "create database smob2_tuukka;"
-    - Eg. with the command "mysql -u yourusername -p"
+  - Either use a graphical MySQL administration interface,
+  - Or run the following command in the shell:
+    mysql -h localhost -u your_user_name -p -e "create database your_db_name;"
 
-5. Get a GoogleMaps API key and put it in the config file.
-  - http://code.google.com/apis/maps/signup.html
-    - Fill in your webserver name (http://example.com) in the form
-
-6. Move this 'server' directory to a web server directory that can be accessed 
+5. Move this 'server' directory to a web server directory that can be accessed 
    by the readers as well as by the SMOB clients which you want to aggregate.
 
-7. You can restrict write access to the SMOB server, using one of the following method:
+6. You can restrict write access to the SMOB server using the following methods:
 
-  a) Setup a global API key to let clients publish data to the server
-  - Edit config.php and set $auth_key 
+  a) You can set a global API key which the clients then need to match to be 
+     able to get their posts aggregated.
+    - Edit config.php and set $auth_key to something hard to guess.
 
   b) Add access control rules (password, IP address) to a .htaccess file.
-  - Access to the 'load' directory controls aggregation of new posts.
-  - Access to the main directory controls read access to aggregated data.
+    - Access to the 'load' directory controls aggregation of new posts.
+    - Access to the main directory controls read access to aggregated data.
 
-8. That's all! You can now access the server with a web browser.
+7. That's all! You can now access the server with a web browser.
 
 
 Example .htaccess file for controlling new posts
