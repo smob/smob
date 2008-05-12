@@ -19,7 +19,10 @@ if ($data) {
     print "No correct API key given!\n";
     exit;
   }
-  $rs = $store->query("LOAD <$data>");
+
+  $store->query("DELETE FROM <$data>"); // delete any old data first
+  $rs = $store->query("LOAD <$data> INTO <$data>");
+
 } else {
   header("HTTP/1.0 404 Not found");
   header("Content-Type: text/html"); 
