@@ -3,11 +3,7 @@
 - grep FIXME -r .
   - encode all the JSON properly
 
-- RDF export of all aggregated data (for debugging)
-
 - Work with more (all) FOAF profiles out there
-
-- Auto-discoverable RDF of known microblogs (for linked data consumers)
 
 - Browsing of more than 20 latest posts
 
