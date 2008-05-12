@@ -9,6 +9,7 @@ if (!$store->isSetUp()) {
 
 $data = $_GET['data'];
 if($data) {
+  if($auth_key && (!$_GET['key'] || $_GET['key'] != $auth_key)) die(); 
   $rs = $store->query("LOAD <$data>");
 }
 

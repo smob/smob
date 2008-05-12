@@ -53,7 +53,12 @@ Installation
 6. Move this 'server' directory to a web server directory that can be accessed 
    by the readers as well as by the SMOB clients which you want to aggregate.
 
-7. You can add access control rules (password, IP address) to a .htaccess file.
+7. You can restrict write access to the SMOB server, using one of the following method:
+
+  a) Setup a global API key to let clients publish data to the server
+  - Edit config.php and set $auth_key 
+
+  b) Add access control rules (password, IP address) to a .htaccess file.
   - Access to the 'load' directory controls aggregation of new posts.
   - Access to the main directory controls read access to aggregated data.
 

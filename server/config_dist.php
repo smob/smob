@@ -11,6 +11,9 @@ $arc_config = array(
   'store_name' => 'smob',
 );
 
+// Global authentication API key
+$auth_key = '';
+
 // Google Maps API key from http://code.google.com/apis/maps/signup.html
 $gmap_key = '';
 
