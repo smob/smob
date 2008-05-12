@@ -5,6 +5,18 @@
 require_once(dirname(__FILE__).'/sioc_inc.php');
 require_once(dirname(__FILE__).'/../config.php');
 
+function twitter_post($content, $user, $pass)  {
+  $dest = 'http://twitter.com/statuses/update.xml';
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $dest);
+  curl_setopt($ch, CURLOPT_HEADER, 0);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_POSTFIELDS, "status=$content");
+  curl_setopt($ch, CURLOPT_USERPWD, "$user:$pass");
+  $data = curl_exec($ch);
+  curl_close($ch);
+}
+
 function send_data($url, $server) {
   global $servers;
   $key = $servers[$server];
@@ -46,6 +58,10 @@ if($content=$_POST['content']) {
     send_data($foaf_url, $server);
     print " done. </li>\n";
   }
+  if($_POST['twitter']) {
+    print "<li> Telling Twitter about your update";
+    twitter_post($content, $twitter_user, $twitter_pass);
+  }
   print "</ul>\n";
 }
 
@@ -59,6 +75,10 @@ if($content=$_POST['content']) {
 foreach($servers as $server => $key) {
   echo"<input type='checkbox' name='servers[]' value='$server' />$server<br/>";
 }
+if($twitter_user && $twitter_pass) {
+  echo"<input type='checkbox' name='twitter' value='twit' />Twitter<br/>";
+}
+
 ?>
 <input type="submit" value="SMOB it!"/>
 </form>
