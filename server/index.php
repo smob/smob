@@ -2,6 +2,8 @@
 <html>
  <head>
     <title>SMOB server</title>
+    <link rel="alternate" type="application/rdf+xml" title="SIOC" href="http://tuukka.sioc-project.org/smob/server/sparql.php?query=CONSTRUCT+%7B+%3Fs+%3Fp+%3Fo+.+%7D+WHERE+%7B+%3Fs+%3Fp+%3Fo+.+%7D" />
+    <link rel="meta" type="application/rdf+xml" href="http://tuukka.sioc-project.org/smob/server/sparql.php" />
     <link href="data.php" type="application/json" rel="exhibit/data" />
     <script src="http://static.simile.mit.edu/exhibit/api-2.0/exhibit-api.js" type="text/javascript"></script>
     <script src="http://static.simile.mit.edu/exhibit/extensions-2.0/time/time-extension.js" type="text/javascript"></script>
