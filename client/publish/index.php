@@ -15,6 +15,7 @@ function twitter_post($content, $user, $pass)  {
   curl_setopt($ch, CURLOPT_USERPWD, "$user:$pass");
   $data = curl_exec($ch);
   curl_close($ch);
+  return $data;
 }
 
 function send_data($url, $server) {
@@ -27,6 +28,7 @@ function send_data($url, $server) {
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   $data = curl_exec($ch);
   curl_close($ch);
+  return $data;
 }
 
 if($content=$_POST['content']) {
@@ -50,13 +52,13 @@ if($content=$_POST['content']) {
   foreach($_POST['servers'] as $k => $server) {
     print "<li> Telling <a href='$server'>$server</a>";
     print " about <a href='$post.rdf'>$post.rdf</a>...\n";
-    send_data("$post.rdf", $server);
-    print " done. </li>\n";
+    $resp = send_data("$post.rdf", $server);
+    print "$resp\n</li>\n";
     print "<li> Telling <a href='$server'>$server</a>";
     print " about <a href='$foaf_url'>$foaf_url</a>...\n";
     // The FOAF file should not be sent everytime - fix it
-    send_data($foaf_url, $server);
-    print " done. </li>\n";
+    $resp = send_data($foaf_url, $server);
+    print "$resp\n</li>\n";
   }
   if($_POST['twitter']) {
     print "<li> Telling Twitter about your update";
