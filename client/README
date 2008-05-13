@@ -32,25 +32,24 @@ Installation
 ------------
 
 1. Copy config_dist.php to config.php and edit the parameters.
-  -  If you don't have a FOAF profile yet:
+  - If you don't have a FOAF profile yet:
     - You can create one eg. here: http://www.ldodds.com/foaf/foaf-a-matic
   - Tailor the list of SMOB servers to which you want to be able to push data.
+  - If you want to be able to relay your messages to Twitter,
+    just fill in 'twitter_user' and 'twitter_pass'.
 
-4. Allow the client to create files in the 'data' directory.
+2. Allow the client to create files in the 'data' directory.
   - Eg. the command: chmod 1777 data
 
-5. Move this 'client' directory to a web server directory that can be accessed 
+3. Move this 'client' directory to a web server directory that can be accessed 
    by you as well as by the SMOB servers on which you want to publish your 
    data.
 
-6. You can add access control rules (password, IP address) to a .htaccess file.
+4. You can add access control rules (password, IP address) to a .htaccess file.
   - Access to the 'publish' directory controls publishing new posts.
   - Access to the 'data' directory controls read access to existing posts.
 
-7. The client allows you to publish data to your Twitter account.
-  - Just fill the twitter_user and twitter_pas values in the config.php file
-
-8. That's all! You can now access the client with a web browser.
+5. That's all! You can now access the client with a web browser.
 
 
 Example .htaccess file
