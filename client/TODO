@@ -4,6 +4,8 @@
 
 - Enrich the post data on the client side
 
+- Support for @replies
+
 - Server-independent authentication methods
 
 - Multiuser version

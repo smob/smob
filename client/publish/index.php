@@ -90,7 +90,7 @@ if($content=$_POST['content']) {
     print "</li>\n";
   }
   if($_POST['twitter']) {
-    print "<li> Relaying your message to Twitter.\n";
+    print "<li> Relaying your message to Twitter as <a href='http://twitter.com/$twitter_user'>$twitter_user</a>.\n";
     twitter_post($content, $twitter_user, $twitter_pass);
     print "</li>";
   }
@@ -108,7 +108,8 @@ foreach($servers as $server => $key) {
   echo"<input type='checkbox' name='servers[]' value='$server' />$server<br/>";
 }
 if($twitter_user && $twitter_pass) {
-  echo"<input type='checkbox' name='twitter' value='twit' />Twitter<br/>";
+  echo "<input type='checkbox' name='twitter' value='twit' />" .
+       "Twitter as $twitter_user<br/>";
 }
 
 ?>
