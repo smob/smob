@@ -98,6 +98,8 @@ if($content=$_POST['content']) {
 }
 
 ?>
+<!-- XXX hack to make browsers send the posting as utf-8 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 
 <h2>New content</h2>
 <form action="index.php" method="POST">
