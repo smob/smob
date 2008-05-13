@@ -57,8 +57,10 @@ where {
 
 $rs = $store->query($q);
 
-foreach($rs['result']['rows'] as $r) {
-  list($post, $p, $date, $d, $content, $c, $maker, $m, $name, $n, $depiction, $d) = array_values($r);
+foreach ($rs['result']['rows'] as $row) {
+  // import the bindings of the result row as php variables
+  foreach ($row as $k => $v) { $kn = str_replace(' ', '_', $k); $$kn = $v; }
+
   $day = date("Y-m-d", strtotime($date));
 
   // Prettify the plain text content

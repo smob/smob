@@ -25,13 +25,18 @@ $rs = $store->query($q);
 
 $graphs = array();
 
-foreach ($rs['result']['rows'] as $r) {
-  list($g, $gt, $s, $st, $p, $pt, $o, $ot) = array_values($r);
-  $triple = array($s, $p, $o);
-  if ($graphs[$g])
-    $graphs[$g][] = $triple;
+foreach ($rs['result']['rows'] as $row) {
+  // import the bindings of the result row as php variables
+  foreach ($row as $k => $v) {
+    $kn = 'row_' . str_replace(' ', '_', $k);
+    $$kn = $v;
+  }
+
+  $triple = array($row_s, $row_p, $row_o);
+  if ($graphs[$row_g])
+    $graphs[$row_g][] = $triple;
   else
-    $graphs[$g] = array($triple);
+    $graphs[$row_g] = array($triple);
 }
 
 print "<h1>HTML dump of the documents aggregated</h1>\n";
