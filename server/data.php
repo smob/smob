@@ -57,7 +57,12 @@ where {
 
 $rs = $store->query($q);
 
-foreach ($rs['result']['rows'] as $row) {
+// delete duplicate posts XXX we should pick a non-random row :-)
+$distinct_rows = array();
+foreach ($rs['result']['rows'] as $row) 
+  $distinct_rows[$row['post']] = $row;
+
+foreach ($distinct_rows as $row) {
   // import the bindings of the result row as php variables
   foreach ($row as $k => $v) { $kn = str_replace(' ', '_', $k); $$kn = $v; }
 
