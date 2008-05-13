@@ -22,19 +22,51 @@ function send_data($url, $server) {
   global $servers;
   $key = $servers[$server];
   $dest = "$server/load/index.php?key=$key&data=".urlencode($url);
+
+  print "Telling <a href='$server'>$server</a>";
+  print " about <a href='$url'>$url</a>...\n";
+
+  list ($resp, $status, $code) = curl_get($dest);
+
+  if ($code != 200 && $status)
+    print "$status: ";
+  if (!$resp) {
+    if ($code == 200)
+      print "Done.";
+    else
+      print "No response!";
+  }
+  print "$resp\n";
+}
+
+function curl_get($url) {
   $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, $dest);
-  curl_setopt($ch, CURLOPT_HEADER, 0);
+  curl_setopt($ch, CURLOPT_URL, $url);
+  curl_setopt($ch, CURLOPT_HEADER, 1);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  $data = curl_exec($ch);
+
+  $response = curl_exec($ch);
+
+  if ($error = curl_error($ch))
+    return array("$error.", "", 0);
+
+  $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+  $status_line = substr($response, 0, strcspn($response, "\n\r"));
+  $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+  $body = substr($response, $header_size);
+
   curl_close($ch);
-  return $data;
+
+  return array($body, $status_line, $status_code);
 }
 
 if($content=$_POST['content']) {
   // We know what to quote better than you PHP, thank you very much:
   if(get_magic_quotes_gpc())
     $content = stripslashes($content);
+
+  print "<h2>Publishing your message...</h2>\n";
+
   // date('c') isn't implemented by PHP4:
   $ts = date('Y-m-d\TH:i:s'). substr_replace(date('O'),':',3,0);
   // SCRIPT_URI isn't present on all servers, so we do this instead:
@@ -50,19 +82,17 @@ if($content=$_POST['content']) {
   fclose($f);
   print "<ul>\n";
   foreach($_POST['servers'] as $k => $server) {
-    print "<li> Telling <a href='$server'>$server</a>";
-    print " about <a href='$post.rdf'>$post.rdf</a>...\n";
-    $resp = send_data("$post.rdf", $server);
-    print "$resp\n</li>\n";
-    print "<li> Telling <a href='$server'>$server</a>";
-    print " about <a href='$foaf_url'>$foaf_url</a>...\n";
+    print "<li> ";
+    send_data("$post.rdf", $server);
+    print "</li>\n<li> ";
     // The FOAF file should not be sent everytime - fix it
-    $resp = send_data($foaf_url, $server);
-    print "$resp\n</li>\n";
+    send_data($foaf_url, $server);
+    print "</li>\n";
   }
   if($_POST['twitter']) {
-    print "<li> Telling Twitter about your update";
+    print "<li> Relaying your message to Twitter.\n";
     twitter_post($content, $twitter_user, $twitter_pass);
+    print "</li>";
   }
   print "</ul>\n";
 }
