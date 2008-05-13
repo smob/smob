@@ -1,7 +1,7 @@
 <?php
 
 // Addresses of the servers where you want to publish your data
-// Use 'server' => 'apikey' format (API key can be empty for now)
+// Use 'server' => 'apikey' format (leave API key empty if you didn't get one)
 $servers = array(
   'http://smob.sioc-project.org/server' => '',
   'http://microplanet.sioc-project.org/' => '',
@@ -15,8 +15,8 @@ $foaf_uri = 'http://apassant.net/alex';
 // SIOC nick is used as your microblogger user name
 $sioc_nick = 'alex';
 
-// In case you want to publish to twitter via your SMOB client
-// setup the following parameters
+// If you want to be able to relay your messages to Twitter,
+// you can provide your Twitter user name and password here
 $twitter_user = '';
 $twitter_pass = '';
 
