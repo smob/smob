@@ -52,7 +52,8 @@ where {
     dct:created ?date .
   ?maker foaf:name ?name .
   { ?maker foaf:img ?depiction } union { ?maker foaf:depiction ?depiction } 
-} ORDER BY DESC(?date) LIMIT 20
+    union { ?maker foaf:thumbnail ?depiction }
+} ORDER BY DESC(?date) LIMIT 200
 ";
 
 $rs = $store->query($q);
