@@ -1,18 +1,13 @@
-<?php
+<?php 
 
-require_once("config.php");
+require_once(dirname(__FILE__).'/config.php');
+require_once(dirname(__FILE__).'/lib/smob.php'); 
 
-echo "My networks:<ul>";
-foreach($servers as $server => $key) {
-  echo "<li><a href='$server'>$server</a></li>";
-}
-if ($twitter_user) {
-  echo "<li>Twitter as " .
-       "<a href='http://twitter.com/$twitter_user'>$twitter_user</a>";
-}
-echo "</ul>";
+smob_header();
+
+show_posts();
+show_networks();
+
+smob_footer();
+
 ?>
-
-<a href="data">browse data</a><br/>
-<a href="publish">publish</a><br/>
-
