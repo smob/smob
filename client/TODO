@@ -15,3 +15,7 @@
 - More user interfaces than the web one: Twitter clients, SMS, Facebook, ...
 
 - Admin interface for sending existing postings to a new aggregator
+
+- Embeds RDFa in the homepage
+
+- RSS feed of latest updates
