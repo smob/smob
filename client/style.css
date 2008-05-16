@@ -6,18 +6,18 @@ body {
   background: #fff;
 }
 
-#post {
+.post {
   border: 2px solid black;
   background: #ccc;
   padding: 10px;
   margin-bottom: 5px;
 }
 
-#post #content {
+.post .content {
   font-size: 220%;
 }
 
-#post #date {
+.post .date {
   font-style: italic;
   font-size: 80%;
 }
