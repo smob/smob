@@ -26,7 +26,8 @@ xml:lang="fr">
 <body>
 
 <ul id="menu">
-  <li><a href="data">browse data</a></li>
+  <li><a href="">home</a></li>
+  <li><a href="data">browse RDF data</a></li>
   <li><a href="publish">publish</a></li>
 </ul>
 
