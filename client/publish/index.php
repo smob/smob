@@ -11,7 +11,7 @@ function twitter_post($content, $user, $pass)  {
   curl_setopt($ch, CURLOPT_URL, $dest);
   curl_setopt($ch, CURLOPT_HEADER, 0);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch, CURLOPT_POSTFIELDS, "status=$content");
+  curl_setopt($ch, CURLOPT_POSTFIELDS, "status=$content&source=smob");
   curl_setopt($ch, CURLOPT_USERPWD, "$user:$pass");
   $data = curl_exec($ch);
   curl_close($ch);
