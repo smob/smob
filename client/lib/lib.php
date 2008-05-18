@@ -61,10 +61,9 @@ function show_networks() {
 }
 
 function show_post($id) {
-
   $authority = "http://" . $_SERVER['HTTP_HOST'];
-  $root = $authority . dirname(dirname($_SERVER['SCRIPT_NAME'])); 
-  $post = substr("$root/client/data/$id", 0, -4);
+  $root = $authority . dirname($_SERVER['SCRIPT_NAME']); 
+  $post = substr("$root/data/$id", 0, -4);
 
   $parser = ARC2::getRDFParser();
   $parser->parse(dirname(__FILE__)."/../data/$id");
