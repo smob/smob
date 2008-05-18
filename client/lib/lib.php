@@ -61,6 +61,7 @@ function show_networks() {
 }
 
 function show_post($id) {
+  global $sioc_nick, $foaf_uri;
   $authority = "http://" . $_SERVER['HTTP_HOST'];
   $root = $authority . dirname($_SERVER['SCRIPT_NAME']); 
   $post = substr("$root/data/$id", 0, -4);
@@ -74,7 +75,8 @@ function show_post($id) {
   
   echo "<div class=\"post\" typeof=\"sioct:MicroblogPost\" about=\"$post\">\n";
   echo "  <span class=\"content\" property=\"sioc:content\">$content</span>\n";
-  echo "  <span class=\"date\" property=\"dcterms:created\">$date</span>\n";
+  echo "  (<span class=\"author\" rel=\"foaf:maker\" href=\"$foaf_uri\">$sioc_nick</span> - \n";
+  echo "  <span class=\"date\" property=\"dcterms:created\">$date</span>)\n";
   echo "</div>\n\n";
 }
 
