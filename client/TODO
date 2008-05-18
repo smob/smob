@@ -16,6 +16,8 @@
 
 - Admin interface for sending existing postings to a new aggregator
 
-- Embeds RDFa in the homepage
+- Embeds more informations in RDFa
+
+- Better design / CS
 
 - RSS feed of latest updates
