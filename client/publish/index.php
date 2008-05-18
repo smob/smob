@@ -81,13 +81,15 @@ if($content=$_POST['content']) {
   fwrite($f, $rdf);
   fclose($f);
   print "<ul>\n";
-  foreach($_POST['servers'] as $k => $server) {
-    print "<li> ";
-    send_data("$post.rdf", $server);
-    print "</li>\n<li> ";
-    // The FOAF file should not be sent everytime - fix it
-    send_data($foaf_url, $server);
-    print "</li>\n";
+  if($_POST['servers']) {
+    foreach($_POST['servers'] as $k => $server) {
+      print "<li> ";
+      send_data("$post.rdf", $server);
+      print "</li>\n<li> ";
+      // The FOAF file should not be sent everytime - fix it
+      send_data($foaf_url, $server);
+      print "</li>\n";
+    }
   }
   if($_POST['twitter']) {
     print "<li> Relaying your message to Twitter as <a href='http://twitter.com/$twitter_user'>$twitter_user</a>.\n";
