@@ -80,7 +80,9 @@ foreach ($distinct_rows as $row) {
   // Retrieve topics from content
   // should be added in the triple store directly 
   // (when inserting new data ?)
-  preg_match_all("/(^|\s)#(\w+(:\w+)?)\b/s", $content, $match);
+
+  // XXX which unicode characters should be allowed in tags?
+  preg_match_all("/(^|\s)#([\w\pL]+(:[\w\pL]+)?)/su", $content, $match);
   $topics = '';
   $locations = '';
   $latlng = '';
