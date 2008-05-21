@@ -106,7 +106,7 @@ foreach ($distinct_rows as $row) {
       $content = str_replace($t, "<a href='$url'>$t</a>", $content);
       $topics .= "\"$t\", "; 
     } else {
-      $topics .= "\"$t\", "; 
+      $topics .= '"' . mb_strtolower($t, "utf-8") . '", '; 
     }
   }
   $topics = substr($topics, 0, -2);
