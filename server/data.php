@@ -50,7 +50,8 @@ where {
     foaf:maker ?maker ;
     sioc:content ?content ;
     dct:created ?date .
-  ?maker foaf:name ?name .
+  { ?maker foaf:name ?name } union { ?post sioc:has_creator ?user . 
+                                     ?user sioc:name ?name } .
   { ?maker foaf:img ?depiction } union { ?maker foaf:depiction ?depiction } 
     union { ?maker foaf:thumbnail ?depiction }
 } ORDER BY DESC(?date) LIMIT 200
