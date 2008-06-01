@@ -46,7 +46,7 @@ PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX dct: <http://purl.org/dc/terms/>
 select distinct ?post ?date ?content ?maker ?name ?depiction
 where { 
-  ?post rdf:type sioct:MicroBlogPost ;
+  ?post rdf:type sioct:MicroblogPost ;
     foaf:maker ?maker ;
     sioc:content ?content ;
     dct:created ?date .
@@ -113,7 +113,7 @@ foreach ($distinct_rows as $row) {
   $topics = substr($topics, 0, -2);
   $locations = substr($locations, 0, -2);
   $content = json_quote($content); // FIXME quote other parts properly too
-  $json .= "\n{ type: \"MicroBlogPost\", label: \"$date\", date: \"$date\", day: \"$day\", content: \"$content\", name: \"$name\", depiction: \"$depiction\", topics: [$topics], locations: [$locations], latlng: \"$latlng\"},";
+  $json .= "\n{ type: \"MicroblogPost\", label: \"$date\", date: \"$date\", day: \"$day\", content: \"$content\", name: \"$name\", depiction: \"$depiction\", topics: [$topics], locations: [$locations], latlng: \"$latlng\"},";
 }
 
 echo "{\"items\" : [";
