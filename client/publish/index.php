@@ -75,7 +75,7 @@ if($content=$_POST['content']) {
   $post = "$root/data/$ts";
   $ex = new SIOCExporter();
   $user = new SIOCUser($sioc_nick, "$root/user/$sioc_nick", 'name', 'mail', 'page', $foaf_uri, '', '', '', $foaf_url);
-  $ex->addObject(new SIOCPost($post, $ts, $content, '', $user, $ts, '', '', '', 'sioct:MicroBlogPost'));
+  $ex->addObject(new SIOCPost($post, $ts, $content, '', $user, $ts, '', '', '', 'sioct:MicroblogPost'));
   $rdf = $ex->makeRDF();
   $f = fopen(dirname(__FILE__)."/../data/$ts.rdf", 'w');
   fwrite($f, $rdf);
