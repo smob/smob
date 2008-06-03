@@ -46,7 +46,9 @@ PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX dct: <http://purl.org/dc/terms/>
 select distinct ?post ?date ?content ?maker ?name ?depiction
 where { 
-  ?post rdf:type sioct:MicroblogPost ;
+  { ?post rdf:type sioct:MicroblogPost } 
+    union { ?post rdf:type sioct:MicroBlogPost }
+  ?post
     foaf:maker ?maker ;
     sioc:content ?content ;
     dct:created ?date .
