@@ -20,4 +20,9 @@ $sioc_nick = 'alex';
 $twitter_user = '';
 $twitter_pass = '';
 
+// Same for identi.ca and other laconi.ca based instances
+// $laconica['http://identi.ca/'] = array('user' => '', 'pass' => '');
+
+
 ?>
+
