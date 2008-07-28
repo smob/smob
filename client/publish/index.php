@@ -7,6 +7,15 @@ require_once(dirname(__FILE__).'/../config.php');
 
 function twitter_post($content, $user, $pass)  {
   $dest = 'http://twitter.com/statuses/update.xml';
+  return curl_post($dest, $content, $user, $pass);
+}
+
+function laconica_post($service, $content, $user, $pass)  {
+  $dest = $service.'api/statuses/update.xml';
+  return curl_post($dest, $content, $user, $pass);
+}
+
+function curl_post($dest, $content, $user, $pass) {
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $dest);
   curl_setopt($ch, CURLOPT_HEADER, 0);
@@ -96,6 +105,16 @@ if($content=$_POST['content']) {
     twitter_post($content, $twitter_user, $twitter_pass);
     print "</li>";
   }
+  if($_POST['laconica']) {
+   foreach($_POST['laconica'] as $service => $v) {
+     $user = $laconica[$service];
+     $laconica_user = $user['user'];
+     $laconica_pass = $user['pass'];
+     print "<li> Relaying your message to $service as <a href='$service/$laconica_user'>$laconica_user</a>.\n";
+     laconica_post($service, $content, $laconica_user, $laconica_pass);
+     print "</li>";
+   }
+  }
   print "</ul>\n";
 }
 
@@ -114,6 +133,13 @@ foreach($servers as $server => $key) {
 if($twitter_user && $twitter_pass) {
   echo "<input type='checkbox' name='twitter' value='twit' />" .
        "Twitter as $twitter_user<br/>";
+}
+if($laconica) {
+  foreach($laconica as $service => $user) {
+    $username = $user['user'];
+    echo "<input type='checkbox' name='laconica[$service]' value='twit' />" .
+       "$service as $twitter_user<br/>";
+  }
 }
 
 ?>
