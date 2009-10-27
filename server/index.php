@@ -1,4 +1,12 @@
-<?php include_once(dirname(__FILE__).'/config.php'); ?>
+<?php 
+if(!file_exists(dirname(__FILE__)."/../config.php")) {
+	$url = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'].'../install';
+	header("Location: $url");
+} 
+
+require_once(dirname(__FILE__)."/../config.php");
+
+?>
 <html>
  <head>
     <title>SMOB server</title>
