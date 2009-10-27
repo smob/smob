@@ -104,6 +104,8 @@ function createStore($host, $name, $user, $pwd, $store_name){
 	$config = "
 <?php
 
+	include_once(dirname(__FILE__).'/arc/ARC2.php');
+
 	\$arc_config = array(
 	  'db_host' => '$host', 
 	  'db_name' => '$name',
