@@ -1,6 +1,6 @@
 <?php
 
-include_once(dirname(__FILE__).'/config.php');
+include_once(dirname(__FILE__).'/../config.php');
 
 // PHP before 5.2.0 doesn't have JSON support built-in
 // This is based on the diagram on http://json.org/

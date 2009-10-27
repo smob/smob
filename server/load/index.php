@@ -1,6 +1,6 @@
 <?php
 
-include_once(dirname(__FILE__).'/../config.php');
+include_once(dirname(__FILE__).'/../../config.php');
 
 $config = $arc_config + array(
   'sem_html_formats' => 'rdfa' // From HTML documents, only load RDFa triples
