@@ -1,0 +1,104 @@
+
+SMOB - a framework for open, distributed and semantic microblog
+===============================================================
+
+SMOB client enables you to share microblogging messages. 
+It consists in SMOB Client(s) and SMOB Server(s):
+- The client provides a web interface for entering new postings, stores 
+the postings, and lets the aggregators of your choice know of each new 
+posting.
+- The server receives notifications of new postings from microblog 
+publishing services, keeps an up-to-date collection of the postings, and
+allows readers to browse the postings
+
+The code is accessible via Subversion using the following command:
+
+  svn co http://smob.googlecode.com/svn/trunk/
+
+
+Requirements
+------------
+
+1. You need to have a server on the internet to set up the service on - this
+   is like a blog.
+
+2. The server needs to have 
+  - a WWW server with PHP5 or PHP4.3 or higher.
+  - MySQL 4.0.4 or higher.
+
+3. PHP needs to have the CURL functions.
+  - For example, in Debian the package is called php5-curl or php4-curl
+  - Or, you can download libcurl from http://curl.haxx.se/dlwiz/?type=lib
+
+
+Installation
+------------
+
+1. Checkout or download the SMOB source code and put it in a web server 
+   directory that can be accessed by you as well as by the SMOB servers 
+   on which you want to publish your data / SMOB clients you want to 
+   aggregate, e.g. at http://example.org/smob
+
+2. Go to http://example.org/smob and follow the instructions
+  - You can install both a client and a server at this stage
+  - If you don't have a FOAF profile yet:
+    - You can create one eg. here: http://www.ldodds.com/foaf/foaf-a-matic
+  - Tailor the list of SMOB servers to which you want to be able to push data.
+  - If you want to be able to relay your messages to Twitter,
+    just fill in 'twitter_user' and 'twitter_pass'.
+
+4. If you setup a client, allow the client to create files in the 'data' 
+   directory.
+   - Eg. the command: chmod 1777 data
+
+5. If you setup a server, you can restrict write access to the SMOB server using 
+   the following methods:
+
+  a) You can set a global API key which the clients then need to match to be 
+     able to get their posts aggregated.
+    - Edit config.php and set $auth_key to something hard to guess.
+
+  b) Add access control rules (password, IP address) to a .htaccess file.
+    - Access to the 'load' directory controls aggregation of new posts.
+    - Access to the main directory controls read access to aggregated data.
+
+6. You can add access control rules (password, IP address) to a .htaccess file.
+  - Access to the 'publish' directory controls publishing new posts.
+  - Access to the 'data' directory controls read access to existing posts.
+
+7. That's all! You can now access the client and the server with a web browser.
+
+Example .htaccess file for the client
+-------------------------------------
+
+To stop others from publishing as you using your publisher, you can put 
+the following lines (please adjust accordinly) into publish/.htaccess:
+
+Require valid-user
+Order deny,allow
+Deny from all
+Satisfy any
+
+AuthType Basic
+AuthName "Tuukka's SMOB publisher"
+AuthUserFile /home/tuukka/.auth-me
+
+# You can list IP addresses where the password shouldn't be required
+Allow from 123.456.0.789
+
+Then, create the authentication file and an account with the command:
+htpasswd -c /home/tuukka/.auth-me tuukka
+
+
+Example .htaccess file for controlling new posts (server)
+---------------------------------------------------------
+
+To restrict whose posts can show up in the aggregator, you can put 
+the following lines (please adjust accordinly) into load/.htaccess:
+
+Order deny,allow
+Deny from all
+
+# List IP addresses of the publishing services that should be allowed 
+Allow from 127.0.0.1 # localhost, ie. a publishing service on the local server
+Allow from 194.187.213.68 # tuukka.iki.fi
