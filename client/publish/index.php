@@ -83,7 +83,7 @@ if($content=$_POST['content']) {
   $root = $authority . dirname(dirname($_SERVER['SCRIPT_NAME'])); 
   $post = "$root/data/$ts";
   $ex = new SIOCExporter();
-  $user = new SIOCUser($sioc_nick, "$root/user/$sioc_nick", 'name', 'mail', 'page', $foaf_uri, '', '', '', $foaf_url);
+  $user = new SIOCUser($sioc_nick, "$root/user/$sioc_nick", 'name', 'mail', 'page', $foaf_uri);
   $ex->addObject(new SIOCPost($post, $ts, $content, '', $user, $ts, '', '', '', 'sioct:MicroblogPost'));
   $rdf = $ex->makeRDF();
   $f = fopen(dirname(__FILE__)."/../data/$ts.rdf", 'w');
@@ -96,7 +96,7 @@ if($content=$_POST['content']) {
       send_data("$post.rdf", $server);
       print "</li>\n<li> ";
       // The FOAF file should not be sent everytime - fix it
-      send_data($foaf_url, $server);
+      send_data($foaf_uri, $server);
       print "</li>\n";
     }
   }
