@@ -3,7 +3,7 @@
 // Edit - this is the path where this file can be accessed - no trialing slash
 
 require_once(dirname(__FILE__).'/../lib/sioc_inc.php');
-require_once(dirname(__FILE__).'/../config.php');
+require_once(dirname(__FILE__).'/../../config.php');
 
 function twitter_post($content, $user, $pass)  {
   $dest = 'http://twitter.com/statuses/update.xml';
