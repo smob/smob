@@ -82,21 +82,25 @@ function show_post($id) {
 }
 
 function show_posts($start=0, $limit=20) {
-  $data = get_posts($start, $limit);
-  echo "<h1>Latest updates</h1>\n\n";
-  foreach($data as $post) {
-    show_post($post);
-  }
+	$data = get_posts($start, $limit);
+	echo "<h1>Latest updates</h1>\n\n";
+	if($data) {
+		foreach($data as $post) {
+			show_post($post);
+		}
+	}
 }
 
 function get_posts($start=0, $limit=20) {
-  if ($handle = opendir(dirname(__FILE__).'/../data')) {
-    while (false !== ($file = readdir($handle))) {
-      if(substr($file, -4) == '.rdf') $files[] = $file;
-    }
-  }
-  rsort($files);
-  return array_slice($files, $start, $limit);
+ 	if ($handle = opendir(dirname(__FILE__).'/../data')) {
+    	while (false !== ($file = readdir($handle))) {
+      		if(substr($file, -4) == '.rdf') $files[] = $file;
+    	}
+ 	}
+	if($files) {
+  		rsort($files);
+  		return array_slice($files, $start, $limit);
+	}
 }
 
 ?>
