@@ -1,11 +1,12 @@
 function publish() {
 
 	var content = $("#content").val();
+	var reply_of = $("#reply_of").val();
 
 	$("#smob-publish").show("normal");
 	$("#smob-publish").html(content);
 
-	$.get("pub.php?content="+urlencode(content)+getCacheBusterParam(), function(data){
+	$.get("pub.php?content="+urlencode(content)+"&sioc:reply_of="+urlencode(reply_of)+getCacheBusterParam(), function(data){
 		$("#smob-publish").html(data);
 	});
 }

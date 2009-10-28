@@ -101,20 +101,24 @@ if($content=$_GET['content']) {
   // SCRIPT_URI isn't present on all servers, so we do this instead:
   $authority = "http://" . $_SERVER['HTTP_HOST'];
   $root = $authority . dirname(dirname($_SERVER['SCRIPT_NAME'])); 
-  $post = "$root/data/$ts";
+  $posturi = "$root/data/$ts";
   $ex = new SIOCExporter();
   $user = new SIOCUser($sioc_nick, "$root/user/$sioc_nick", 'name', 'mail', 'page', $foaf_uri);
-  $ex->addObject(new SIOCPost($post, $ts, $content, '', $user, $ts, '', '', '', 'sioct:MicroblogPost'));
+  $post = new SIOCPost($posturi, $ts, $content, '', $user, $ts, '', '', '', 'sioct:MicroblogPost');
+  $reply_of = $_GET['sioc:reply_of'];
+  if ($reply_of) 
+    $post->addReplyOf($reply_of, $reply_of);
+  $ex->addObject($post);
   $rdf = $ex->makeRDF();
   $f = fopen(dirname(__FILE__)."/../data/$ts.rdf", 'w');
   fwrite($f, $rdf);
   fclose($f);
   print "<ul>\n";
-  local_post("$post.rdf", $foaf_uri);
+  local_post("$posturi.rdf", $foaf_uri);
   if($_GET['servers']) {
     foreach($_GET['servers'] as $k => $server) {
       print "<li> ";
-      send_data("$post.rdf", $server);
+      send_data("$posturi.rdf", $server);
       print "</li>\n<li> ";
       // The FOAF file should not be sent everytime - fix it
       send_data($foaf_uri, $server);

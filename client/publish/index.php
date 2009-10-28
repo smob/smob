@@ -4,6 +4,10 @@ require_once(dirname(__FILE__).'/../../config.php');
 
 require_once(dirname(__FILE__).'/../../lib/foaf-ssl/libAuthentication.php');
 
+// SCRIPT_URI isn't present on all servers, so we do this instead:
+$authority = "http://" . $_SERVER['HTTP_HOST'];
+$root = $authority . dirname(dirname($_SERVER['SCRIPT_NAME'])); 
+
 $auth = getAuth();
 $do_auth = $auth['certRSAKey'];
 $is_auth = $auth['isAuthenticated'];
@@ -17,6 +21,8 @@ if($do_auth) {
 		print "Welcome home, $auth_uri !";
 	}
 }
+
+$reply_of = $_GET['sioc:reply_of'];
 
 ?>
 
@@ -37,6 +43,10 @@ $(function() {
 <h2>New content</h2>
 <form>
 <textarea name="content" id="content"></textarea>
+<br/>
+Replying to post (if any)
+<input type="text" name="sioc:reply_of" id="reply_of" value="<?php echo "$reply_of";?>">
+(The <a href="javascript:window.location='<?php echo $root;?>/publish/?sioc:reply_of='+window.location">SMOB Reply</a> bookmarklet fills this in automatically.)
 <br/>
 <fieldset><legend>Servers to ping</legend>
 <?php
