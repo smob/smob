@@ -1,6 +1,6 @@
 <?php
             
-$arc = dirname(__FILE__)."/../arc/ARC2.php";
+$arc = dirname(__FILE__)."/../lib/arc/ARC2.php";
 if(file_exists($arc)) {
 	include_once($arc);
 }
@@ -38,7 +38,7 @@ function getFiles() {
 		else {
 			$getfile = "${curl}curl -O";
 		}
-		exec("cd $local/../ ; $getfile $arc ; tar -xf arc.tar.gz");
+		exec("cd $local/../lib/ ; $getfile $arc ; tar -xf arc.tar.gz ; rm arc.tar.gz");
 		return "ARC2 properly downloaded and installer";
 	}
 	return "Cannot download the files, please install ARC2 manually";
@@ -104,7 +104,7 @@ function createStore($host, $name, $user, $pwd, $store_name){
 	$config = "
 <?php
 
-	include_once(dirname(__FILE__).'/arc/ARC2.php');
+	include_once(dirname(__FILE__).'/lib/arc/ARC2.php');
 
 	\$arc_config = array(
 	  'db_host' => '$host', 

@@ -1,6 +1,6 @@
 <?php
 
-require_once(dirname(__FILE__)."/../../arc/ARC2.php");
+require_once(dirname(__FILE__)."/../../lib/arc/ARC2.php");
 
 function smob_header() {
   global $sioc_nick;
