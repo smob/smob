@@ -46,16 +46,16 @@ PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX dct: <http://purl.org/dc/terms/>
 select distinct ?post ?date ?content ?maker ?name ?depiction
 where { 
-  { ?post rdf:type sioct:MicroblogPost } 
-    union { ?post rdf:type sioct:MicroBlogPost }
-  ?post
+  ?post rdf:type sioct:MicroblogPost ;
     foaf:maker ?maker ;
     sioc:content ?content ;
     dct:created ?date .
+OPTIONAL {
   { ?maker foaf:name ?name } union { ?post sioc:has_creator ?user . 
                                      ?user sioc:name ?name } .
   { ?maker foaf:img ?depiction } union { ?maker foaf:depiction ?depiction } 
     union { ?maker foaf:thumbnail ?depiction }
+}
 } ORDER BY DESC(?date) LIMIT 200
 ";
 
