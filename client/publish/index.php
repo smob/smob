@@ -1,9 +1,23 @@
 <?php
 
-// Edit - this is the path where this file can be accessed - no trialing slash
-
 require_once(dirname(__FILE__).'/../lib/sioc_inc.php');
 require_once(dirname(__FILE__).'/../../config.php');
+
+require_once(dirname(__FILE__).'/../../lib/foaf-ssl/libAuthentication.php');
+
+$auth = getAuth();
+$do_auth = $auth['certRSAKey'];
+$is_auth = $auth['isAuthenticated'];
+$auth_uri = $auth['subjectAltName'];
+
+if($do_auth) {
+	if ($is_auth != 1 || $auth_uri != $foaf_uri) {
+		print "Wrong creditentials, try again !";
+		die();
+	} else {
+		print "Welcome home, $auth_uri !";
+	}
+}
 
 function twitter_post($content, $user, $pass)  {
   $dest = 'http://twitter.com/statuses/update.xml';

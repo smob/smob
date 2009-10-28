@@ -1,0 +1,8 @@
+# If you want to enable FOAF-SSL, uncommenting the following lines
+# shoud work. If note, please read
+# http://foaf.me/Enabling_SSL_Client_Certificates_on_Apache.php
+
+#SSLVerifyClient optional_no_ca
+#SSLVerifyDepth 1
+#SSLOptions +StdEnvVars
+#SSLOptions +ExportCertData

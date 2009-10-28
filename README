@@ -65,6 +65,7 @@ Installation
 6. You can add access control rules (password, IP address) to a .htaccess file.
   - Access to the 'publish' directory controls publishing new posts.
   - Access to the 'data' directory controls read access to existing posts.
+  - For the fist one, you can use FOAF-SSL, simply edit the .htacess file in 'publish'
 
 7. That's all! You can now access the client and the server with a web browser.
 
