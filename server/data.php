@@ -65,6 +65,8 @@ foreach ($rs as $row)
 foreach ($distinct_rows as $row) {
   // import the bindings of the result row as php variables
   foreach ($row as $k => $v) { $kn = str_replace(' ', '_', $k); $$kn = $v; }
+  // Depiction
+  if(!$depiction) $depiction = '../img/avatar-blank.jpg';
 
   $day = date("Y-m-d", strtotime($date));
 
