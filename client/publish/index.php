@@ -1,6 +1,6 @@
 <?php
 
-require_once(dirname(__FILE__).'/../lib/sioc_inc.php');
+require_once(dirname(__FILE__).'/../../lib/sioc/sioc_inc.php');
 require_once(dirname(__FILE__).'/../../config.php');
 
 require_once(dirname(__FILE__).'/../../lib/foaf-ssl/libAuthentication.php');
