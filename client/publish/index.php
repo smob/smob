@@ -13,7 +13,7 @@ $auth_uri = $auth['subjectAltName'];
 
 if($do_auth) {
 	if ($is_auth != 1 || $auth_uri != $foaf_uri) {
-		print "Wrong creditentials, try again !";
+		print "Wrong credentials, try again !";
 		die();
 	} else {
 		print "Welcome home, $auth_uri !";
