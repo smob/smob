@@ -5,7 +5,6 @@ if(!file_exists(dirname(__FILE__)."/config.php")) {
 	header("Location: $url");
 } else {
 	echo "Go to SMOB <a href='client'>client</a> and <a href='server'>server</a>";
-	
 }
 
 ?>
