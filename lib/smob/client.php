@@ -68,7 +68,7 @@ function show_post($id) {
   $post = substr("$root/data/$id", 0, -4);
 
   $parser = ARC2::getRDFParser();
-  $parser->parse(dirname(__FILE__)."/../data/$id");
+  $parser->parse(dirname(__FILE__)."/../../client/data/$id");
   $triples = $parser->getSimpleIndex();
   $datapost = $triples[$post];
   $date = $datapost['http://purl.org/dc/terms/created'][0];
@@ -92,7 +92,7 @@ function show_posts($start=0, $limit=20) {
 }
 
 function get_posts($start=0, $limit=20) {
- 	if ($handle = opendir(dirname(__FILE__).'/../data')) {
+ 	if ($handle = opendir(dirname(__FILE__).'/../../client/data')) {
     	while (false !== ($file = readdir($handle))) {
       		if(substr($file, -4) == '.rdf') $files[] = $file;
     	}
