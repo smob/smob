@@ -84,6 +84,24 @@ function curl_get($url) {
   return array($body, $status_line, $status_code);
 }
 
+function local_post($post, $uri) {
+	global $arc_config;
+	
+	$config = $arc_config + array(
+	  'sem_html_formats' => 'rdfa' // From HTML documents, only load RDFa triples
+	);
+
+	$store = ARC2::getStore($config);
+	if (!$store->isSetUp()) {
+	  $store->setUp();
+	}
+	
+	foreach(array($post, $uri) as $data) {
+		$store->query("DELETE FROM <$data>"); // delete any old data first
+		$rs = $store->query("LOAD <$data> INTO <$data>");
+	}
+}
+
 if($content=$_POST['content']) {
   // We know what to quote better than you PHP, thank you very much:
   if(get_magic_quotes_gpc())
@@ -105,6 +123,7 @@ if($content=$_POST['content']) {
   fwrite($f, $rdf);
   fclose($f);
   print "<ul>\n";
+  local_post("$post.rdf", $foaf_uri);
   if($_POST['servers']) {
     foreach($_POST['servers'] as $k => $server) {
       print "<li> ";

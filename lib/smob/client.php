@@ -61,46 +61,53 @@ function show_networks() {
   echo "</ul>\n\n";
 }
 
-function show_post($id) {
-  global $sioc_nick, $foaf_uri;
-  $authority = "http://" . $_SERVER['HTTP_HOST'];
-  $root = $authority . dirname($_SERVER['SCRIPT_NAME']); 
-  $post = substr("$root/data/$id", 0, -4);
-
-  $parser = ARC2::getRDFParser();
-  $parser->parse(dirname(__FILE__)."/../../client/data/$id");
-  $triples = $parser->getSimpleIndex();
-  $datapost = $triples[$post];
-  $date = $datapost['http://purl.org/dc/terms/created'][0];
-  $content = $datapost['http://rdfs.org/sioc/ns#content'][0];
-  
-  echo "<div class=\"post\" typeof=\"sioct:MicroblogPost\" about=\"$post\">\n";
-  echo "  <span class=\"content\" property=\"sioc:content\">$content</span>\n";
-  echo "  (<span class=\"author\" rel=\"foaf:maker\" href=\"$foaf_uri\">$sioc_nick</span> - \n";
-  echo "  <span class=\"date\" property=\"dcterms:created\">$date</span>)\n";
-  echo "</div>\n\n";
+function show_postss($posts) {
+	global $sioc_nick;  
+	foreach($posts as $post) {
+		$uri = $post['post'];
+		$content = $post['content'];
+		$author = $post['author'];
+		$date = $post['date'];
+  		echo "<div class=\"post\" typeof=\"sioct:MicroblogPost\" about=\"$uri\">\n";
+		echo "  <span class=\"content\" property=\"sioc:content\">$content</span>\n";
+		echo "  (<span class=\"author\" rel=\"foaf:maker\" href=\"$foaf_uri\">$sioc_nick</span> - \n";
+		echo "  <span class=\"date\" property=\"dcterms:created\">$date</span>)\n";
+		echo "</div>\n\n";
+	}
 }
 
 function show_posts($start=0, $limit=20) {
-	$data = get_posts($start, $limit);
 	echo "<h1>Latest updates</h1>\n\n";
-	if($data) {
-		foreach($data as $post) {
-			show_post($post);
-		}
-	}
+	$posts = get_posts($start, $limit);
+	show_postss($posts);
 }
 
 function get_posts($start=0, $limit=20) {
- 	if ($handle = opendir(dirname(__FILE__).'/../../client/data')) {
-    	while (false !== ($file = readdir($handle))) {
-      		if(substr($file, -4) == '.rdf') $files[] = $file;
-    	}
- 	}
-	if($files) {
-  		rsort($files);
-  		return array_slice($files, $start, $limit);
-	}
+	global $arc_config;
+	
+	$config = $arc_config + array(
+	  'sem_html_formats' => 'rdfa' // From HTML documents, only load RDFa triples
+	);
+
+	$store = ARC2::getStore($config);
+	
+	$query = "
+PREFIX sioc: <http://rdfs.org/sioc/ns#>
+PREFIX sioct: <http://rdfs.org/sioc/types#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX dct: <http://purl.org/dc/terms/>
+			
+SELECT ?post ?content ?author ?date
+WHERE {
+	?post rdf:type sioct:MicroblogPost ;
+		sioc:content ?content ;
+		foaf:maker ?author ;
+		dct:created ?date .
+}
+";
+	$rs = $store->query($query);
+	return $rs['result']['rows'];
 }
 
 ?>
