@@ -1,31 +1,22 @@
 <?php
 
 include_once(dirname(__FILE__).'/../config.php');
-
-$store = ARC2::getStore($arc_config);
-if (!$store->isSetUp()) {
-  $store->setUp();
-}
+include_once(dirname(__FILE__).'/../lib/smob/lib.php');
 
 $q = "
-PREFIX sioc: <http://rdfs.org/sioc/ns#>
-PREFIX sioct: <http://rdfs.org/sioc/types#>
-PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX dct: <http://purl.org/dc/terms/>
 select distinct ?g ?s ?p ?o
 where { 
   graph ?g {?s ?p ?o}
 }
 ";
 
-$rs = $store->query($q);
+$rs = do_query($q);
 
 // var_dump($rs);
 
 $graphs = array();
 
-foreach ($rs['result']['rows'] as $row) {
+foreach ($rs as $row) {
   // import the bindings of the result row as php variables
   foreach ($row as $k => $v) {
     $kn = 'row_' . str_replace(' ', '_', $k);
