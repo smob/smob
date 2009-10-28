@@ -1,6 +1,7 @@
 <?php
 
-require_once(dirname(__FILE__)."/../../lib/arc/ARC2.php");
+require_once(dirname(__FILE__)."/../arc/ARC2.php");
+require_once(dirname(__FILE__)."/lib.php");
 
 function smob_header() {
   global $sioc_nick;
@@ -25,11 +26,14 @@ xml:lang="fr">
 
 <body>
 
-<ul id="menu">
+<div id="menu">
+<ul>
   <li><a href="">home</a></li>
   <li><a href="data">browse RDF data</a></li>
   <li><a href="publish">publish</a></li>
 </ul>
+
+</div>
 
 <div id="main">
 
@@ -83,22 +87,8 @@ function show_posts($start=0, $limit=20) {
 }
 
 function get_posts($start=0, $limit=20) {
-	global $arc_config;
-	
-	$config = $arc_config + array(
-	  'sem_html_formats' => 'rdfa' // From HTML documents, only load RDFa triples
-	);
-
-	$store = ARC2::getStore($config);
-	
 	$query = "
-PREFIX sioc: <http://rdfs.org/sioc/ns#>
-PREFIX sioct: <http://rdfs.org/sioc/types#>
-PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX dct: <http://purl.org/dc/terms/>
-			
-SELECT ?post ?content ?author ?date
+	SELECT ?post ?content ?author ?date
 WHERE {
 	?post rdf:type sioct:MicroblogPost ;
 		sioc:content ?content ;
@@ -106,8 +96,7 @@ WHERE {
 		dct:created ?date .
 }
 ";
-	$rs = $store->query($query);
-	return $rs['result']['rows'];
+	return do_query($query);
 }
 
 ?>

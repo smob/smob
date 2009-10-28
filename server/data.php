@@ -1,6 +1,7 @@
 <?php
 
 include_once(dirname(__FILE__).'/../config.php');
+include_once(dirname(__FILE__).'/../lib/smob/lib.php');
 
 // PHP before 5.2.0 doesn't have JSON support built-in
 // This is based on the diagram on http://json.org/
@@ -33,11 +34,6 @@ function curl_get_content($url) {
   return $data;
 }
 
-$store = ARC2::getStore($arc_config);
-if (!$store->isSetUp()) {
-  $store->setUp();
-}
-
 $q = "
 PREFIX sioc: <http://rdfs.org/sioc/ns#>
 PREFIX sioct: <http://rdfs.org/sioc/types#>
@@ -59,11 +55,11 @@ OPTIONAL {
 } ORDER BY DESC(?date) LIMIT 200
 ";
 
-$rs = $store->query($q);
+$rs = do_query($q);
 
 // delete duplicate posts XXX we should pick a non-random row :-)
 $distinct_rows = array();
-foreach ($rs['result']['rows'] as $row) 
+foreach ($rs as $row) 
   $distinct_rows[$row['post']] = $row;
 
 foreach ($distinct_rows as $row) {
