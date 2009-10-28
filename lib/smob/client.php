@@ -94,7 +94,7 @@ WHERE {
 		sioc:content ?content ;
 		foaf:maker ?author ;
 		dct:created ?date .
-}
+} ORDER BY DESC(?date)
 ";
 	return do_query($query);
 }
