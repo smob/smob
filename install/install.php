@@ -126,7 +126,6 @@ function setupSMOB() {
 	$server_key = $_GET['server_key'];
 	$server_gmap = $_GET['server_gmap'];
 	$client_ping = $_GET['client_ping'];
-	$client_url = $_GET['client_url'];
 	$client_uri = $_GET['client_uri'];
 	$client_nick = $_GET['client_nick'];
 	$client_twitter_login = $_GET['client_twitter_login'];
@@ -138,7 +137,6 @@ function setupSMOB() {
 	  $client_ping
 	);
 
-	\$foaf_url = '$client_url';
 	\$foaf_uri = '$client_uri';
 	\$sioc_nick = '$client_nick';
 	

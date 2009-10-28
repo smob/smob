@@ -99,7 +99,6 @@ function setupSMOB(){
 	var server_gmap = $("#server-gmap").val();
 	var client_ping = $("#client-ping").val();
 		
-	var client_url = $("#client-url").val();
 	var client_uri = $("#client-uri").val();
 	var client_nick = $("#client-nick").val();
 		
@@ -109,7 +108,7 @@ function setupSMOB(){
 	$("#smob-config-pane-in").hide("normal");
 	$("#smob-config-pane-out").show("normal");
 
-	$.get("install.php?cmd=setup-smob&server_key="+server_key+"&server_gmap="+server_gmap+"&client_ping="+client_ping+"&client_url="+client_url+"&client_uri="+client_uri+"&client_nick="+client_nick+"&client_twitter_login="+client_twitter_login+"&client_twitter_pass="+client_twitter_pass+getCacheBusterParam(), function(data){
+	$.get("install.php?cmd=setup-smob&server_key="+server_key+"&server_gmap="+server_gmap+"&client_ping="+client_ping+"&client_uri="+client_uri+"&client_nick="+client_nick+"&client_twitter_login="+client_twitter_login+"&client_twitter_pass="+client_twitter_pass+getCacheBusterParam(), function(data){
 		$("#smob-config-pane-out").html(data);
 	});
 			
