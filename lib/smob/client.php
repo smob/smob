@@ -13,7 +13,7 @@ function smob_go($title, $content) {
 	smob_footer($n);	
 }
 
-function smob_header() {
+function smob_header($title) {
 	global $sioc_nick, $root;
 	
 ?>
@@ -32,7 +32,7 @@ xml:lang="fr">
  
 <head profile="http://ns.inria.fr/grddl/rdfa/">
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-  <title>SMOB - <?php echo $sioc_nick; ?></title>
+  <title>SMOB - <?php echo $title; ?></title>
   <link rel="stylesheet" type="text/css" href="<?php echo "$root/css/style.css"; ?>" />
 </head>
 
@@ -42,7 +42,7 @@ xml:lang="fr">
 
 <div id="header">
 <h1><a href="<?php echo "$root/client"; ?>">SMOB</a></h1>
-<h2><?php echo $sioc_nick; ?></h2>
+<h2><?php echo $title; ?></h2>
 </div>
 
 <div id="main">
