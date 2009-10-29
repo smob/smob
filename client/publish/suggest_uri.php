@@ -110,6 +110,8 @@ if($post) {
 			$uri = $ckl[2];
 			// Update with sioc:xxx
 			$triples[] = array(uri($post), "sioc:topic", uri($uri));
+			$triples[] = array(uri($uri), "sioc:name", literal($user));
+			
 		}
 		elseif($ckl[0] == 'tags') {
 			$tag = $ckl[1];
