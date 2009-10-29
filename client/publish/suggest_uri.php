@@ -117,7 +117,11 @@ if($post) {
 			$tag = $ckl[1];
 			$uri = $ckl[2];
 			// Update with MOAT / commonTag
-			$triples[] = array(uri($post), "sioc:topic", uri($uri));
+			$tagging = 'http://example.org/tagging/'.uniqid();
+			$triples[] = array(uri($tagging), "a", "tags:RestrictedTagging");
+			$triples[] = array(uri($tagging), "tags:taggedResource", uri($post));
+			$triples[] = array(uri($tagging), "tags:associatedTag", literal($tag));
+			$triples[] = array(uri($tagging), "moat:tagMeaning", uri($uri));
 		}
 	}
 	$triples = render_sparql_triples($triples);

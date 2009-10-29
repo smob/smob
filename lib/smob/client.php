@@ -109,14 +109,16 @@ function show_postss($posts) {
 				$content = str_replace("@$name", $r, $content);
 			}
 		}
-		$ht .= "  <span class=\"content\" property=\"sioc:content\">$content</span>\n";
-		$topics = get_topics($uri);
-		if($topics) {
-			foreach($topics as $t) {
-				$topic = $t['topic'];
-				$ht .= "  [<a class=\"topic\" property=\"sioc:topic\" href=\"$topic\">*</a>]\n";
+		$tags = get_tags($uri);
+		if($tags) {
+			foreach($tags as $t) {
+				$tag = $t['tag'];
+				$uri = $t['uri'];
+				$r = "<a class=\"topic\" property=\"sioc:topic\" href=\"$uri\">#$tag</a>";
+				$content = str_replace("#$tag", $r, $content);
 			}
 		}
+		$ht .= "  <span class=\"content\" property=\"sioc:content\">$content</span>\n";
 		$ht .= "  (<span class=\"author\" rel=\"foaf:maker\" href=\"$foaf_uri\">$sioc_nick</span> - \n";
 		$ht .= "  <span class=\"date\" property=\"dcterms:created\">$date</span>)\n";
 		$ht .= "</div>\n\n";
@@ -129,11 +131,14 @@ function show_posts($start=0, $limit=20) {
 	return "<h1>Latest updates</h1>\n\n" . show_postss($posts);
 }
 
-function get_topics($post) {
+function get_tags($post) {
 	$query = "
-	SELECT ?topic
+	SELECT ?tag ?uri
 	WHERE {
-		<$post> sioc:topic ?topic .
+		?tagging a tags:RestrictedTagging ;
+			tags:taggedResource <$post> ;
+			tags:associatedTag ?tag ;
+			moat:tagMeaning ?uri .
 	}
 	";
 	return do_query($query);
