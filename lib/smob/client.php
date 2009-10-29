@@ -134,9 +134,11 @@ function do_post($post, $uri = null) {
 	return $ht;
 }
 
-function show_post($post) {
-	$p = get_post();
-	return "<h1>$view</h1>\n\n" . do_post($p[0], $post);
+function show_post($id) {
+	global $root;
+	$uri = "$root/client/post/" . str_replace(' ', '+', $id);
+	$p = get_post($uri);
+	return "<h1>$id</h1>\n\n" . do_post($p[0], $id);
 }
 
 function show_posts($page = 0) {
@@ -195,11 +197,12 @@ LIMIT $limit
 	return do_query($query);
 }
 
-function get_post() {
+function get_post($id) {
+	global $root;
 	$query = "
 	SELECT ?content ?author ?date
 WHERE {
-	<> rdf:type sioct:MicroblogPost ;
+	<$id> rdf:type sioct:MicroblogPost ;
 		sioc:content ?content ;
 		foaf:maker ?author ;
 		dct:created ?date .
