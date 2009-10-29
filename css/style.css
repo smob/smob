@@ -71,3 +71,12 @@ a:hover {
 	font-size: 10px;
 	padding: 10px;
 }
+
+textarea, input, button, fieldset {
+	border: 1px solid #900;	
+}
+
+button {
+	margin-top: 10px;
+}
+
