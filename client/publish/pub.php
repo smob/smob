@@ -170,6 +170,8 @@ function publish($content) {
      print "</li>";
    }
   }
+
+	return $post_uri;
 }
 
 

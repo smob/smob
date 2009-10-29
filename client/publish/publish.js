@@ -3,10 +3,31 @@ function publish() {
 	var content = $("#content").val();
 	var reply_of = $("#reply_of").val();
 
-	$("#smob-uris").show("normal");
+	$("#smob-publish").show("normal");
 
 	$.get("suggest_uri.php?content="+urlencode(content)+"&sioc:reply_of="+urlencode(reply_of)+getCacheBusterParam(), function(data){
-		$("#smob-uris").html(data);
+		$("#smob-publish").html(data);
+	});
+}
+
+function mappings() {
+
+	var checked;
+	var unchecked;
+	
+	var post = $("#post-id").val();
+	
+	$("#smob-mappings").show("normal");
+	
+	$("#mappings-form :checked").each(function() {
+		checked = checked + ' ' + $(this).val();		
+	})
+	$("#mappings-form :unchecked").each(function() {
+		unchecked = unchecked + ' ' + $(this).val();
+	})
+		
+	$.get("suggest_uri.php?post="+urlencode(post)+"&checked="+urlencode(checked)+"&unchecked="+urlencode(unchecked)+getCacheBusterParam(), function(data){
+		$("#smob-mappings").html(data);
 	});
 }
 

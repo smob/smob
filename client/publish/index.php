@@ -53,7 +53,7 @@ __END__;
 
 	<button id="publish">SMOB it!</button>
 
-	<div id="smob-uris" style="display: none;">
+	<div id="smob-publish" style="display: none;">
 		<em>Publishing content ...</em>
 	</div>
 _END_;
