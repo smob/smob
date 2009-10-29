@@ -107,7 +107,7 @@ function post_template($post_uri, $user_uri, $foaf_uri, $ts, $content, $reply_of
 
 
 function publish($content) {
-	global $foaf_uri, $sioc_nick;
+	global $foaf_uri, $sioc_nick, $root;
 	
 	if(get_magic_quotes_gpc()) {
 		$content = stripslashes($content);
@@ -117,7 +117,7 @@ function publish($content) {
 	// date('c') isn't implemented by PHP4:
 	$ts = date('Y-m-d\TH:i:s'). substr_replace(date('O'),':',3,0);
 		
-	$post_uri = "$root/post/$ts";
+	$post_uri = "$root/client/post/$ts";
 	$user_uri = "$root/user/$sioc_nick";
 
 	$reply_ofs = array();
