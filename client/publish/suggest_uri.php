@@ -2,6 +2,7 @@
 
 require_once(dirname(__FILE__)."/../../config.php");
 require_once(dirname(__FILE__)."/../../lib/smob/lib.php");
+require_once(dirname(__FILE__)."/pub.php");
 
 function get_wrappers($type) {
 	if ($handle = opendir(dirname(__FILE__)."/wrappers/$type")) {
@@ -47,6 +48,11 @@ foreach($ex as $e) {
 // @@TODO : Improve the following with real checkbox used to generate the RDF
 // + keep mappings in the local store for automation
 
+
+// Publish the post
+publish($content);
+
+// Output the results
 print "<form>";
 foreach(array($tags, $users) as $items) {
 if($items) {

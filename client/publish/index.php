@@ -72,9 +72,5 @@ if($laconica) {
 <button id="publish">SMOB it!</button>
 
 <div id="smob-uris" style="display: none;">
-	<em>Check resources...</em>
-</div>
-
-<div id="smob-publish" style="display: none;">
-	<em>Request sent...</em>
+	<em>Publishing content ...</em>
 </div>
