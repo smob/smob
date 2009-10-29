@@ -68,6 +68,54 @@ function local_post($post, $uri) {
     
 }
 
+# XXX maybe one day, someone writes the proper escaping functions for PHP...
+function uri($uri) {
+	return "<" . $uri . ">";
+}
+
+function literal($literal) {
+	return '"' . addslashes($literal) . '"';
+}
+
+function render_sparql_triple($triple) {
+	return implode(" ", $triple);
+}
+
+function render_sparql_triples($triples) {
+	if (!$triples)
+		return "";
+	$r = render_sparql_triple($triples[0]);
+	$i = 1;
+	while ($i < count($triples)) {
+		if (count($triples[$i]) == 1)
+			$r .= " ,\n";
+		else if (count($triples[$i]) == 2)
+			$r .= " ;\n";
+		else
+			$r .= " .\n";
+		$r .= render_sparql_triple($triples[$i]);
+		$i += 1;
+	}
+	$r .= " .";
+	return $r;
+}
+
+function post_template($post_uri, $user_uri, $foaf_uri, $ts, $content, $reply_ofs) {
+
+	// @@ TODO -> Export HTML with content:encoded
+	$triples[] = array(uri($post_uri), "a", "sioct:MicroblogPost");
+	$triples[] = array("sioc:has_creator", uri($user_uri));
+	$triples[] = array("foaf:maker", uri($foaf_uri));
+	$triples[] = array("dct:created", literal($ts));
+	$triples[] = array("dct:title", literal("Update - $ts"));
+	$triples[] = array("sioc:content", literal($content));
+
+	foreach ($reply_ofs as $reply_of)
+		$triples[] = array("sioc:reply_of", uri($reply_of));
+
+	return render_sparql_triples($triples);
+}
+
 
 function publish($content) {
 	global $foaf_uri, $sioc_nick;
@@ -86,22 +134,12 @@ function publish($content) {
 	
 	$post_uri = "$root/data/$ts";
 	$user_uri = "$root/user/$sioc_nick";
-	
-	// @@ TODO -> Export HTML with content:encoded
-	$post_rdf = "
-<$post_uri> a sioct:MicroblogPost ;
-	sioc:has_creator <$user_uri> ;
-	foaf:maker <$foaf_uri> ;
-	dct:created \"$ts\" ;
-	dct:title \"Update - $ts\" ;
-	sioc:content \"$content\" ;
-";
-	$reply_of = $_GET['sioc:reply_of'];
-	if ($reply_of) {
-		$post_rdf .= "sioc:reply_of <$reply_of> ." ;
-	} else {
-		$post_rdf .= '.';
-	}
+
+	$reply_ofs = array();
+	if ($_GET['sioc:reply_of'])
+		$reply_ofs[] = $_GET['sioc:reply_of'];
+
+	$post_rdf = post_template($post_uri, $user_uri, $foaf_uri, $ts, $content, $reply_ofs);
 
 	$query = "INSERT INTO <${post_uri}.rdf> { $post_rdf }";
 	$res = do_query($query);
