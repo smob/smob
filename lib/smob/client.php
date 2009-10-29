@@ -42,7 +42,7 @@ xml:lang="fr">
 
 <div id="header">
 <h1><a href="<?php echo "$root/client"; ?>">SMOB</a></h1>
-<h2>Posts for <?php echo $sioc_nick; ?></h2>
+<h2><?php echo $sioc_nick; ?></h2>
 </div>
 
 <div id="main">
@@ -94,36 +94,49 @@ function get_networks() {
 function show_postss($posts) {
 	global $sioc_nick;  
 	foreach($posts as $post) {
-		$uri = $post['post'];
-		$content = $post['content'];
-		$author = $post['author'];
-		$date = $post['date'];
-		// Find the topics
-		$ht .= "<div class=\"post\" typeof=\"sioct:MicroblogPost\" about=\"$uri\">\n";
-		$users = get_users($uri);
-		if($users) {
-			foreach($users as $t) {
-				$user = $t['user'];
-				$name = $t['name'];
-				$r = "<a class=\"topic\" property=\"sioc:topic\" href=\"$topic\">@$name</a>";
-				$content = str_replace("@$name", $r, $content);
-			}
-		}
-		$tags = get_tags($uri);
-		if($tags) {
-			foreach($tags as $t) {
-				$tag = $t['tag'];
-				$uri = $t['uri'];
-				$r = "<a class=\"topic\" property=\"sioc:topic\" href=\"$uri\">#$tag</a>";
-				$content = str_replace("#$tag", $r, $content);
-			}
-		}
-		$ht .= "  <span class=\"content\" property=\"sioc:content\">$content</span>\n";
-		$ht .= "  (<span class=\"author\" rel=\"foaf:maker\" href=\"$foaf_uri\">$sioc_nick</span> - \n";
-		$ht .= "  <span class=\"date\" property=\"dcterms:created\">$date</span>)\n";
-		$ht .= "</div>\n\n";
+		$ht .= do_post($post);
 	}
 	return $ht;
+}
+
+function do_post($post, $uri = null) {
+	if(!$uri) {
+		$uri = $post['post'];		
+	}
+	$content = $post['content'];
+	$author = $post['author'];
+	$date = $post['date'];
+	// Find the topics
+	$ht .= "<div class=\"post\" typeof=\"sioct:MicroblogPost\" about=\"$uri\">\n";
+	$users = get_users($uri);
+	if($users) {
+		foreach($users as $t) {
+			$user = $t['user'];
+			$name = $t['name'];
+			$r = "<a class=\"topic\" property=\"sioc:topic\" href=\"$topic\">@$name</a>";
+			$content = str_replace("@$name", $r, $content);
+		}
+	}
+	$tags = get_tags($uri);
+	if($tags) {
+		foreach($tags as $t) {
+			$tag = $t['tag'];
+			$uri = $t['uri'];
+			$r = "<a class=\"topic\" property=\"sioc:topic\" href=\"$uri\">#$tag</a>";
+			$content = str_replace("#$tag", $r, $content);
+		}
+	}
+	$ht .= "  <span class=\"content\" property=\"sioc:content\">$content</span>\n";
+	$ht .= "  (<span class=\"author\" rel=\"foaf:maker\" href=\"$foaf_uri\">$sioc_nick</span> - \n";
+	$ht .= "  <span class=\"date\" property=\"dcterms:created\">$date</span>)\n";
+	$ht .= " [<a href=\"$uri\">P</a>]\n";
+	$ht .= "</div>\n\n";
+	return $ht;
+}
+
+function show_post($post) {
+	$p = get_post();
+	return "<h1>$view</h1>\n\n" . do_post($p[0], $post);
 }
 
 function show_posts($start=0, $limit=20) {
@@ -165,6 +178,18 @@ WHERE {
 		dct:created ?date .
 } ORDER BY DESC(?date)
 ";
+	return do_query($query);
+}
+
+function get_post() {
+	$query = "
+	SELECT ?content ?author ?date
+WHERE {
+	<> rdf:type sioct:MicroblogPost ;
+		sioc:content ?content ;
+		foaf:maker ?author ;
+		dct:created ?date .
+} ";
 	return do_query($query);
 }
 

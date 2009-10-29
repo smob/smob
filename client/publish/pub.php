@@ -117,7 +117,7 @@ function publish($content) {
  	$authority = "http://" . $_SERVER['HTTP_HOST'];
 	$root = $authority . dirname(dirname($_SERVER['SCRIPT_NAME'])); 
 	
-	$post_uri = "$root/data/$ts";
+	$post_uri = "$root/post/$ts";
 	$user_uri = "$root/user/$sioc_nick";
 
 	$reply_ofs = array();
