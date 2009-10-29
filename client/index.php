@@ -20,7 +20,7 @@ if($view) {
 	$content = show_post($view);
 } else {
 	$title = "Post for $sioc_nick";
-	$content = show_posts();
+	$content = show_posts($page);
 }
 
 smob_go($title, $content);

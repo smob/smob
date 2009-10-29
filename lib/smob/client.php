@@ -139,11 +139,22 @@ function show_post($post) {
 	return "<h1>$view</h1>\n\n" . do_post($p[0], $post);
 }
 
-function show_posts($start=0, $limit=20) {
-	$posts = get_posts($start, $limit);
-	return "<h1>Latest updates</h1>\n\n" . show_postss($posts);
+function show_posts($page = 0) {
+	$start = $page;
+	$offset = 20;
+	$posts = get_posts($start, $offset);
+	return "<h1>Latest updates</h1>\n\n" . show_postss($posts ) . pager($start);
 }
 
+function pager($start) {
+	if($start == 0) {
+		return "<div><a href='?page=1'>Previous posts</a></div>";
+	} else {
+		$previous = $start + 1;
+		$next = $start - 1;
+		return "<div><a href='?page=$next'>Next posts</a> -- <a href='?page=$previous'>Previous posts</a></div>";
+	}
+}
 function get_tags($post) {
 	$query = "
 	SELECT ?tag ?uri
@@ -168,7 +179,7 @@ function get_users($post) {
 	return do_query($query);
 }
 
-function get_posts($start=0, $limit=20) {
+function get_posts($start, $limit) {
 	$query = "
 	SELECT ?post ?content ?author ?date
 WHERE {
@@ -176,7 +187,10 @@ WHERE {
 		sioc:content ?content ;
 		foaf:maker ?author ;
 		dct:created ?date .
-} ORDER BY DESC(?date)
+} 
+ORDER BY DESC(?date)
+OFFSET $start
+LIMIT $limit
 ";
 	return do_query($query);
 }
