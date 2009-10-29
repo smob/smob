@@ -20,6 +20,7 @@ function smob_header() {
 xml:lang="fr">
  
 <head profile="http://ns.inria.fr/grddl/rdfa/">
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
   <title>SMOB - <?php echo $sioc_nick; ?></title>
   <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
