@@ -140,21 +140,22 @@ function publish($content) {
 			print "</li>\n";
 		}
 	}
-  if($_GET['twitter']) {
-    print "<li> Relaying your message to Twitter as <a href='http://twitter.com/$twitter_user'>$twitter_user</a>.\n";
-    twitter_post($content, $twitter_user, $twitter_pass);
-    print "</li>";
-  }
-  if($_GET['laconica']) {
-   foreach($_POST['laconica'] as $service => $v) {
-     $user = $laconica[$service];
-     $laconica_user = $user['user'];
-     $laconica_pass = $user['pass'];
-     print "<li> Relaying your message to $service as <a href='$service/$laconica_user'>$laconica_user</a>.\n";
-     laconica_post($service, $content, $laconica_user, $laconica_pass);
-     print "</li>";
-   }
-  }
+	if($_GET['twitter']) {
+		print "<li> Relaying your message to Twitter as <a href='http://twitter.com/$twitter_user'>$twitter_user</a>.\n";
+		twitter_post($content, $twitter_user, $twitter_pass);
+		print "</li>";
+	}
+	if($_GET['laconica']) {
+		foreach($_POST['laconica'] as $service => $v) {
+			$user = $laconica[$service];
+			$laconica_user = $user['user'];
+			$laconica_pass = $user['pass'];
+			print "<li> Relaying your message to $service as <a href='$service/$laconica_user'>$laconica_user</a>.\n";
+			laconica_post($service, $content, $laconica_user, $laconica_pass);
+			print "</li>";
+		}
+ 	}
+	print "</ul>";
 
 	return $post_uri;
 }
