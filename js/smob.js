@@ -7,7 +7,7 @@ function publish() {
 
 	$("#smob-publish").show("normal");
 
-	$.get("suggest_uri.php?content="+urlencode(content)+"&sioc:reply_of="+urlencode(reply_of)+getCacheBusterParam(), function(data){
+	$.get("pub.php?content="+urlencode(content)+"&sioc:reply_of="+urlencode(reply_of)+getCacheBusterParam(), function(data){
 		$("#smob-publish").html(data);
 	});
 }
@@ -28,7 +28,7 @@ function mappings() {
 		unchecked = unchecked + ' ' + $(this).val();
 	})
 		
-	$.get("suggest_uri.php?post="+urlencode(post)+"&checked="+urlencode(checked)+"&unchecked="+urlencode(unchecked)+getCacheBusterParam(), function(data){
+	$.get("pub.php?post="+urlencode(post)+"&checked="+urlencode(checked)+"&unchecked="+urlencode(unchecked)+getCacheBusterParam(), function(data){
 		$("#smob-mappings").html(data);
 	});
 }
