@@ -1,4 +1,2 @@
 RewriteEngine On
-## FIXME !
-RewriteBase /~alex/smob/client/
-RewriteRule ^post/(.+) index.php?view=$1 [QSA,L]
+RewriteRule ^post/(.*)$ post.php/$1
