@@ -1,7 +1,5 @@
 <?php
 
-require_once(dirname(__FILE__).'/../../lib/sioc/sioc_inc.php');
-
 function twitter_post($content, $user, $pass)  {
   $dest = 'http://twitter.com/statuses/update.xml';
   return curl_post($dest, $content, $user, $pass);
