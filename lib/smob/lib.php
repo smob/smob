@@ -21,6 +21,12 @@ PREFIX moat: <http://moat-project.org/ns#>
 
 	$query";
 	$rs = $store->query($query);
+
+	if ($errors = $store->getErrors()) {
+		error_log("smob sparql error:\n" . join("\n", $errors));
+		return array();
+	}
+
 	return $rs['result']['rows'];
 }
 
