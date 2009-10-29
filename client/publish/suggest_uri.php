@@ -3,97 +3,91 @@
 require_once(dirname(__FILE__)."/../../config.php");
 require_once(dirname(__FILE__)."/../../lib/smob/lib.php");
 
+function get_wrappers($type) {
+	if ($handle = opendir(dirname(__FILE__)."/wrappers/$type")) {
+    	while (false !== ($file = readdir($handle))) {
+			if (substr($file, 0, 1) != '.') {
+				$services[] = $file;
+				require_once(dirname(__FILE__)."/wrappers/$type/$file/index.php");
+			}
+		}
+		closedir($handle);
+	}
+	return $services;
+}
+
+function find_uris($type, $term) {
+	global $wrappers;
+	foreach($wrappers[$type] as $w) {
+		$w = ucfirst($w).ucfirst($type).'Wrapper';
+		$x = new $w($term);
+		$uris[$w] = $x->get_uri();	
+	}
+	return $uris;
+}
+
 $content = $_GET['content'];
+
+$wrappers['user'] = get_wrappers('user');	
+$wrappers['tag'] = get_wrappers('tag');	
 
 $ex = explode(' ', $content);
 
 foreach($ex as $e) {
 	if(substr($e, 0, 1) == '@') {
 		$user = substr($e, 1);
-		$users[$user] = find_user_uris($user);
+		$users[$user] = find_uris('user', $user);
 	}
 	elseif(substr($e, 0, 1) == '#') {
 		$tag = substr($e, 1);
-		$tags[$tag] = find_tag_uris($user);
+		$tags[$tag] = find_uris('tag', $tag);
 	}
 }
 
-foreach($users as $user=>$uris) {
-	print '<fieldset>';
-	print "<legend>$user</legend>";
-	foreach($uris as $uri) {
-		print "<input type='checkbox' name'@@TODO' id='@@TODO'/>$uri";
+// @@TODO : Improve the following with real checkbox used to generate the RDF
+// + keep mappings in the local store for automation
+
+print "<form>";
+foreach(array($tags, $users) as $items) {
+if($items) {
+	foreach($items as $item=>$wrapper) {
+		print "<fieldset><legend>$item</legend>";
+		foreach($wrapper as $wname => $uris) {
+			print "<fieldset><legend>$wname</legend>";
+			if($uris) {
+				foreach($uris as $name=>$uri) {
+					print "<input type='checkbox'/>$name ($uri)<br/>";
+				}
+			} else {
+				print "Nothing retrieved from this service<br/>";
+			}
+			print "</fieldset>";
+		}
+		print "</fieldset>";
 	}
-	print '</fieldset>';
 }
-
-function curl_get($url) {
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, $url);
-  curl_setopt($ch, CURLOPT_HEADER, 1);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-  $response = curl_exec($ch);
-
-  if ($error = curl_error($ch))
-    return array("$error.", "", 0);
-
-  $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-  $status_line = substr($response, 0, strcspn($response, "\n\r"));
-  $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-  $body = substr($response, $header_size);
-
-  curl_close($ch);
-
-  return array($body, $status_line, $status_code);
 }
+print "</form>";
 
-function get_uri_if_found($uri) {
-  list ($resp, $status, $code) = curl_get($uri);
-  if ($code == 200)
-    return $uri;
-  else if ($code == 404)
-    return "";
-  else {
-    print "Error fetching $uri: ";
-    if ($status)
-      print $status;
-    else
-      print $resp;
-    return "";
-  }
-}
+/////////////////////////////////
+// All the wrappers must inherit from this class
+// And implement the get_uri method that returns an array
+// of URI=>label mappings for the tags, e.g.
+//
+// Array
+// (
+//    [London] => http://dbpedia.org/resource/London
+//    [City of London] => http://dbpedia.org/resource/City_of_London
+// )
 
-function get_locally_known_microbloggers($user) {
-  $rs = do_query("
-SELECT DISTINCT ?user WHERE {
-  ?post rdf:type sioct:MicroblogPost .
-  ?post sioc:has_creator ?user .
-  ?post foaf:maker ?person .
-  ?person foaf:nick '$user' .
-}
-  ");
+abstract class SMOBURIWrapper {
 
-  if ($rs) {
-    foreach($rs as $row) {
-      print $row['user'] . "\n";
-    }
-  }
-}
+	public function __construct($item) {
+		$this->item = $item;
+	}
+	
+	public function get_uri() {
+		// Needs to be done in each wrapper plug-in
+	}
 
-function find_user_uris($user) {
-	$users[] = get_locally_known_microbloggers($user) . "\n";
-
-	# XXX ask the known aggregators (via the sparql endpoint?)
-
-	# XXX find the sioc:User from the identi.ca profile URI
-	# ie. <http://identi.ca/user/11736#acct> from <http://identi.ca/johnbreslin>
-	$users[] = get_uri_if_found("http://identi.ca/$user") . "\n";
-	$users[] = get_uri_if_found("http://twitter.com/$user") . "\n";
-	return $users;
-}
-
-function find_tag_uris($tag) {
-	return null;
-	// TODO
 }
