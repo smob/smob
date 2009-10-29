@@ -5,10 +5,11 @@ require_once(dirname(__FILE__)."/lib.php");
 
 
 function smob_go($title, $content) {
+	global $root;
 	smob_header($title);
 	print $content;
 	$n = get_networks();
-	$n .= "<h2>Navigation</h2><ul><li><a href='./'>Home</a></li><li><a href='./publish'>Publish</a></li></ul>";
+	$n .= "<h2>Navigation</h2><ul><li><a href='$root/client'>Home</a></li><li><a href='$root/client/publish'>Publish</a></li></ul>";
 	smob_footer($n);	
 }
 
@@ -40,7 +41,7 @@ xml:lang="fr">
 <div id="full">
 
 <div id="header">
-<h1><a href="#">SMOB</a></h1>
+<h1><a href="<?php echo "$root/client"; ?>">SMOB</a></h1>
 <h2>Posts for <?php echo $sioc_nick; ?></h2>
 </div>
 
