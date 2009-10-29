@@ -105,7 +105,6 @@ function publish($content) {
 
 	$query = "INSERT INTO <${post_uri}.rdf> { $post_rdf }";
 	$res = do_query($query);
-
 	print "<ul>\n";
 	local_post("$posturi.rdf", $foaf_uri);
 	if($_GET['servers']) {

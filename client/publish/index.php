@@ -27,10 +27,10 @@ $form = <<<__END__
 	<h2>New content</h2>
 	<form>
 	<textarea name="content" id="content" rows="5" cols="80"></textarea>
-	<br/>=
+	<br/>
 	Replying to post (if any)
-	<input type="text" name="sioc:reply_of" id="reply_of" value="<?php echo "$reply_of";?>">
-	(The <a href="javascript:window.location='<?php echo $root;?>/publish/?sioc:reply_of='+window.location">SMOB Reply</a> bookmarklet fills this in automatically.)
+	<input type="text" name="sioc:reply_of" id="reply_of" value="$reply_of">
+	(The <a href="javascript:window.location='$root/publish/?sioc:reply_of='+window.location">SMOB Reply</a> bookmarklet fills this in automatically.)
 	<br/>
 	<fieldset><legend>Servers to ping</legend>
 __END__;
