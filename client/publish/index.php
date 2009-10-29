@@ -15,7 +15,7 @@ $form = <<<__END__
 
 	<script type="text/javascript" src="http://jqueryui.com/jquery-1.3.2.js"></script>
 	<script type="text/javascript" src="http://jqueryui.com/ui/ui.core.js"></script>
-	<script type="text/javascript" src="publish.js"></script>
+	<script type="text/javascript" src="../../js/smob.js"></script>
 	<script type="text/javascript">
 	$(function() {
 		$("#publish").click(function () {
