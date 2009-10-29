@@ -13,15 +13,11 @@ if(!file_exists(dirname(__FILE__)."/../config.php")) {
 
 require_once(dirname(__FILE__)."/../config.php");
 
-parse_str($_SERVER['QUERY_STRING']);
-
-if($view) {
-	$title = "Update $view";
-	$content = show_post($view);
-} else {
-	$title = "Post for $sioc_nick";
-	$content = show_posts($page);
-}
+$page = $_GET['page'];
+if (!$page)
+	$page = 0;
+$title = "Post for $sioc_nick";
+$content = show_posts($page);
 
 smob_go($title, $content);
 
