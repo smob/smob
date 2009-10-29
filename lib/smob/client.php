@@ -4,16 +4,17 @@ require_once(dirname(__FILE__)."/../arc/ARC2.php");
 require_once(dirname(__FILE__)."/lib.php");
 
 
-function smob_go($title, $posts) {
-	smob_header();
-	show_posts();
+function smob_go($title, $content) {
+	smob_header($title);
+	print $content;
 	$n = get_networks();
-	$n .= "<h2>Admin</h2><ul><li><a href='./publish'>Publish</a>";
+	$n .= "<h2>Navigation</h2><ul><li><a href='./'>Home</a></li><li><a href='./publish'>Publish</a></li></ul>";
 	smob_footer($n);	
 }
 
 function smob_header() {
-  global $sioc_nick;
+	global $sioc_nick, $root;
+	
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" 
   "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
@@ -31,7 +32,7 @@ xml:lang="fr">
 <head profile="http://ns.inria.fr/grddl/rdfa/">
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
   <title>SMOB - <?php echo $sioc_nick; ?></title>
-  <link rel="stylesheet" type="text/css" href="../css/style.css" />
+  <link rel="stylesheet" type="text/css" href="<?php echo "$root/css/style.css"; ?>" />
 </head>
 
 <body>
@@ -96,18 +97,18 @@ function show_postss($posts) {
 		$content = $post['content'];
 		$author = $post['author'];
 		$date = $post['date'];
-		echo "<div class=\"post\" typeof=\"sioct:MicroblogPost\" about=\"$uri\">\n";
-		echo "  <span class=\"content\" property=\"sioc:content\">$content</span>\n";
-		echo "  (<span class=\"author\" rel=\"foaf:maker\" href=\"$foaf_uri\">$sioc_nick</span> - \n";
-		echo "  <span class=\"date\" property=\"dcterms:created\">$date</span>)\n";
-		echo "</div>\n\n";
+		$ht .= "<div class=\"post\" typeof=\"sioct:MicroblogPost\" about=\"$uri\">\n";
+		$ht .= "  <span class=\"content\" property=\"sioc:content\">$content</span>\n";
+		$ht .= "  (<span class=\"author\" rel=\"foaf:maker\" href=\"$foaf_uri\">$sioc_nick</span> - \n";
+		$ht .= "  <span class=\"date\" property=\"dcterms:created\">$date</span>)\n";
+		$ht .= "</div>\n\n";
 	}
+	return $ht;
 }
 
 function show_posts($start=0, $limit=20) {
-	echo "<h1>Latest updates</h1>\n\n";
 	$posts = get_posts($start, $limit);
-	show_postss($posts);
+	return "<h1>Latest updates</h1>\n\n" . show_postss($posts);
 }
 
 function get_posts($start=0, $limit=20) {

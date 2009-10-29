@@ -9,6 +9,8 @@ if(!file_exists(dirname(__FILE__)."/../config.php")) {
 
 require_once(dirname(__FILE__)."/../config.php");
 
-smob_go();
+$content = show_posts();
+$title = "Post for $sioc_nick";
+smob_go($title, $content);
 
 ?>
