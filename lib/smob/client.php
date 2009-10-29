@@ -3,6 +3,15 @@
 require_once(dirname(__FILE__)."/../arc/ARC2.php");
 require_once(dirname(__FILE__)."/lib.php");
 
+
+function smob_go($title, $posts) {
+	smob_header();
+	show_posts();
+	$n = get_networks();
+	$n .= "<h2>Admin</h2><ul><li><a href='./publish'>Publish</a>";
+	smob_footer($n);	
+}
+
 function smob_header() {
   global $sioc_nick;
 ?>
@@ -22,28 +31,42 @@ xml:lang="fr">
 <head profile="http://ns.inria.fr/grddl/rdfa/">
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
   <title>SMOB - <?php echo $sioc_nick; ?></title>
-  <link rel="stylesheet" type="text/css" href="style.css" />
+  <link rel="stylesheet" type="text/css" href="../css/style.css" />
 </head>
 
 <body>
 
-<div id="menu">
-<ul>
-  <li><a href="">home</a></li>
-  <li><a href="data">browse RDF data</a></li>
-  <li><a href="publish">publish</a></li>
-</ul>
+<div id="full">
 
+<div id="header">
+<h1><a href="#">SMOB</a></h1>
+<h2>Posts for <?php echo $sioc_nick; ?></h2>
 </div>
 
 <div id="main">
 
+<div class="left"> 
+
 <?
 }
 
-function smob_footer() {
+function smob_footer($blocks) {
 ?>
 
+</div>
+
+<div class="right"> 
+
+<?php echo $blocks; ?>
+
+</div>
+
+<div style="clear: both;"> </div>
+</div>
+
+<div id="footer">
+Powered by <a href="http://smob.siob-project.org/">SMOB</a> thanks to <a href="http://www.w3.org/2001/sw/">Semantic Web</a> technologies and <a href="http://linkeddata.org">Linked Data</a><br/>
+</div>
 </div>
 
 </body>
@@ -52,18 +75,18 @@ function smob_footer() {
 <?
 }
 
-function show_networks() {
-  global $servers, $twitter_user;
-  echo "<h1>My networks</h1>\n\n";
-  echo "<ul>\n";
-  foreach($servers as $server => $key) {
-    echo "  <li><a href='$server'>$server</a></li>\n";
-  }
-  if ($twitter_user) {
-    echo "  <li>Twitter as " .
-       "<a href='http://twitter.com/$twitter_user'>$twitter_user</a></li>\n";
-  }
-  echo "</ul>\n\n";
+function get_networks() {
+	global $servers, $twitter_user;
+	$ht = "<h2>My networks</h2>\n\n";
+	$ht .= "<ul>\n";
+	foreach($servers as $server => $key) {
+		$ht .= "  <li><a href='$server'>$server</a></li>\n";
+	}
+	if ($twitter_user) {
+		$ht .= "  <li>Twitter as <a href='http://twitter.com/$twitter_user'>$twitter_user</a></li>\n";
+	}
+	$ht .= "</ul>\n\n";
+	return $ht;
 }
 
 function show_postss($posts) {
@@ -73,7 +96,7 @@ function show_postss($posts) {
 		$content = $post['content'];
 		$author = $post['author'];
 		$date = $post['date'];
-  		echo "<div class=\"post\" typeof=\"sioct:MicroblogPost\" about=\"$uri\">\n";
+		echo "<div class=\"post\" typeof=\"sioct:MicroblogPost\" about=\"$uri\">\n";
 		echo "  <span class=\"content\" property=\"sioc:content\">$content</span>\n";
 		echo "  (<span class=\"author\" rel=\"foaf:maker\" href=\"$foaf_uri\">$sioc_nick</span> - \n";
 		echo "  <span class=\"date\" property=\"dcterms:created\">$date</span>)\n";

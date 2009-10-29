@@ -9,11 +9,6 @@ if(!file_exists(dirname(__FILE__)."/../config.php")) {
 
 require_once(dirname(__FILE__)."/../config.php");
 
-smob_header();
-
-show_posts();
-show_networks();
-
-smob_footer();
+smob_go();
 
 ?>

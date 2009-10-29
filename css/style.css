@@ -1,0 +1,73 @@
+body {
+	background: #fff;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+
+a { 
+	color: #900; 
+	text-decoration: none; 
+}
+
+a:hover { 
+	text-decoration: underline; 
+	background: #900;
+	color: #fff; 
+}
+
+#full {
+	margin: 0 auto;
+	width: 850px;
+}
+
+#header { 
+	background: url("../img/smob-logo.png") no-repeat left;
+	padding-left: 220px;
+	padding-top: 8px;
+	height: 100px;
+	border-bottom: 1px dashed #666;
+	color: #000;
+}
+
+#main {
+	padding: 10px;
+}
+
+.post {
+	border: 1px solid #666;;
+	background: #ccc;
+	margin-bottom: 10px;
+	padding: 5px;
+}
+
+.left {
+	width: 600px;
+	float: left;
+}
+
+.right {
+	width: 150px;
+	float: right;
+	padding: 10px;
+	border-left: 1px dashed #666;
+}
+
+.right h2 {
+	color: #666;
+	line-height: 30px;
+	font-weight: 100;
+}
+
+.right ul {
+	list-style-type: square;
+	padding: 5px 0px 5px 25px;
+}
+
+#footer {
+	border-top: 1px dashed #666;
+	text-align: center;
+	color: #333;
+	font-style: italic;
+	font-size: 10px;
+	padding: 10px;
+}
