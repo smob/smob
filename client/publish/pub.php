@@ -89,6 +89,9 @@ function local_post($post, $uri) {
     
 }
 
+// Step 1 - identify the URIS
+
+// Step 2 - Publish !
 if($content=$_GET['content']) {
   // We know what to quote better than you PHP, thank you very much:
   if(get_magic_quotes_gpc())

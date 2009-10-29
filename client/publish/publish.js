@@ -3,11 +3,10 @@ function publish() {
 	var content = $("#content").val();
 	var reply_of = $("#reply_of").val();
 
-	$("#smob-publish").show("normal");
-	$("#smob-publish").html(content);
+	$("#smob-uris").show("normal");
 
-	$.get("pub.php?content="+urlencode(content)+"&sioc:reply_of="+urlencode(reply_of)+getCacheBusterParam(), function(data){
-		$("#smob-publish").html(data);
+	$.get("suggest_uri.php?content="+urlencode(content)+"&sioc:reply_of="+urlencode(reply_of)+getCacheBusterParam(), function(data){
+		$("#smob-uris").html(data);
 	});
 }
 

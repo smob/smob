@@ -3,9 +3,29 @@
 require_once(dirname(__FILE__)."/../../config.php");
 require_once(dirname(__FILE__)."/../../lib/smob/lib.php");
 
-$user = $_GET['user'];
+$content = $_GET['content'];
 
-$tag = $_GET['tag'];
+$ex = explode(' ', $content);
+
+foreach($ex as $e) {
+	if(substr($e, 0, 1) == '@') {
+		$user = substr($e, 1);
+		$users[$user] = find_user_uris($user);
+	}
+	elseif(substr($e, 0, 1) == '#') {
+		$tag = substr($e, 1);
+		$tags[$tag] = find_tag_uris($user);
+	}
+}
+
+foreach($users as $user=>$uris) {
+	print '<fieldset>';
+	print "<legend>$user</legend>";
+	foreach($uris as $uri) {
+		print "<input type='checkbox' name'@@TODO' id='@@TODO'/>$uri";
+	}
+	print '</fieldset>';
+}
 
 function curl_get($url) {
   $ch = curl_init();
@@ -61,18 +81,19 @@ SELECT DISTINCT ?user WHERE {
   }
 }
 
-if ($user) {
-  print get_locally_known_microbloggers($user) . "\n";
+function find_user_uris($user) {
+	$users[] = get_locally_known_microbloggers($user) . "\n";
 
-  # XXX ask the known aggregators (via the sparql endpoint?)
+	# XXX ask the known aggregators (via the sparql endpoint?)
 
-  # XXX find the sioc:User from the identi.ca profile URI
-  # ie. <http://identi.ca/user/11736#acct> from <http://identi.ca/johnbreslin>
-  print get_uri_if_found("http://identi.ca/$user") . "\n";
-
-  print get_uri_if_found("http://twitter.com/$user") . "\n";
+	# XXX find the sioc:User from the identi.ca profile URI
+	# ie. <http://identi.ca/user/11736#acct> from <http://identi.ca/johnbreslin>
+	$users[] = get_uri_if_found("http://identi.ca/$user") . "\n";
+	$users[] = get_uri_if_found("http://twitter.com/$user") . "\n";
+	return $users;
 }
 
-if ($tag) {
-  # XXX implement
+function find_tag_uris($tag) {
+	return null;
+	// TODO
 }
