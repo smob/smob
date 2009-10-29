@@ -28,6 +28,11 @@ function find_uris($type, $term) {
 }
 
 $content = $_GET['content'];
+$post = $_GET['post'];
+
+
+// In case we need to publish content
+if($content) {
 
 $wrappers['user'] = get_wrappers('user');	
 $wrappers['tag'] = get_wrappers('tag');	
@@ -45,24 +50,27 @@ foreach($ex as $e) {
 	}
 }
 
-// @@TODO : Improve the following with real checkbox used to generate the RDF
-// + keep mappings in the local store for automation
+// @@TODO : keep mappings in the local store for automation
 
 
 // Publish the post
-publish($content);
+$id = publish($content);
 
-// Output the results
-print "<form>";
-foreach(array($tags, $users) as $items) {
+// Output the results to let the user chose his URIs
+print "<h2>LOD Integration</h2>";
+print "<form id='mappings-form'>";
+print "<input type='hidden' value='$id' id='post-id'>";
+foreach(array('tags' => $tags, 'users' => $users) as $type => $items) {
 if($items) {
+	print "<fieldset><legend>$type</legend>";
 	foreach($items as $item=>$wrapper) {
 		print "<fieldset><legend>$item</legend>";
 		foreach($wrapper as $wname => $uris) {
 			print "<fieldset><legend>$wname</legend>";
 			if($uris) {
 				foreach($uris as $name=>$uri) {
-					print "<input type='checkbox'/>$name ($uri)<br/>";
+					$val = "$type--$item--$uri";
+					print "<input type='checkbox' value='$val'/>$name ($uri)<br/>";
 				}
 			} else {
 				print "Nothing retrieved from this service<br/>";
@@ -71,9 +79,50 @@ if($items) {
 		}
 		print "</fieldset>";
 	}
+	print "</fieldset>";
 }
 }
 print "</form>";
+print '
+<script type="text/javascript">
+$(function() {
+	$("#mappings").click(function () {
+		mappings();
+	});
+});
+</script>
+
+<div id="smob-mappings" style="display: none;">
+	<em>Publishing content ...</em>
+</div>	<button id="mappings">Update mappings</button>
+';
+}
+
+// In case we just need to update the mappings
+if($post) {
+	$checked = $_GET['checked'];
+	$unchecked = $_GET['unchecked'];
+	$ck = explode(' ', $checked);
+	foreach($ck as $c) {
+		$ckl = explode('--', $c);
+		if($ckl[0] == 'users') {
+			$user = $ckl[1];
+			$uri = $ckl[2];
+			// Update with sioc:xxx
+			$triples[] = array(uri($post), "sioc:topic", uri($uri));
+		}
+		elseif($ckl[0] == 'tags') {
+			$tag = $ckl[1];
+			$uri = $ckl[2];
+			// Update with MOAT / commonTag
+			$triples[] = array(uri($post), "sioc:topic", uri($uri));
+		}
+	}
+	$triples = render_sparql_triples($triples);
+	$query = "INSERT INTO <${post}.rdf> { $triples }";
+	do_query($query);
+	print "The mappings have been successfully updated !";
+}
 
 /////////////////////////////////
 // All the wrappers must inherit from this class

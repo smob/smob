@@ -98,10 +98,18 @@ function show_postss($posts) {
 		$content = $post['content'];
 		$author = $post['author'];
 		$date = $post['date'];
+		// Find the topics
 		$ht .= "<div class=\"post\" typeof=\"sioct:MicroblogPost\" about=\"$uri\">\n";
 		$ht .= "  <span class=\"content\" property=\"sioc:content\">$content</span>\n";
 		$ht .= "  (<span class=\"author\" rel=\"foaf:maker\" href=\"$foaf_uri\">$sioc_nick</span> - \n";
 		$ht .= "  <span class=\"date\" property=\"dcterms:created\">$date</span>)\n";
+		$topics = get_topics($uri);
+		if($topics) {
+			foreach($topics as $t) {
+				$topic = $t['topic'];
+				$ht .= "  [<a class=\"topic\" property=\"sioc:topic\" href=\"$topic\">*</a>]\n";
+			}
+		}
 		$ht .= "</div>\n\n";
 	}
 	return $ht;
@@ -110,6 +118,17 @@ function show_postss($posts) {
 function show_posts($start=0, $limit=20) {
 	$posts = get_posts($start, $limit);
 	return "<h1>Latest updates</h1>\n\n" . show_postss($posts);
+}
+
+
+function get_topics($post) {
+	$query = "
+	SELECT ?topic
+	WHERE {
+		<$post> sioc:topic ?topic ;
+	}
+	";
+	return do_query($query);
 }
 
 function get_posts($start=0, $limit=20) {
