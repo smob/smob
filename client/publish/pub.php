@@ -49,20 +49,10 @@ function send_data($url, $server) {
 }
 
 function local_post($post, $uri) {
-	global $arc_config;
-	
-	$config = $arc_config + array(
-	  'sem_html_formats' => 'rdfa' // From HTML documents, only load RDFa triples
-	);
 
-	$store = ARC2::getStore($config);
-	if (!$store->isSetUp()) {
-	  $store->setUp();
-	}
-	
 	foreach(array($post, $uri) as $data) {
-		$store->query("DELETE FROM <$data>"); // delete any old data first
-		$rs = $store->query("LOAD <$data> INTO <$data>");
+		do_query("DELETE FROM <$data>"); 
+		do_query("LOAD <$data> INTO <$data>");
 	}
 	print "<li> Messaged stored locally.</li>\n";
     
