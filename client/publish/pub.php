@@ -2,7 +2,7 @@
 
 require_once(dirname(__FILE__).'/../../lib/sioc/sioc_inc.php');
 
-require_once(dirname(__FILE__).'/../../config.php');
+//require_once(dirname(__FILE__).'/../../config.php');
 
 
 function twitter_post($content, $user, $pass)  {
@@ -48,27 +48,6 @@ function send_data($url, $server) {
   print "$resp\n";
 }
 
-function curl_get($url) {
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, $url);
-  curl_setopt($ch, CURLOPT_HEADER, 1);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-  $response = curl_exec($ch);
-
-  if ($error = curl_error($ch))
-    return array("$error.", "", 0);
-
-  $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-  $status_line = substr($response, 0, strcspn($response, "\n\r"));
-  $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-  $body = substr($response, $header_size);
-
-  curl_close($ch);
-
-  return array($body, $status_line, $status_code);
-}
-
 function local_post($post, $uri) {
 	global $arc_config;
 	
@@ -89,45 +68,56 @@ function local_post($post, $uri) {
     
 }
 
-// Step 1 - identify the URIS
 
-// Step 2 - Publish !
-if($content=$_GET['content']) {
-  // We know what to quote better than you PHP, thank you very much:
-  if(get_magic_quotes_gpc())
-    $content = stripslashes($content);
+function publish($content) {
+	global $foaf_uri, $sioc_nick;
+	
+	if(get_magic_quotes_gpc()) {
+		$content = stripslashes($content);
+	}
+	print "<h2>Publishing your message...</h2>\n";
+	
+	// date('c') isn't implemented by PHP4:
+	$ts = date('Y-m-d\TH:i:s'). substr_replace(date('O'),':',3,0);
+	
+	// SCRIPT_URI isn't present on all servers, so we do this instead:
+ 	$authority = "http://" . $_SERVER['HTTP_HOST'];
+	$root = $authority . dirname(dirname($_SERVER['SCRIPT_NAME'])); 
+	
+	$post_uri = "$root/data/$ts";
+	$user_uri = "$root/user/$sioc_nick";
+	
+	// @@ TODO -> Export HTML with content:encoded
+	$post_rdf = "
+<$post_uri> a sioct:MicroblogPost ;
+	sioc:has_creator <$user_uri> ;
+	foaf:maker <$foaf_uri> ;
+	dct:created \"$ts\" ;
+	dct:title \"Update - $ts\" ;
+	sioc:content \"$content\" ;
+";
+	$reply_of = $_GET['sioc:reply_of'];
+	if ($reply_of) {
+		$post_rdf .= "sioc:reply_of <$reply_of> ." ;
+	} else {
+		$post_rdf .= '.';
+	}
 
-  print "<h2>Publishing your message...</h2>\n";
+	$query = "INSERT INTO <${post_uri}.rdf> { $post_rdf }";
+	$res = do_query($query);
 
-  // date('c') isn't implemented by PHP4:
-  $ts = date('Y-m-d\TH:i:s'). substr_replace(date('O'),':',3,0);
-  // SCRIPT_URI isn't present on all servers, so we do this instead:
-  $authority = "http://" . $_SERVER['HTTP_HOST'];
-  $root = $authority . dirname(dirname($_SERVER['SCRIPT_NAME'])); 
-  $posturi = "$root/data/$ts";
-  $ex = new SIOCExporter();
-  $user = new SIOCUser($sioc_nick, "$root/user/$sioc_nick", 'name', 'mail', 'page', $foaf_uri);
-  $post = new SIOCPost($posturi, $ts, $content, '', $user, $ts, '', '', '', 'sioct:MicroblogPost');
-  $reply_of = $_GET['sioc:reply_of'];
-  if ($reply_of) 
-    $post->addReplyOf($reply_of, $reply_of);
-  $ex->addObject($post);
-  $rdf = $ex->makeRDF();
-  $f = fopen(dirname(__FILE__)."/../data/$ts.rdf", 'w');
-  fwrite($f, $rdf);
-  fclose($f);
-  print "<ul>\n";
-  local_post("$posturi.rdf", $foaf_uri);
-  if($_GET['servers']) {
-    foreach($_GET['servers'] as $k => $server) {
-      print "<li> ";
-      send_data("$posturi.rdf", $server);
-      print "</li>\n<li> ";
-      // The FOAF file should not be sent everytime - fix it
-      send_data($foaf_uri, $server);
-      print "</li>\n";
-    }
-  }
+	print "<ul>\n";
+	local_post("$posturi.rdf", $foaf_uri);
+	if($_GET['servers']) {
+		foreach($_GET['servers'] as $k => $server) {
+			print "<li> ";
+			send_data("$posturi.rdf", $server);
+			print "</li>\n<li> ";
+			// The FOAF file should not be sent everytime - fix it
+			send_data($foaf_uri, $server);
+			print "</li>\n";
+		}
+	}
   if($_GET['twitter']) {
     print "<li> Relaying your message to Twitter as <a href='http://twitter.com/$twitter_user'>$twitter_user</a>.\n";
     twitter_post($content, $twitter_user, $twitter_pass);
@@ -144,5 +134,6 @@ if($content=$_GET['content']) {
    }
   }
 }
+
 
 ?>
