@@ -56,7 +56,8 @@ foreach($ex as $e) {
 // Publish the post
 $id = publish($content);
 
-// Output the results to let the user chose his URIs
+// Output the results to let the user chose his URIs -- if there are some tags
+if($users || $tags) {
 print "<h2>LOD Integration</h2>";
 print "<form id='mappings-form'>";
 print "<input type='hidden' value='$id' id='post-id'>";
@@ -96,6 +97,7 @@ $(function() {
 	<em>Publishing content ...</em>
 </div>	<button id="mappings">Update mappings</button>
 ';
+}
 }
 
 // In case we just need to update the mappings

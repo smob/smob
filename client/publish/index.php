@@ -58,7 +58,7 @@ __END__;
 	<button id="publish">SMOB it!</button>
 
 	<div id="smob-publish" style="display: none;">
-		<em>Publishing content ...</em>
+		<br/><em>Publishing content ...</em>
 	</div>
 _END_;
 return $form;
