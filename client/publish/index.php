@@ -42,8 +42,8 @@ $(function() {
 
 <h2>New content</h2>
 <form>
-<textarea name="content" id="content"></textarea>
-<br/>
+<textarea name="content" id="content" rows="5" cols="80"></textarea>
+<br/>=
 Replying to post (if any)
 <input type="text" name="sioc:reply_of" id="reply_of" value="<?php echo "$reply_of";?>">
 (The <a href="javascript:window.location='<?php echo $root;?>/publish/?sioc:reply_of='+window.location">SMOB Reply</a> bookmarklet fills this in automatically.)
@@ -70,6 +70,10 @@ if($laconica) {
 </form>
 
 <button id="publish">SMOB it!</button>
+
+<div id="smob-uris" style="display: none;">
+	<em>Check resources...</em>
+</div>
 
 <div id="smob-publish" style="display: none;">
 	<em>Request sent...</em>
