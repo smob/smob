@@ -30,7 +30,7 @@ $form = <<<__END__
 
 	<h2>New content</h2>
 	<form>
-	<textarea name="content" id="content" rows="5" cols="80"></textarea>
+	<textarea name="content" id="content" rows="5" cols="82"></textarea>
 	<br/>
 	Replying to post (if any)
 	<input type="text" name="sioc:reply_of" id="reply_of" value="$reply_of">
