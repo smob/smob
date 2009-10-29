@@ -100,9 +100,16 @@ function show_postss($posts) {
 		$date = $post['date'];
 		// Find the topics
 		$ht .= "<div class=\"post\" typeof=\"sioct:MicroblogPost\" about=\"$uri\">\n";
+		$users = get_users($uri);
+		if($users) {
+			foreach($users as $t) {
+				$user = $t['user'];
+				$name = $t['name'];
+				$r = "<a class=\"topic\" property=\"sioc:topic\" href=\"$topic\">@$name</a>";
+				$content = str_replace("@$name", $r, $content);
+			}
+		}
 		$ht .= "  <span class=\"content\" property=\"sioc:content\">$content</span>\n";
-		$ht .= "  (<span class=\"author\" rel=\"foaf:maker\" href=\"$foaf_uri\">$sioc_nick</span> - \n";
-		$ht .= "  <span class=\"date\" property=\"dcterms:created\">$date</span>)\n";
 		$topics = get_topics($uri);
 		if($topics) {
 			foreach($topics as $t) {
@@ -110,6 +117,8 @@ function show_postss($posts) {
 				$ht .= "  [<a class=\"topic\" property=\"sioc:topic\" href=\"$topic\">*</a>]\n";
 			}
 		}
+		$ht .= "  (<span class=\"author\" rel=\"foaf:maker\" href=\"$foaf_uri\">$sioc_nick</span> - \n";
+		$ht .= "  <span class=\"date\" property=\"dcterms:created\">$date</span>)\n";
 		$ht .= "</div>\n\n";
 	}
 	return $ht;
@@ -120,12 +129,22 @@ function show_posts($start=0, $limit=20) {
 	return "<h1>Latest updates</h1>\n\n" . show_postss($posts);
 }
 
-
 function get_topics($post) {
 	$query = "
 	SELECT ?topic
 	WHERE {
-		<$post> sioc:topic ?topic ;
+		<$post> sioc:topic ?topic .
+	}
+	";
+	return do_query($query);
+}
+
+function get_users($post) {
+	$query = "
+	SELECT ?user ?name
+	WHERE {
+		<$post> sioc:topic ?user .
+		?user sioc:name ?name .
 	}
 	";
 	return do_query($query);
