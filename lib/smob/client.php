@@ -100,6 +100,7 @@ function show_postss($posts) {
 }
 
 function do_post($post, $uri = null) {
+	global $sioc_nick;
 	if(!$uri) {
 		$uri = $post['post'];		
 	}
@@ -113,7 +114,8 @@ function do_post($post, $uri = null) {
 		foreach($users as $t) {
 			$user = $t['user'];
 			$name = $t['name'];
-			$r = "<a class=\"topic\" property=\"sioc:topic\" href=\"$topic\">@$name</a>";
+			$enc = urlencode($user);
+			$r = "<a class=\"topic\" property=\"sioc:topic\" href=\"$user\"><a href=\"replies/$enc\">@$name</a></a>";
 			$content = str_replace("@$name", $r, $content);
 		}
 	}
@@ -122,12 +124,14 @@ function do_post($post, $uri = null) {
 		foreach($tags as $t) {
 			$tag = $t['tag'];
 			$uri = $t['uri'];
-			$r = "<a class=\"topic\" property=\"sioc:topic\" href=\"$uri\">#$tag</a>";
+			$enc = urlencode($uri);
+			$r = "<span class=\"topic\" property=\"sioc:topic\" href=\"$uri\"><a href=\"resource/$enc\">#$tag</a></span>";
 			$content = str_replace("#$tag", $r, $content);
 		}
 	}
+	$enc = urlencode($author);
 	$ht .= "  <span class=\"content\" property=\"sioc:content\">$content</span>\n";
-	$ht .= "  (<span class=\"author\" rel=\"foaf:maker\" href=\"$foaf_uri\">$sioc_nick</span> - \n";
+	$ht .= "  (by <span class=\"author\" rel=\"foaf:maker\" href=\"$author\"><a href=\"user/$enc\">$sioc_nick</a></span> - \n";
 	$ht .= "  <span class=\"date\" property=\"dcterms:created\">$date</span>)\n";
 	$ht .= " [<a href=\"$uri\">P</a>]\n";
 	$ht .= "</div>\n\n";
@@ -145,7 +149,7 @@ function show_posts($page = 0) {
 	$start = $page;
 	$offset = 20;
 	$posts = get_posts($start, $offset);
-	return "<h1>Latest updates</h1>\n\n" . show_postss($posts ) . pager($start);
+	return "<h1>Public timeline</h1>\n\n" . show_postss($posts ) . pager($start);
 }
 
 function pager($start) {
