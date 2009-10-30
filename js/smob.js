@@ -2,8 +2,11 @@
 
 function publish() {
 
-	var content = $("#content").val();
-	var reply_of = $("#reply_of").val();
+	var params = {'content': $("#content").val(),
+	              'reply_of': $("#reply_of").val(),
+	              'location': $("#location").val(),
+	             };
+
 	var servers;
 	
 	$("#smob-publish").show("normal");
@@ -11,8 +14,10 @@ function publish() {
 	$("#servers-form :checked").each(function() {
 		servers = servers + ' ' + $(this).val();		
 	})
+
+	params['servers'] = servers;
 	
-	$.get("pub.php?content="+urlencode(content)+"&sioc:reply_of="+urlencode(reply_of)+"&servers="+urlencode(servers)+getCacheBusterParam(), function(data){
+	$.get("pub.php?" + $.param(params)+getCacheBusterParam(), function(data){
 		$("#smob-publish").html(data);
 	});
 }
