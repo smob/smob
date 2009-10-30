@@ -76,7 +76,7 @@ __END__;
 		</fieldset>
 		
 		<fieldset><legend>Presence Data</legend>
-		Location: <input type="text" name="location" id="location" value="$location">
+		Location: <input type="text" name="location" id="location" value="$location"  size="35">
 		</fieldset>
 		
 		</form>
