@@ -115,7 +115,7 @@ function createStore($host, $name, $user, $pwd, $store_name){
 	
 	  'endpoint_features' => array(
 	    'select', 'construct', 'ask', 'describe', 
-	    'load', 'insert',
+	    'load',
 	  ),
 	  'endpoint_read_key' => '',
 	  'endpoint_write_key' => '', // FIXME
