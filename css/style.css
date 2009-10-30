@@ -38,6 +38,7 @@ a:hover {
 	background: #ccc;
 	margin-bottom: 10px;
 	padding: 5px;
+	height: 45px;
 }
 
 .left {
@@ -80,6 +81,10 @@ button {
 	margin-top: 10px;
 }
 
+.depiction {
+	height: 45px;
+	float: right;
+}
 
 /* Intaller */
 
