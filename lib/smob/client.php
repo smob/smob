@@ -144,10 +144,10 @@ function show_uri($uri) {
 }
 
 function show_posts($page = 0) {
-	$start = $page;
-	$offset = 20;
-	$posts = get_posts($start, $offset);
-	return "<h1>Public timeline</h1>\n\n" . show_postss($posts ) . pager($start);
+	$limit = 20;
+	$offset = $page * $limit;
+	$posts = get_posts($offset, $limit);
+	return "<h1>Public timeline</h1>\n\n" . show_postss($posts ) . pager($page);
 }
 
 function pager($start) {
