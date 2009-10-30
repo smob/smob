@@ -9,9 +9,8 @@ require_once(dirname(__FILE__).'/../lib/smob/client.php');
 require_once(dirname(__FILE__)."/../config.php");
 
 $view = substr($_SERVER['PATH_INFO'], 1);
-$title = "Update $view";
 $content = show_post($view);
 
-smob_go($title, $content);
+smob_go($content);
 
 ?>

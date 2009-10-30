@@ -25,9 +25,15 @@ $form = <<<__END__
 			publish();
 		});
 	});
+	$(function(){
+		$('#content').keyup(function(){
+			charsleft();
+		})
+	});
 	</script>
 
 	<h2>New content</h2>
+	(You have <span id="charsleft">140</span> characters left)
 	<form>
 	<textarea name="content" id="content" rows="5" cols="82"></textarea>
 	<br/>
@@ -80,7 +86,6 @@ if($do_auth) {
 $reply_of = $_GET['sioc:reply_of'];
 
 $content = publish_interface();
-$title = "Publish a new post by $sioc_nick";
-smob_go($title, $content);
+smob_go($content);
 
 ?>
