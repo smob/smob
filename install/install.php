@@ -101,8 +101,7 @@ function createStore($host, $name, $user, $pwd, $store_name){
 	}
 	
 	// write databsed information in the config file
-	$config = "
-<?php
+	$config = "<?php
 
 	include_once(dirname(__FILE__).'/lib/arc/ARC2.php');
 
