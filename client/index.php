@@ -16,9 +16,8 @@ require_once(dirname(__FILE__)."/../config.php");
 $page = $_GET['page'];
 if (!$page)
 	$page = 0;
-$title = "Post for $sioc_nick";
 $content = show_posts($page);
 
-smob_go($title, $content);
+smob_go($content);
 
 ?>
