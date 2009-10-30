@@ -29,13 +29,15 @@ function curl_post($dest, $content, $user, $pass) {
 }
 
 function load_post($post, $server) {
+	global $servers;
+	$key = $servers[$server];
 	$query = urlencode("LOAD <$post> ");
 	$dest = "${server}sparql.php";
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_URL, $dest);
 	curl_setopt($ch, CURLOPT_HEADER, 0);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-	curl_setopt($ch, CURLOPT_POSTFIELDS, "query=$query");
+	curl_setopt($ch, CURLOPT_POSTFIELDS, "query=$query&key=$key");
 	$data = curl_exec($ch);
 	curl_close($ch);
 	print "Sent to server $post";
