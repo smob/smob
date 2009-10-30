@@ -2,17 +2,17 @@
 
 require_once(dirname(__FILE__)."/../arc/ARC2.php");
 require_once(dirname(__FILE__)."/lib.php");
-
+	
 function get_view_uri($uri) {
-        global $root;
+	global $root;
 	$uri = urlencode($uri);
 	$uri = str_replace("%2F", "/", $uri);
 	return "$root/client/view/$uri";
 }
 
-function smob_go($title, $content) {
+function smob_go($content) {
 	global $root;
-	smob_header($title);
+	smob_header();
 	print $content;
 	$n = get_networks();
 	$n .= "<h2>Navigation</h2><ul><li><a href='$root/client'>Home</a></li><li><a href='$root/client/publish'>Publish</a></li></ul>";
@@ -48,7 +48,7 @@ xml:lang="fr">
 
 <div id="header">
 <h1><a href="<?php echo "$root/client"; ?>">SMOB</a></h1>
-<h2><?php echo $title; ?></h2>
+<h2>This is the SMOB hub for <?php echo $sioc_nick; ?></h2>
 </div>
 
 <div id="main">
@@ -85,7 +85,7 @@ Powered by <a href="http://smob.siob-project.org/">SMOB</a> thanks to <a href="h
 
 function get_networks() {
 	global $servers, $twitter_user;
-	$ht = "<h2>My networks</h2>\n\n";
+	$ht = "<h2>Networks</h2>\n\n";
 	$ht .= "<ul>\n";
 	foreach($servers as $server => $key) {
 		$ht .= "  <li><a href='$server'>$server</a></li>\n";
