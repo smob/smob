@@ -218,3 +218,5 @@ WHERE {
 } ";
 	return do_query($query);
 }
+
+?>

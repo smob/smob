@@ -83,14 +83,25 @@ function get_uri_if_found($uri) {
 }
 
 function is_auth() {
+	require_once(dirname(__FILE__).'/../foaf-ssl/libAuthentication.php');
+	// need cookies here 
 	global $foaf_ssl, $foaf_uri;
 	if($foaf_ssl) {
-		require_once(dirname(__FILE__).'/../foaf-ssl/libAuthentication.php');
+		session_start();
+		if($_COOKIE['auth']==1) {
+			return true;
+		}
 		$auth = getAuth();
 		$do_auth = $auth['certRSAKey'];
 		$is_auth = $auth['isAuthenticated'];
 		$auth_uri = $auth['subjectAltName'];
-		if ($is_auth == 1 && $auth_uri == $foaf_uri) return true;
+		if ($is_auth == 1) {
+			setcookie("uri", "$auth_uri");
+			setcookie("auth", "1");
+			if ($auth_uri == $foaf_uri) {
+				return true;
+			}			
+		}
 	}
 	return false;
 }
