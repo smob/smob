@@ -3,6 +3,12 @@
 require_once(dirname(__FILE__)."/../arc/ARC2.php");
 require_once(dirname(__FILE__)."/lib.php");
 
+function get_view_uri($uri) {
+        global $root;
+	$uri = urlencode($uri);
+	$uri = str_replace("%2F", "/", $uri);
+	return "$root/client/view/$uri";
+}
 
 function smob_go($title, $content) {
 	global $root;
@@ -114,8 +120,8 @@ function do_post($post, $uri = null) {
 		foreach($users as $t) {
 			$user = $t['user'];
 			$name = $t['name'];
-			$enc = urlencode($user);
-			$r = "<a class=\"topic\" property=\"sioc:topic\" href=\"$user\"><a href=\"replies/$enc\">@$name</a></a>";
+			$enc = get_view_uri($user);
+			$r = "<a class=\"topic\" property=\"sioc:topic\" href=\"$user\"><a href=\"$enc\">@$name</a></a>";
 			$content = str_replace("@$name", $r, $content);
 		}
 	}
@@ -124,14 +130,14 @@ function do_post($post, $uri = null) {
 		foreach($tags as $t) {
 			$tag = $t['tag'];
 			$uri = $t['uri'];
-			$enc = urlencode($uri);
-			$r = "<span class=\"topic\" property=\"sioc:topic\" href=\"$uri\"><a href=\"resource/$enc\">#$tag</a></span>";
+			$enc = get_view_uri($uri);
+			$r = "<span class=\"topic\" property=\"sioc:topic\" href=\"$uri\"><a href=\"$enc\">#$tag</a></span>";
 			$content = str_replace("#$tag", $r, $content);
 		}
 	}
-	$enc = urlencode($author);
+	$enc = get_view_uri($author);
 	$ht .= "  <span class=\"content\" property=\"sioc:content\">$content</span>\n";
-	$ht .= "  (by <span class=\"author\" rel=\"foaf:maker\" href=\"$author\"><a href=\"user/$enc\">$sioc_nick</a></span> - \n";
+	$ht .= "  (by <span class=\"author\" rel=\"foaf:maker\" href=\"$author\"><a href=\"$enc\">$sioc_nick</a></span> - \n";
 	$ht .= "  <span class=\"date\" property=\"dcterms:created\">$date</span>)\n";
 	$ht .= " [<a href=\"$uri\">P</a>]\n";
 	$ht .= "</div>\n\n";
@@ -141,8 +147,15 @@ function do_post($post, $uri = null) {
 function show_post($id) {
 	global $root;
 	$uri = "$root/client/post/" . str_replace(' ', '+', $id);
+	return show_uri($uri);
+}
+
+function show_uri($uri) {
 	$p = get_post($uri);
-	return "<h1>$id</h1>\n\n" . do_post($p[0], $id);
+	if ($p)
+		return "<h1>$id</h1>\n\n" . do_post($p[0], $id);
+	# TODO add same for other resource types here
+	return "Error: Don't know how to show URI: $uri";
 }
 
 function show_posts($page = 0) {
