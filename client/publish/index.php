@@ -27,34 +27,33 @@ $form = <<<__END__
   <script type="text/javascript" src="http://dev.jquery.com/view/trunk/plugins/autocomplete/jquery.autocomplete.js"></script>
   
   <script type="text/javascript">
-  $(document).ready(function(){
-    
-$("#location").autocomplete("../../lib/geonames/geo_complete.php");
+  $(document).ready(function() {
+    $("#location").autocomplete("../../lib/geonames/geo_complete.php");
+
+    $("#publish").click(function () {
+      publish();
+    });
+
+    $('#content').focus(function() {
+      $('.content-details').show();
+      charsleft();
+    });
+    // XXX form.blur doesn't work :-/
+    $('#content-form').blur(function() {
+      if ($('#content').val().length == 0)
+	$('.content-details').hide();
+    });
+    $('#content').keyup(function(){
+      return charsleft();
+    });
   });
   </script>
-	
-  
-	<script type="text/javascript">
-	$(function() {
-		$("#publish").click(function () {
-			publish();
-		});
-	});
-	$(function(){
-		$('#content').focus(function(){
-		  $('.content-details').show()
-		});
-		$('#content').keyup(function(){
-			charsleft();
-		});
-	});
-	</script>
-
-	<h2>What's on your mind?</h2>
+	  
+	<h2>What&apos;s on your mind?</h2>
 	<span class="content-details" style="display: none;">
 	(You have <span id="charsleft">140</span> characters left)
 	</span>
-	<form>
+	<form id="content-form">
 	<textarea name="content" id="content" rows="5" cols="82"></textarea>
 	<div class="content-details" style="display: none;">
 	Replying to post (if any)
@@ -85,10 +84,11 @@ __END__;
 		<fieldset><legend>Presence Data</legend>
 		Location: <input type="text" name="location" id="location" value="$location"  size="35">
 		</fieldset>
-	        <button id="publish">SMOB it!</button>
-
 		</div>
 		</form>
+
+	<button id="publish" class="content-details" style="display: none;">SMOB it!</button>
+
 
 	<div id="smob-publish" style="display: none;">
 		<br/><em>Publishing content ...</em>
