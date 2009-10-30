@@ -1,5 +1,13 @@
 <?php
 
+function &either()
+{
+	$arg_list = func_get_args();
+	foreach($arg_list as $i => $arg)
+		if ( $arg ) return $arg_list[$i];
+	return NULL;
+}
+
 function get_store() {
 	global $arc_config;
 	$config = $arc_config + array(
