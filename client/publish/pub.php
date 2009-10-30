@@ -5,7 +5,6 @@ require_once(dirname(__FILE__)."/../../lib/smob/lib.php");
 
 $authority = "http://" . $_SERVER['HTTP_HOST'];
 $root = $authority . dirname(dirname(dirname($_SERVER['SCRIPT_NAME']))); 
-
 	
 function twitter_post($content, $user, $pass)  {
   $dest = 'http://twitter.com/statuses/update.xml';
@@ -50,16 +49,6 @@ function send_data($url, $server) {
   print "$resp\n";
 }
 
-function local_post($post, $uri) {
-
-	foreach(array($post, $uri) as $data) {
-		do_query("DELETE FROM <$data>"); 
-		do_query("LOAD <$data> INTO <$data>");
-	}
-	print "<li> Messaged stored locally.</li>\n";
-    
-}
-
 # XXX maybe one day, someone writes the proper escaping functions for PHP...
 function uri($uri) {
 	return "<" . $uri . ">";
@@ -93,8 +82,6 @@ function render_sparql_triples($triples) {
 }
 
 function post_template($post_uri, $user_uri, $foaf_uri, $ts, $content, $reply_ofs) {
-
-	// @@ TODO -> Export HTML with content:encoded
 	$triples[] = array(uri($post_uri), "a", "sioct:MicroblogPost");
 	$triples[] = array("sioc:has_creator", uri($user_uri));
 	$triples[] = array("foaf:maker", uri($foaf_uri));
@@ -117,8 +104,7 @@ function publish($content) {
 	}
 	print "<h2>Publishing your message...</h2>\n";
 	
-	// date('c') isn't implemented by PHP4:
-	$ts = date('Y-m-d\TH:i:s'). substr_replace(date('O'),':',3,0);
+	$ts = date('c');
 		
 	$post_uri = "$root/client/post/$ts";
 	$user_uri = "$root/user/$sioc_nick";
@@ -129,10 +115,14 @@ function publish($content) {
 
 	$post_rdf = post_template($post_uri, $user_uri, $foaf_uri, $ts, $content, $reply_ofs);
 
-	$query = "INSERT INTO <${post_uri}.rdf> { $post_rdf }";
-	$res = do_query($query);
 	print "<ul>\n";
-	local_post("$posturi.rdf", $foaf_uri);
+	
+	$query = "INSERT INTO <${post_uri}.rdf> { $post_rdf }";
+	print "<li> Messaged stored locally.</li>\n";
+	$res = do_query($query);
+	
+	// use a cron to update the foaf profile on each server
+	
 	if($_GET['servers']) {
 		foreach($_GET['servers'] as $k => $server) {
 			print "<li> ";

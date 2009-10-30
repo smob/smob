@@ -6,7 +6,6 @@ $root = $authority . dirname(dirname(dirname($_SERVER['SCRIPT_NAME'])));
 
 require_once(dirname(__FILE__).'/../../config.php');
 require_once(dirname(__FILE__).'/../../lib/smob/client.php'); 
-
 require_once(dirname(__FILE__).'/../../lib/foaf-ssl/libAuthentication.php');
 
 function publish_interface() {
