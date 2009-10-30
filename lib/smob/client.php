@@ -26,6 +26,14 @@ function get_view_uri($uri) {
 	return "$root/client/view/$uri";
 }
 
+function get_publish_uri($reply_of = NULL) {
+	global $root;
+	$uri = "$root/client/publish/";
+	if ($reply_of)
+		$uri .= "?sioc:reply_of=" . urlencode($reply_of);
+	return $uri;
+}
+
 function smob_go($content) {
 	global $root;
 	smob_header();
@@ -65,6 +73,7 @@ function do_post($post, $uri = null) {
 	$content = $post['content'];
 	$author = $post['author'];
 	$date = $post['date'];
+	$reply_of = $post['reply_of'];
 	// Find the topics
 	$ht .= "<div class=\"post\" typeof=\"sioct:MicroblogPost\" about=\"$uri\">\n";
 	$users = get_users($uri);
@@ -91,7 +100,13 @@ function do_post($post, $uri = null) {
 	$ht .= "  <span class=\"content\" property=\"sioc:content\">$content</span>\n";
 	$ht .= "  (by <span class=\"author\" rel=\"foaf:maker\" href=\"$author\"><a href=\"$enc\">$sioc_nick</a></span> - \n";
 	$ht .= "  <span class=\"date\" property=\"dcterms:created\">$date</span>)\n";
-	$ht .= " [<a href=\"$uri\">P</a>]\n";
+	$ht .= "<br />";
+	$ht .= " [<a href=\"$uri\">Permalink</a>]\n";
+	$enc2 = get_publish_uri($uri);
+	$ht .= " [<a href=\"$enc2\">Post a reply</a>]\n";
+	if ($reply_of)
+		$enc3 = get_view_uri($reply_of);
+		$ht .= " [<a href=\"$enc3\">Parent</a>]\n";
 	$ht .= "</div>\n\n";
 	return $ht;
 }
@@ -105,7 +120,7 @@ function show_post($id) {
 function show_uri($uri) {
 	$p = get_post($uri);
 	if ($p)
-		return "<h1>$id</h1>\n\n" . do_post($p[0], $id);
+		return "<h1>$id</h1>\n\n" . do_post($p[0], $uri);
 	# TODO add same for other resource types here
 	return "Error: Don't know how to show URI: $uri";
 }
@@ -152,12 +167,13 @@ function get_users($post) {
 
 function get_posts($start, $limit) {
 	$query = "
-	SELECT ?post ?content ?author ?date
+	SELECT ?post ?content ?author ?date ?reply_of
 WHERE {
 	?post rdf:type sioct:MicroblogPost ;
 		sioc:content ?content ;
 		foaf:maker ?author ;
 		dct:created ?date .
+	OPTIONAL { ?post sioc:reply_of ?reply_of. }
 } 
 ORDER BY DESC(?date)
 OFFSET $start
@@ -167,18 +183,14 @@ LIMIT $limit
 }
 
 function get_post($id) {
-	global $root;
 	$query = "
-	SELECT ?content ?author ?date
+	SELECT ?content ?author ?date ?reply_of
 WHERE {
 	<$id> rdf:type sioct:MicroblogPost ;
 		sioc:content ?content ;
 		foaf:maker ?author ;
 		dct:created ?date .
+	OPTIONAL { <$id> sioc:reply_of ?reply_of. }
 } ";
 	return do_query($query);
 }
-
-?>
-
-

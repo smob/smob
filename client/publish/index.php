@@ -8,8 +8,8 @@ require_once(dirname(__FILE__).'/../../config.php');
 require_once(dirname(__FILE__).'/../../lib/smob/client.php'); 
 require_once(dirname(__FILE__).'/../../lib/foaf-ssl/libAuthentication.php');
 
-function publish_interface() {
-	global $servers, $twitter_user, $twitter_pass, $laconica;
+function publish_interface($reply_of = NULL) {
+	global $servers, $twitter_user, $twitter_pass, $laconica, $root;
 	
 $form = <<<__END__
 	
@@ -39,7 +39,7 @@ $form = <<<__END__
 	<br/>
 	Replying to post (if any)
 	<input type="text" name="sioc:reply_of" id="reply_of" value="$reply_of">
-	(The <a href="javascript:window.location='$root/publish/?sioc:reply_of='+window.location">SMOB Reply</a> bookmarklet fills this in automatically.)
+	(The <a href="javascript:window.location='$root/client/publish/bookmarklet.php?uri='+encodeURIComponent(window.location)">In My SMOB!</a> bookmarklet helps fill this in automatically.)
 	<br/>
 	<fieldset><legend>Networks</legend>
 __END__;
@@ -87,7 +87,7 @@ if($do_auth) {
 
 $reply_of = $_GET['sioc:reply_of'];
 
-$content = publish_interface();
+$content = publish_interface($reply_of);
 smob_go($content);
 
 ?>
