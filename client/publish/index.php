@@ -41,7 +41,7 @@ $form = <<<__END__
 	<input type="text" name="sioc:reply_of" id="reply_of" value="$reply_of">
 	(The <a href="javascript:window.location='$root/publish/?sioc:reply_of='+window.location">SMOB Reply</a> bookmarklet fills this in automatically.)
 	<br/>
-	<fieldset><legend>Servers to ping</legend>
+	<fieldset><legend>Networks</legend>
 __END__;
 	
 	foreach($servers as $server => $key) {
