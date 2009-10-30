@@ -5,7 +5,11 @@ function get_store() {
 	$config = $arc_config + array(
 	  'sem_html_formats' => 'rdfa' 
 	);
-	return ARC2::getStore($config);
+	$store = ARC2::getStore($config);
+	if (!$store->isSetUp()) {
+		$store->setUp();
+	}
+	return $store;
 }
 
 function do_query($query) {
