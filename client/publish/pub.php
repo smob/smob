@@ -2,6 +2,7 @@
 
 require_once(dirname(__FILE__)."/../../config.php");
 require_once(dirname(__FILE__)."/../../lib/smob/lib.php");
+require_once(dirname(__FILE__)."/../../lib/geonames/geonames.php");
 
 $authority = "http://" . $_SERVER['HTTP_HOST'];
 $root = $authority . dirname(dirname(dirname($_SERVER['SCRIPT_NAME']))); 
@@ -111,19 +112,23 @@ function post_template($post_uri, $user_uri, $foaf_uri, $ts, $content, $reply_of
 	return render_sparql_triples($triples);
 }
 
-function opo_template($opo_uri, $post_uri, $user_uri, $foaf_uri, $ts, $content, $reply_ofs) {
+function opo_template($opo_uri, $post_uri, $user_uri, $foaf_uri, $ts, $content, $reply_ofs, $location) {
 	$triples[] = array(uri($opo_uri), "a", "opo:OnlinePresence");
 	$triples[] = array("opo:declaredOn", uri($user_uri));
 	$triples[] = array("opo:declaredBy", uri($foaf_uri));
 	$triples[] = array("opo:StartTime", literal($ts));
 	$triples[] = array("opo:customMessage", uri($post_uri));
+	if($location) {
+		
+		$location_uri=find_geo_uri($location);
+		$triples[] = array("opo:currentLocation", uri($location_uri));
+	}
 
-	
 	return render_sparql_triples($triples);
 }
 
 
-function publish($content, $srv) {
+function publish($content, $srv, $location) {
 	global $foaf_uri, $sioc_nick, $root, $servers;
 	
 	if(get_magic_quotes_gpc()) {
@@ -142,13 +147,14 @@ function publish($content, $srv) {
 		$reply_ofs[] = $_GET['sioc:reply_of'];
 
 	$post_rdf = post_template($post_uri, $user_uri, $foaf_uri, $ts, $content, $reply_ofs);
-	$opo_rdf = opo_template($opo_uri, $post_uri, $user_uri, $foaf_uri, $ts, $content, $reply_ofs);
+	$opo_rdf = opo_template($opo_uri, $post_uri, $user_uri, $foaf_uri, $ts, $content, $reply_ofs, $location);
 
 	print "<ul>\n";
 	
 	$query = "INSERT INTO <${opo_uri}.rdf> { $opo_rdf }";
 	$query_opo = "INSERT INTO <${post_uri}.rdf> { $post_rdf }";
 	print "<li> Messaged stored locally.</li>\n";
+	print "<li> location: $location</li>\n";
 	$res = do_query($query);
 	$res1 = do_query($query_opo);
 
@@ -214,6 +220,8 @@ function find_uris($type, $term) {
 $content = $_GET['content'];
 $srv = $_GET['servers'];
 $post = $_GET['post'];
+$location= $_GET['location'];
+
 
 // In case we need to publish content
 if($content) {
@@ -238,7 +246,7 @@ foreach($ex as $e) {
 
 
 // Publish the post
-$id = publish($content, $srv);
+$id = publish($content, $srv, $location);
 
 // Output the results to let the user chose his URIs -- if there are some tags
 if($users || $tags) {
