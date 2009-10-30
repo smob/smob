@@ -39,7 +39,14 @@ function smob_go($content) {
 	smob_header();
 	print $content;
 	$n = get_networks();
-	$n .= "<h2>Navigation</h2><ul><li><a href='$root/client'>Home</a></li><li><a href='$root/client/publish'>Publish</a></li></ul>";
+	$n .= "
+<h2>Navigation</h2>
+<ul>
+<li><a href='$root/client'>Home</a></li>
+";
+if(is_auth()) $n .= "<li><a href='$root/client/publish'>Publish</a></li>";
+$n .= "
+</ul>";
 	smob_footer($n);	
 }
 
@@ -59,13 +66,14 @@ function get_networks() {
 
 function show_postss($posts) {
 	global $sioc_nick;  
+	$is_auth = is_auth();
 	foreach($posts as $post) {
-		$ht .= do_post($post);
+		$ht .= do_post($post, '', $is_auth);
 	}
 	return $ht;
 }
 
-function do_post($post, $uri = null) {
+function do_post($post, $uri = null, $is_auth = false) {
 	global $sioc_nick, $root;
 	if(!$uri) {
 		$uri = $post['post'];		
@@ -106,7 +114,9 @@ function do_post($post, $uri = null) {
 	$ht .= "<br />";
 	$ht .= " [<a href=\"$uri\">Permalink</a>]\n";
 	$enc2 = get_publish_uri($uri);
-	$ht .= " [<a href=\"$enc2\">Post a reply</a>]\n";
+	if($is_auth) {
+		$ht .= " [<a href=\"$enc2\">Post a reply</a>]\n";
+	}
 	if ($reply_of) {
 		$enc3 = get_view_uri($reply_of);
 		$ht .= " [<a href=\"$enc3\">Parent</a>]\n";

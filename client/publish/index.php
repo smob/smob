@@ -8,6 +8,8 @@ require_once(dirname(__FILE__).'/../../config.php');
 require_once(dirname(__FILE__).'/../../lib/smob/client.php'); 
 require_once(dirname(__FILE__).'/../../lib/foaf-ssl/libAuthentication.php');
 
+// authentication = TODO
+
 function publish_interface($reply_of = NULL) {
 	global $servers, $twitter_user, $twitter_pass, $laconica, $root;
 	
