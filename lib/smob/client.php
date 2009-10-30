@@ -74,7 +74,8 @@ function do_post($post, $uri = null) {
 	$author = $post['author'];
 	$date = $post['date'];
 	$reply_of = $post['reply_of'];
-	$pic = ($post['pic']) ? $post['pic'] : "$root/img/avatar-blank.jpg";
+	$reply_of_of = $post['reply_of_of'];
+	$pic = either($post['depiction'], $post['img'], "$root/img/avatar-blank.jpg");
 	// Find the topics
 	$ht .= "<div class=\"post\" typeof=\"sioct:MicroblogPost\" about=\"$uri\">\n";
 	$ht .= "<img src=\"$pic\" class=\"depiction\"/>";
@@ -109,6 +110,10 @@ function do_post($post, $uri = null) {
 	if ($reply_of) {
 		$enc3 = get_view_uri($reply_of);
 		$ht .= " [<a href=\"$enc3\">Parent</a>]\n";
+	}
+	if ($reply_of_of) {
+		$enc4 = get_view_uri($reply_of_of);
+		$ht .= " [<a href=\"$enc4\">Child</a>]\n";
 	}
 	$ht .= "</div>\n\n";
 	return $ht;
@@ -170,14 +175,16 @@ function get_users($post) {
 
 function get_posts($start, $limit) {
 	$query = "
-	SELECT ?post ?content ?author ?date ?reply_of ?pic
+	SELECT *
 WHERE {
 	?post rdf:type sioct:MicroblogPost ;
 		sioc:content ?content ;
 		foaf:maker ?author ;
 		dct:created ?date .
 	OPTIONAL { ?post sioc:reply_of ?reply_of. }
-	OPTIONAL { ?author foaf:depiction ?pic. }
+	OPTIONAL { ?reply_of_of sioc:reply_of ?post . }
+	OPTIONAL { ?author foaf:depiction ?depiction. }
+	OPTIONAL { ?author foaf:img ?img . }
 } 
 ORDER BY DESC(?date)
 OFFSET $start
@@ -188,14 +195,16 @@ LIMIT $limit
 
 function get_post($id) {
 	$query = "
-	SELECT ?content ?author ?date ?reply_of ?pic
+	SELECT *
 WHERE {
 	<$id> rdf:type sioct:MicroblogPost ;
 		sioc:content ?content ;
 		foaf:maker ?author ;
 		dct:created ?date .
 	OPTIONAL { <$id> sioc:reply_of ?reply_of. }
-	OPTIONAL { ?author foaf:depiction ?pic. }
+	OPTIONAL { ?reply_of_of sioc:reply_of <$id> . }
+	OPTIONAL { ?author foaf:depiction ?depiction. }
+	OPTIONAL { ?author foaf:img ?img . }
 } ";
 	return do_query($query);
 }
