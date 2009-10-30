@@ -3,6 +3,16 @@
 require_once(dirname(__FILE__)."/../arc/ARC2.php");
 require_once(dirname(__FILE__)."/lib.php");
 	
+function get_uri_from_request_path() {
+	$path = $_SERVER['REQUEST_URI'];
+	$script = $_SERVER['SCRIPT_NAME'];
+	for($common = 0; $common < min(strlen($path), strlen($script)); $common++) {
+		if ($path[$common]  != $script[$common])
+			break;
+	}
+	return urldecode(substr($path, $common+1));
+}
+
 function get_view_uri($uri) {
 	global $root;
 	$uri = urlencode($uri);
