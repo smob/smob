@@ -110,6 +110,12 @@ $reply_of = $_GET['sioc:reply_of'];
 $location = $_GET['location'];
 
 $content = publish_interface($reply_of);
+
+$page = $_GET['page'];
+if (!$page)
+	$page = 0;
+$content .= show_posts($page);
+
 smob_go($content);
 
 ?>
