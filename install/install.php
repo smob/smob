@@ -112,6 +112,13 @@ function createStore($host, $name, $user, $pwd, $store_name){
 	  'db_user' => '$user',
 	  'db_pwd' => '$pwd',
 	  'store_name' => '$store_name',
+	
+	  'endpoint_features' => array(
+	    'select', 'construct', 'ask', 'describe', 
+	    'load', 'insert', 'delete'
+	  ),
+	  'endpoint_read_key' => '',
+	  'endpoint_write_key' => '', // FIXME
 	);
 	
 ";

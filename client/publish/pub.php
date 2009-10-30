@@ -28,6 +28,20 @@ function curl_post($dest, $content, $user, $pass) {
   return $data;
 }
 
+function load_post($post, $server) {
+	$query = urlencode("LOAD <$post> ");
+	$dest = "${server}sparql.php";
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, $dest);
+	curl_setopt($ch, CURLOPT_HEADER, 0);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt($ch, CURLOPT_POSTFIELDS, "query=$query");
+	$data = curl_exec($ch);
+	curl_close($ch);
+	print "Sent to server $post";
+	return $data;
+}
+
 function send_data($url, $server) {
   global $servers;
   $key = $servers[$server];
@@ -96,8 +110,8 @@ function post_template($post_uri, $user_uri, $foaf_uri, $ts, $content, $reply_of
 }
 
 
-function publish($content) {
-	global $foaf_uri, $sioc_nick, $root;
+function publish($content, $srv) {
+	global $foaf_uri, $sioc_nick, $root, $servers;
 	
 	if(get_magic_quotes_gpc()) {
 		$content = stripslashes($content);
@@ -120,17 +134,19 @@ function publish($content) {
 	$query = "INSERT INTO <${post_uri}.rdf> { $post_rdf }";
 	print "<li> Messaged stored locally.</li>\n";
 	$res = do_query($query);
-	
+
 	// use a cron to update the foaf profile on each server
-	
-	if($_GET['servers']) {
-		foreach($_GET['servers'] as $k => $server) {
-			print "<li> ";
-			send_data("$posturi.rdf", $server);
-			print "</li>\n<li> ";
-			// The FOAF file should not be sent everytime - fix it
-			send_data($foaf_uri, $server);
-			print "</li>\n";
+
+	if($srv) {
+		$ex = explode(' ', $srv);
+		foreach($ex as $server) {
+			if(in_array($server, array_keys($servers))) {
+				print "<li> ";
+				load_post($post_uri, $server);
+				// The FOAF file should not be sent everytime - fix it
+				//send_data($foaf_uri, $server);
+				print "</li>\n";
+			}
 		}
 	}
 	if($_GET['twitter']) {
@@ -178,8 +194,8 @@ function find_uris($type, $term) {
 }
 
 $content = $_GET['content'];
+$srv = $_GET['servers'];
 $post = $_GET['post'];
-
 
 // In case we need to publish content
 if($content) {
@@ -204,7 +220,7 @@ foreach($ex as $e) {
 
 
 // Publish the post
-$id = publish($content);
+$id = publish($content, $srv);
 
 // Output the results to let the user chose his URIs -- if there are some tags
 if($users || $tags) {
