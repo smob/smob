@@ -9,9 +9,8 @@ require_once(dirname(__FILE__).'/../lib/smob/client.php');
 require_once(dirname(__FILE__)."/../config.php");
 
 $uri = get_uri_from_request_path();
-$title = "Info about $uri";
 $content = show_uri($uri);
 
-smob_go($title, $content);
+smob_go($content);
 
 ?>
