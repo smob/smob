@@ -2,7 +2,7 @@
 
 function smob_header() {
 	global $sioc_nick, $root;
-	$root = get_root();
+	
 	
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" 
