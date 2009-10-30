@@ -93,9 +93,9 @@ function do_post($post, $uri = null) {
 	if($tags) {
 		foreach($tags as $t) {
 			$tag = $t['tag'];
-			$uri = $t['uri'];
+			$resource = $t['uri'];
 			$enc = get_view_uri($uri);
-			$r = "<span class=\"topic\" property=\"sioc:topic\" href=\"$uri\"><a href=\"$enc\">#$tag</a></span>";
+			$r = "<span class=\"topic\" property=\"sioc:topic\" href=\"$resource\"><a href=\"$enc\">#$tag</a></span>";
 			$content = str_replace("#$tag", $r, $content);
 		}
 	}
