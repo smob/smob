@@ -16,8 +16,8 @@ $form = <<<__END__
 	<!-- XXX hack to make browsers send the posting as utf-8 -->
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 
-	<script type="text/javascript" src="http://jqueryui.com/jquery-1.3.2.js"></script>
-	<script type="text/javascript" src="http://jqueryui.com/ui/ui.core.js"></script>
+	<script type="text/javascript" src="../../js/jquery-1.3.2.min.js"></script>
+	<script type="text/javascript" src="../../js/ui.core.js"></script>
 	<script type="text/javascript" src="../../js/smob.js"></script>
 	<script type="text/javascript">
 	$(function() {
