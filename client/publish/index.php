@@ -19,6 +19,19 @@ $form = <<<__END__
 	<script type="text/javascript" src="../../js/jquery-1.3.2.min.js"></script>
 	<script type="text/javascript" src="../../js/ui.core.js"></script>
 	<script type="text/javascript" src="../../js/smob.js"></script>
+	
+	<script type="text/javascript" src="http://dev.jquery.com/view/trunk/plugins/autocomplete/lib/jquery.bgiframe.min.js"></script>
+  <script type="text/javascript" src="http://dev.jquery.com/view/trunk/plugins/autocomplete/lib/jquery.dimensions.js"></script>
+  <script type="text/javascript" src="http://dev.jquery.com/view/trunk/plugins/autocomplete/jquery.autocomplete.js"></script>
+  
+  <script type="text/javascript">
+  $(document).ready(function(){
+    
+$("#location").autocomplete("../../lib/geonames/geo_complete.php");
+  });
+  </script>
+	
+  
 	<script type="text/javascript">
 	$(function() {
 		$("#publish").click(function () {
@@ -60,7 +73,13 @@ __END__;
 	}
 
 	$form .= <<<_END_
-		</fieldset></form>
+		</fieldset>
+		
+		<fieldset><legend>Presence Data</legend>
+		Location: <input type="text" name="location" id="location" value="$location">
+		</fieldset>
+		
+		</form>
 
 	<button id="publish">SMOB it!</button>
 
@@ -86,6 +105,7 @@ if($do_auth) {
 }
 
 $reply_of = $_GET['sioc:reply_of'];
+$location = $_GET['location'];
 
 $content = publish_interface($reply_of);
 smob_go($content);
