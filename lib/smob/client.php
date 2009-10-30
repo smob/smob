@@ -29,7 +29,7 @@ function smob_go($content) {
 	smob_footer($n);	
 }
 
-function smob_header($title) {
+function smob_header() {
 	global $sioc_nick, $root;
 	
 ?>
