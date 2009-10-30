@@ -119,8 +119,9 @@ function opo_template($opo_uri, $post_uri, $user_uri, $foaf_uri, $ts, $content, 
 	$triples[] = array("opo:StartTime", literal($ts));
 	$triples[] = array("opo:customMessage", uri($post_uri));
 	if($location) {
-		
-		$location_uri=find_geo_uri($location);
+		$location_pure=substr($location, 0, stripos($location,","));
+	
+		$location_uri=find_geo_uri($location_pure);
 		$triples[] = array("opo:currentLocation", uri($location_uri));
 	}
 
@@ -154,7 +155,7 @@ function publish($content, $srv, $location) {
 	$query = "INSERT INTO <${opo_uri}.rdf> { $opo_rdf }";
 	$query_opo = "INSERT INTO <${post_uri}.rdf> { $post_rdf }";
 	print "<li> Messaged stored locally.</li>\n";
-	print "<li> location: $location</li>\n";
+	
 	$res = do_query($query);
 	$res1 = do_query($query_opo);
 
