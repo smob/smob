@@ -111,6 +111,17 @@ function post_template($post_uri, $user_uri, $foaf_uri, $ts, $content, $reply_of
 	return render_sparql_triples($triples);
 }
 
+function opo_template($opo_uri, $post_uri, $user_uri, $foaf_uri, $ts, $content, $reply_ofs) {
+	$triples[] = array(uri($opo_uri), "a", "opo:OnlinePresence");
+	$triples[] = array("opo:declaredOn", uri($user_uri));
+	$triples[] = array("opo:declaredBy", uri($foaf_uri));
+	$triples[] = array("opo:StartTime", literal($ts));
+	$triples[] = array("opo:customMessage", uri($post_uri));
+
+	
+	return render_sparql_triples($triples);
+}
+
 
 function publish($content, $srv) {
 	global $foaf_uri, $sioc_nick, $root, $servers;
@@ -123,6 +134,7 @@ function publish($content, $srv) {
 	$ts = date('c');
 		
 	$post_uri = "$root/client/post/$ts";
+	$opo_uri = "$root/client/post/opo-$ts";
 	$user_uri = "$root/user/$sioc_nick";
 
 	$reply_ofs = array();
@@ -130,12 +142,15 @@ function publish($content, $srv) {
 		$reply_ofs[] = $_GET['sioc:reply_of'];
 
 	$post_rdf = post_template($post_uri, $user_uri, $foaf_uri, $ts, $content, $reply_ofs);
+	$opo_rdf = opo_template($opo_uri, $post_uri, $user_uri, $foaf_uri, $ts, $content, $reply_ofs);
 
 	print "<ul>\n";
 	
-	$query = "INSERT INTO <${post_uri}.rdf> { $post_rdf }";
+	$query = "INSERT INTO <${opo_uri}.rdf> { $opo_rdf }";
+	$query_opo = "INSERT INTO <${post_uri}.rdf> { $post_rdf }";
 	print "<li> Messaged stored locally.</li>\n";
 	$res = do_query($query);
+	$res1 = do_query($query_opo);
 
 	// use a cron to update the foaf profile on each server
 
@@ -145,6 +160,7 @@ function publish($content, $srv) {
 			if(in_array($server, array_keys($servers))) {
 				print "<li> ";
 				load_post($post_uri, $server);
+				load_post($opo_uri, $server);
 				// The FOAF file should not be sent everytime - fix it
 				//send_data($foaf_uri, $server);
 				print "</li>\n";
