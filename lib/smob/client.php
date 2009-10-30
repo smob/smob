@@ -106,9 +106,10 @@ function do_post($post, $uri = null) {
 	$ht .= " [<a href=\"$uri\">Permalink</a>]\n";
 	$enc2 = get_publish_uri($uri);
 	$ht .= " [<a href=\"$enc2\">Post a reply</a>]\n";
-	if ($reply_of)
+	if ($reply_of) {
 		$enc3 = get_view_uri($reply_of);
 		$ht .= " [<a href=\"$enc3\">Parent</a>]\n";
+	}
 	$ht .= "</div>\n\n";
 	return $ht;
 }
