@@ -11,6 +11,8 @@ if(!file_exists(dirname(__FILE__)."/../config.php")) {
 	header("Location: $url");
 } 
 
+
+
 require_once(dirname(__FILE__)."/../config.php");
 
 $page = $_GET['page'];
