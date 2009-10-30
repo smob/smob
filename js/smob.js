@@ -50,7 +50,7 @@ function charsleft() {
 	var textlength = text.length;
 	
 	if(textlength > limit) {
-		$('#charsleft').html(limit);
+		$('#charsleft').html(0);
 		$('#content').val(text.substr(0, limit));
 		return false;
 	} else {
