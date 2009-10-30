@@ -2,7 +2,13 @@
 
 require_once(dirname(__FILE__)."/../arc/ARC2.php");
 require_once(dirname(__FILE__)."/lib.php");
-	
+require_once(dirname(__FILE__)."/template.php");
+
+function get_root() {
+	$authority = "http://" . $_SERVER['HTTP_HOST'];
+	return $authority . dirname(dirname($_SERVER['SCRIPT_NAME']));
+}	
+
 function get_uri_from_request_path() {
 	$path = $_SERVER['REQUEST_URI'];
 	$script = $_SERVER['SCRIPT_NAME'];
@@ -27,70 +33,6 @@ function smob_go($content) {
 	$n = get_networks();
 	$n .= "<h2>Navigation</h2><ul><li><a href='$root/client'>Home</a></li><li><a href='$root/client/publish'>Publish</a></li></ul>";
 	smob_footer($n);	
-}
-
-function smob_header() {
-	global $sioc_nick, $root;
-	
-?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" 
-  "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
-
-<html
-  xmlns="http://www.w3.org/1999/xhtml" 
-  xmlns:dc="http://purl.org/dc/elements/1.1/"
-  xmlns:dcterms="http://purl.org/dc/terms/"
-  xmlns:foaf="http://xmlns.com/foaf/0.1/" 
-  xmlns:sioc="http://rdfs.org/sioc/ns#"
-  xmlns:sioct="http://rdfs.org/sioc/types#"
-  xmlns:content="http://purl.org/rss/1.0/modules/content/"
-xml:lang="fr">
- 
-<head profile="http://ns.inria.fr/grddl/rdfa/">
-  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-  <title>SMOB</title>
-  <link rel="stylesheet" type="text/css" href="<?php echo "$root/css/style.css"; ?>" />
-</head>
-
-<body>
-
-<div id="full">
-
-<div id="header">
-<h1><a href="<?php echo "$root/client"; ?>">SMOB</a></h1>
-<h2>This is the SMOB hub for <?php echo $sioc_nick; ?></h2>
-</div>
-
-<div id="main">
-
-<div class="left"> 
-
-<?
-}
-
-function smob_footer($blocks) {
-?>
-
-</div>
-
-<div class="right"> 
-
-<?php echo $blocks; ?>
-
-</div>
-
-<div style="clear: both;"> </div>
-</div>
-
-<div id="footer">
-Powered by <a href="http://smob.siob-project.org/">SMOB</a> thanks to <a href="http://www.w3.org/2001/sw/">Semantic Web</a> technologies and <a href="http://linkeddata.org">Linked Data</a><br/>
-</div>
-</div>
-
-</body>
-
-</html>
-<?
 }
 
 function get_networks() {
