@@ -20,14 +20,20 @@ return $locations;
 function find_geo_uri($geoname){
 
 // 2. instantiate the object and set search query
-$map = new SPAF_Maps($query);
+$map = new SPAF_Maps($geoname);
 
 
 // 3. get results
 $results = $map->getResults();
 
-$location = $results[0];
-$geonames_uri= "http://sws.geonames.org/" . $location['geonameId'] . "/";
+
+$geoname_id=$results[0]['geonameId'];
+//echo count($results);
+//foreach($results[0] as $key=>$value){
+//	echo "$key - $$value";
+//}
+//echo "id: $geoname_id";
+$geonames_uri= "http://sws.geonames.org/" . $geoname_id . "/";
 
 
 return $geonames_uri;
