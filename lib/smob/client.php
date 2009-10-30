@@ -66,7 +66,7 @@ function show_postss($posts) {
 }
 
 function do_post($post, $uri = null) {
-	global $sioc_nick;
+	global $sioc_nick, $root;
 	if(!$uri) {
 		$uri = $post['post'];		
 	}
@@ -74,8 +74,10 @@ function do_post($post, $uri = null) {
 	$author = $post['author'];
 	$date = $post['date'];
 	$reply_of = $post['reply_of'];
+	$pic = ($post['pic']) ? $post['pic'] : "$root/img/avatar-blank.jpg";
 	// Find the topics
 	$ht .= "<div class=\"post\" typeof=\"sioct:MicroblogPost\" about=\"$uri\">\n";
+	$ht .= "<img src=\"$pic\" class=\"depiction\"/>";
 	$users = get_users($uri);
 	if($users) {
 		foreach($users as $t) {
@@ -167,13 +169,14 @@ function get_users($post) {
 
 function get_posts($start, $limit) {
 	$query = "
-	SELECT ?post ?content ?author ?date ?reply_of
+	SELECT ?post ?content ?author ?date ?reply_of ?pic
 WHERE {
 	?post rdf:type sioct:MicroblogPost ;
 		sioc:content ?content ;
 		foaf:maker ?author ;
 		dct:created ?date .
 	OPTIONAL { ?post sioc:reply_of ?reply_of. }
+	OPTIONAL { ?author foaf:depiction ?pic. }
 } 
 ORDER BY DESC(?date)
 OFFSET $start
@@ -184,13 +187,14 @@ LIMIT $limit
 
 function get_post($id) {
 	$query = "
-	SELECT ?content ?author ?date ?reply_of
+	SELECT ?content ?author ?date ?reply_of ?pic
 WHERE {
 	<$id> rdf:type sioct:MicroblogPost ;
 		sioc:content ?content ;
 		foaf:maker ?author ;
 		dct:created ?date .
 	OPTIONAL { <$id> sioc:reply_of ?reply_of. }
+	OPTIONAL { ?author foaf:depiction ?pic. }
 } ";
 	return do_query($query);
 }
