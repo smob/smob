@@ -33,6 +33,22 @@ function mappings() {
 	});
 }
 
+// Adapted from http://www.ajaxray.com/blog/2007/11/09/interactive-character-limit-for-textarea-using-jquery/
+function charsleft() {
+	var limit = 140;
+	var text = $('#content').val(); 
+	var textlength = text.length;
+	
+	if(textlength > limit) {
+		$('#charsleft').html(limit);
+		$('#content').val(text.substr(0, limit));
+		return false;
+	} else {
+		$('#charsleft').html(limit - textlength);
+		return true;
+	}
+}
+
 // Setup functions
 
 function process(){
