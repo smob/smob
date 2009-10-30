@@ -45,7 +45,9 @@ $form = <<<__END__
 __END__;
 	
 	foreach($servers as $server => $key) {
+		$form .= "<div id='servers-form'>";
 		$form .= "<input type='checkbox' name='servers[]' value='$server' />$server<br/>";
+		$form .= '</div>';
 	}
 	if($twitter_user && $twitter_pass) {
 	  	$form .= "<input type='checkbox' name='twitter' value='twit' />Twitter as $twitter_user<br/>";

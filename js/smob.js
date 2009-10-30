@@ -4,10 +4,15 @@ function publish() {
 
 	var content = $("#content").val();
 	var reply_of = $("#reply_of").val();
-
+	var servers;
+	
 	$("#smob-publish").show("normal");
 
-	$.get("pub.php?content="+urlencode(content)+"&sioc:reply_of="+urlencode(reply_of)+getCacheBusterParam(), function(data){
+	$("#servers-form :checked").each(function() {
+		servers = servers + ' ' + $(this).val();		
+	})
+	
+	$.get("pub.php?content="+urlencode(content)+"&sioc:reply_of="+urlencode(reply_of)+"&servers="+urlencode(servers)+getCacheBusterParam(), function(data){
 		$("#smob-publish").html(data);
 	});
 }
