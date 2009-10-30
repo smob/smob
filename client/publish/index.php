@@ -41,17 +41,22 @@ $("#location").autocomplete("../../lib/geonames/geo_complete.php");
 		});
 	});
 	$(function(){
+		$('#content').focus(function(){
+		  $('.content-details').show()
+		});
 		$('#content').keyup(function(){
 			charsleft();
-		})
+		});
 	});
 	</script>
 
-	<h2>New content</h2>
+	<h2>What's on your mind?</h2>
+	<span class="content-details" style="display: none;">
 	(You have <span id="charsleft">140</span> characters left)
+	</span>
 	<form>
 	<textarea name="content" id="content" rows="5" cols="82"></textarea>
-	<br/>
+	<div class="content-details" style="display: none;">
 	Replying to post (if any)
 	<input type="text" name="sioc:reply_of" id="reply_of" value="$reply_of">
 	(The <a href="javascript:window.location='$root/client/publish/bookmarklet.php?uri='+encodeURIComponent(window.location)">In My SMOB!</a> bookmarklet helps fill this in automatically.)
@@ -80,10 +85,10 @@ __END__;
 		<fieldset><legend>Presence Data</legend>
 		Location: <input type="text" name="location" id="location" value="$location"  size="35">
 		</fieldset>
-		
-		</form>
+	        <button id="publish">SMOB it!</button>
 
-	<button id="publish">SMOB it!</button>
+		</div>
+		</form>
 
 	<div id="smob-publish" style="display: none;">
 		<br/><em>Publishing content ...</em>
