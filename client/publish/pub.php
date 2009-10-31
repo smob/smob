@@ -2,10 +2,9 @@
 
 require_once(dirname(__FILE__)."/../../config.php");
 require_once(dirname(__FILE__)."/../../lib/smob/lib.php");
-require_once(dirname(__FILE__)."/../../lib/geonames/geonames.php");
+require_once(dirname(__FILE__)."/../../lib/smob/client.php");
 
-$authority = "http://" . $_SERVER['HTTP_HOST'];
-$root = $authority . dirname(dirname(dirname($_SERVER['SCRIPT_NAME']))); 
+require_once(dirname(__FILE__)."/../../lib/geonames/geonames.php");
 	
 function twitter_post($content, $user, $pass)  {
   $dest = 'http://twitter.com/statuses/update.xml';
@@ -144,7 +143,7 @@ function publish($content, $srv, $location) {
 
 	print "<h2>Publishing your message...</h2>\n";
 		
-	$post_uri = "$root/client/post/$ts";
+	$post_uri = "$root/post/$ts";
 	$opo_uri = "$post_uri#presence";	
 	$user_uri = user_uri();
 
@@ -157,9 +156,10 @@ function publish($content, $srv, $location) {
 	print "<ul>\n";	
 	print "<li> Messaged stored locally.</li>\n";
 	
+	sent_to_followers($post_uri);
+	
 	if($srv) {
 		$ex = explode(' ', $srv);
-		print_r($srv);
 		foreach($ex as $server) {
 			if(in_array($server, array_keys($servers))) {
 				print "<li> ";
@@ -202,6 +202,15 @@ function get_wrappers($type) {
 	return $services;
 }
 
+function sent_to_followers($post) {
+	$followers = get_followers();
+	foreach($followers as $follow) {
+		$endpoint = str_replace('owner', 'sparql.php', $follow['uri']);
+		$query = 'query='.urlencode("LOAD <$post> ");
+		do_curl_post($endpoint, $query);
+	}
+}
+
 function find_uris($type, $term) {
 	global $wrappers;
 	foreach($wrappers[$type] as $w) {
@@ -220,8 +229,6 @@ $location= $_GET['location'];
 
 // In case we need to publish content
 if($content) {
-
-print_r($_GET);
 
 $wrappers['user'] = get_wrappers('user');	
 $wrappers['tag'] = get_wrappers('tag');	
