@@ -16,7 +16,7 @@ function publish() {
 	})
 
 	params['servers'] = servers;
-	
+		
 	$.get("pub.php?" + $.param(params)+getCacheBusterParam(), function(data){
 		$("#smob-publish").html(data);
 	});
