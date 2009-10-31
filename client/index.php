@@ -20,12 +20,14 @@ $u = str_replace('http:/', 'http://', $u);
 
 if($u) {
 	if($t == 'post') {
-		$content = show_uri();	
+		$content = show_post($u);	
 	} elseif($t == 'resource') {
 		$content = show_resource($u);
 	} elseif($t == 'user') {
 		$p = get_person($u);
 		$content = do_person($p, $u);
+	} elseif($t == 'data') {
+		return show_data($u);
 	} elseif($t == 'replies') {
 	//TODO
 	}
