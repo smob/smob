@@ -152,7 +152,8 @@ function show_posts($page = 0) {
 	$limit = 20;
 	$offset = $page * $limit;
 	$posts = get_posts($offset, $limit);
-	return "<h1>Public timeline</h1>\n\n" . show_postss($posts ) . pager($page);
+	$ts = date('c');
+	return "<h1>Public timeline</h1>\n\n<div id=\"ts\" style=\"display:none;\">$ts</div><div id=\"news\"></div>" . show_postss($posts ) . pager($page);
 }
 
 function do_person($person, $uri) {

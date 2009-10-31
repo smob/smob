@@ -23,9 +23,11 @@ xml:lang="fr">
   <title>SMOB</title>
   <link rel="stylesheet" type="text/css" href="<?php echo "$root/css/style.css"; ?>" />
   <link rel="stylesheet" type="text/css" href="<?php echo "$root/install/install.css"; ?>" />
-  <script type="text/javascript" src="<?php echo "$root/js/jquery-1.3.2.min.js"; ?>" />
-  <script type="text/javascript" src="<?php echo "$root/js/ui.core.js"; ?>" />
-  <script type="text/javascript" src="<?php echo "$root/js/smob.js"; ?>" />
+  <script type="text/javascript" src="<?php echo "$root/js/jquery-1.3.2.min.js"; ?>"></script>
+  <script type="text/javascript" src="<?php echo "$root/js/jquery.timers-1.2.js"; ?>"></script>
+  <script type="text/javascript" src="<?php echo "$root/js/ui.core.js"; ?>"></script>
+  <script type="text/javascript" src="<?php echo "$root/js/smob.js"; ?>"></script>
+
   <script type="text/javascript">
 	var state = 0;
 	var maxstate = 6;
@@ -34,6 +36,15 @@ xml:lang="fr">
 			process();
 		});
 	});
+	$(function() { 
+		$("#ts").everyTime(5000,function(i) {
+			getnews();
+		});
+	});
+					
+//	$(document).everyTime(1000, function(i) {
+//	  alert('ok');
+//	}, times);
 </script>
 </head>
 
