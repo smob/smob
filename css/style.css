@@ -41,6 +41,17 @@ a:hover {
 	height: 45px;
 }
 
+.infos {
+	font-style: italic;
+	margin: 0px;
+	padding-top: 5px;
+	font-size: 10px;
+}
+
+.content {
+	font-size: 18px;
+}
+
 .left {
 	width: 600px;
 	float: left;
