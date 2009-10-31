@@ -106,4 +106,9 @@ function is_auth() {
 	return false;
 }
 
+function user_uri() {
+	global $root, $sioc_nick;
+	return "$root/user/owner";
+}
+
 ?>
