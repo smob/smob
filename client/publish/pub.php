@@ -41,7 +41,10 @@ function load_post($post, $server) {
 	curl_setopt($ch, CURLOPT_POSTFIELDS, "query=$query&key=$key");
 	$data = curl_exec($ch);
 	curl_close($ch);
-	print "Sent to server $post";
+	$q = "LOAD -$post> ";
+	
+	print "Sent to server $dest - $q";
+//	print $data;
 	return $data;
 }
 

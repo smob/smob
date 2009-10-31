@@ -15,10 +15,29 @@ require_once(dirname(__FILE__)."/../config.php");
 
 is_auth();
 
-$page = $_GET['page'];
-if (!$page)
-	$page = 0;
-$content = show_posts($page);
+parse_str($_SERVER['QUERY_STRING']);
+$u = str_replace('http:/', 'http://', $u);
+
+if($u) {
+	if($t == 'post') {
+		$content = show_uri();	
+	} elseif($t == 'resource') {
+			// TODO
+	} elseif($t == 'user') {
+		$p = get_person($u);
+		$content = do_person($p, $u);
+	} elseif($t == 'replies') {
+	//TODO
+	}
+}
+
+else {
+	$page = $_GET['page'];
+	if (!$page) {
+		$page = 0;
+	}
+	$content = show_posts($page);
+}
 
 smob_go($content);
 
