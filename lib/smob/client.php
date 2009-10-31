@@ -9,6 +9,16 @@ function get_root() {
 	return $authority . dirname(dirname($_SERVER['SCRIPT_NAME']));
 }	
 
+function get_sparcool($uri, $pred, $lang=null) {
+	if($lang) {
+		$url = "http://sparcool.net/h/$pred;l=$lang/$uri";
+	} else {
+		$url = "http://sparcool.net/h/$pred/$uri";
+	}
+	$res = curl_get($url);
+	return $res[0];
+}
+
 function get_uri_from_request_path() {
 	$path = $_SERVER['REQUEST_URI'];
 	$script = $_SERVER['SCRIPT_NAME'];
@@ -64,6 +74,11 @@ function get_networks() {
 	return $ht;
 }
 
+function show_resource($u) {
+	$posts = get_posts_topic($u);
+	$ht .= show_postss($posts);
+	return $ht;
+}
 function show_postss($posts) {
 	global $sioc_nick;  
 	$is_auth = is_auth();
@@ -219,6 +234,27 @@ function get_users($post) {
 		?user sioc:name ?name .
 	}
 	";
+	return do_query($query);
+}
+
+function get_posts_topic($uri) {
+	$query = "
+	SELECT *
+WHERE {
+	?post rdf:type sioct:MicroblogPost ;
+		sioc:content ?content ;
+		foaf:maker ?author ;
+		dct:created ?date .
+	?tagging a tags:RestrictedTagging ;
+		tags:taggedResource ?post ;
+		moat:tagMeaning <$uri> .
+	OPTIONAL { ?post sioc:reply_of ?reply_of. }
+	OPTIONAL { ?reply_of_of sioc:reply_of ?post . }
+	OPTIONAL { ?author foaf:depiction ?depiction. }
+	OPTIONAL { ?author foaf:img ?img . }
+} 
+ORDER BY DESC(?date)
+";
 	return do_query($query);
 }
 
