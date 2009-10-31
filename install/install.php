@@ -112,6 +112,11 @@ function createStore($host, $name, $user, $pwd, $store_name){
 	  'db_pwd' => '$pwd',
 	  'store_name' => '$store_name',
 	
+		'store_triggers_path' => dirname(__FILE__).'/../smob/',
+		'store_triggers' => array(
+			'install' => array('loadTrigger'),
+		),
+	
 	  'endpoint_features' => array(
 	    'select', 'construct', 'ask', 'describe', 'load',
 	  ),
