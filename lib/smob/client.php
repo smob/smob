@@ -79,6 +79,7 @@ function show_resource($u) {
 	$ht .= show_postss($posts);
 	return $ht;
 }
+
 function show_postss($posts) {
 	global $sioc_nick;  
 	$is_auth = is_auth();

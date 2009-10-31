@@ -22,7 +22,7 @@ if($u) {
 	if($t == 'post') {
 		$content = show_uri();	
 	} elseif($t == 'resource') {
-			// TODO
+		$content = show_resource($u);
 	} elseif($t == 'user') {
 		$p = get_person($u);
 		$content = do_person($p, $u);

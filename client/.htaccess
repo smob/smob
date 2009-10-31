@@ -9,7 +9,7 @@
 
 RewriteEngine on
 # Fix the following line in the installer
-# RewriteBase /~alex/smob/client/
+RewriteBase /~alex/smob/client/
 RewriteRule ^post/(.*)$ index.php?t=post&u=$1 [L,QSA]
 RewriteRule ^user/(.*)$ index.php?t=user&u=$1 [L,QSA]
 RewriteRule ^replies/(.*)$ index.php?t=replies&u=$1 [L,QSA]
