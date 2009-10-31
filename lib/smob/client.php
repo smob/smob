@@ -19,11 +19,11 @@ function get_uri_from_request_path() {
 	return urldecode(substr($path, $common+1));
 }
 
-function get_view_uri($uri) {
+function get_uri($uri, $type) {
 	global $root;
 	$uri = urlencode($uri);
 	$uri = str_replace("%2F", "/", $uri);
-	return "$root/client/view/$uri";
+	return "$root/client/$type/$uri";
 }
 
 function get_publish_uri($reply_of = NULL) {
@@ -101,12 +101,12 @@ function do_post($post, $uri = null, $is_auth = false) {
 		foreach($tags as $t) {
 			$tag = $t['tag'];
 			$resource = $t['uri'];
-			$enc = get_view_uri($uri);
+			$enc = get_uri($resource, 'resource');
 			$r = "<span class=\"topic\" rel=\"sioc:topic\" href=\"$resource\"><a href=\"$enc\">#$tag</a></span>";
 			$content = str_replace("#$tag", $r, $content);
 		}
 	}
-	$enc = get_view_uri($author);
+	$enc = get_uri($author, 'user');
 	$ht .= "  <span class=\"content\">$content</span>\n";
 	$ht .= "  <span style=\"display:none;\" property=\"sioc:content\">$ocontent</span>\n";
 	$ht .= "  (by <span class=\"author\" rel=\"foaf:maker\" href=\"$author\"><a href=\"$enc\">$sioc_nick</a></span> - \n";
@@ -118,11 +118,11 @@ function do_post($post, $uri = null, $is_auth = false) {
 		$ht .= " [<a href=\"$enc2\">Post a reply</a>]\n";
 	}
 	if ($reply_of) {
-		$enc3 = get_view_uri($reply_of);
+		$enc3 = get_uri($reply_of, 'post');
 		$ht .= " [<a href=\"$enc3\">Parent</a>]\n";
 	}
 	if ($reply_of_of) {
-		$enc4 = get_view_uri($reply_of_of);
+		$enc4 = get_uri($reply_of_of, 'post');
 		$ht .= " [<a href=\"$enc4\">Child</a>]\n";
 	}
 	$ht .= "</div>\n\n";
@@ -134,6 +134,8 @@ function show_post($id) {
 	$uri = "$root/client/post/" . str_replace(' ', '+', $id);
 	return show_uri($uri);
 }
+
+
 
 function show_uri($uri) {
 	$p = get_post($uri);
@@ -147,6 +149,7 @@ function show_uri($uri) {
 	# TODO add same for other resource types here
 	return "Error: Don't know how to show URI: <a href=\"$uri\">$uri</a>";
 }
+
 
 function show_posts($page = 0) {
 	$limit = 20;
@@ -178,7 +181,7 @@ function do_person($person, $uri) {
 		$ht .= " [<a href=\"$w\">Blog</a>]\n";
 	}
 	foreach ($knows as $k) {
-		$enc = get_view_uri($k);
+		$enc = get_uri($k, 'user');
 		$ht .= " [<a href=\"$enc\">Friend</a>]\n";
 	}
 
