@@ -147,7 +147,7 @@ function publish($content, $srv, $location) {
 		
 	$post_uri = "$root/client/post/$ts";
 	$opo_uri = "$post_uri#presence";	
-	$user_uri = "$root/user/$sioc_nick";
+	$user_uri = user_uri();
 
 	$sioc = post_template($post_uri, $user_uri, $foaf_uri, $ts, $content, $reply_ofs);
 	$opo = opo_template($opo_uri, $post_uri, $user_uri, $foaf_uri, $ts, $content, $reply_ofs, $location);

@@ -50,6 +50,8 @@ $form = <<<__END__
   </script>
 	  
 	<h2>What&apos;s on your mind?</h2>
+	(f you want to follow someone, use the <a href="javascript:window.location='$root/client/publish/follows.php?uri='+encodeURIComponent(window.location)">Follow in my SMOB!</a> bookmarklet.)
+	
 	<span class="content-details" style="display: none;">
 	(You have <span id="charsleft">140</span> characters left)
 	</span>
