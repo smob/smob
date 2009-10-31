@@ -15,6 +15,7 @@ if($t == 'follower') {
 	$local_user = user_uri();
 	$follow = "<$remote_user> sioc:follows <$local_user> . ";	
 	$local = "INSERT INTO <$root/data/followers> { $follow }";
+	echo $local;
 	do_query($local);
 	
 }

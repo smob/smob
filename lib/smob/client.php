@@ -4,11 +4,6 @@ require_once(dirname(__FILE__)."/../arc/ARC2.php");
 require_once(dirname(__FILE__)."/lib.php");
 require_once(dirname(__FILE__)."/template.php");
 
-function get_root() {
-	$authority = "http://" . $_SERVER['HTTP_HOST'];
-	return $authority . dirname(dirname($_SERVER['SCRIPT_NAME']));
-}	
-
 function get_sparcool($uri, $pred, $lang=null) {
 	if($lang) {
 		$url = "http://sparcool.net/h/$pred;l=$lang/$uri";
@@ -33,12 +28,12 @@ function get_uri($uri, $type) {
 	global $root;
 	$uri = urlencode($uri);
 	$uri = str_replace("%2F", "/", $uri);
-	return "$root/client/$type/$uri";
+	return "$root/$type/$uri";
 }
 
 function get_publish_uri($reply_of = NULL) {
 	global $root;
-	$uri = "$root/client/publish/";
+	$uri = "$root/publish/";
 	if ($reply_of)
 		$uri .= "?sioc:reply_of=" . urlencode($reply_of);
 	return $uri;
@@ -52,11 +47,11 @@ function smob_go($content) {
 	$n .= "
 <h2>Navigation</h2>
 <ul>
-<li><a href='$root/client'>Home</a></li>
-<li><a href='$root/client/follows'>Follows</a></li>
-<li><a href='$root/client/followers'>Followers</a></li>
+<li><a href='$root'>Home</a></li>
+<li><a href='$root/follows'>Follows</a></li>
+<li><a href='$root/followers'>Followers</a></li>
 ";
-if(is_auth()) $n .= "<li><a href='$root/client/publish'>Publish</a></li>";
+if(is_auth()) $n .= "<li><a href='$root/publish'>Publish</a></li>";
 $n .= "
 </ul>";
 	smob_footer($n);	
@@ -84,7 +79,7 @@ function show_resource($u) {
 
 function show_data($u) {
 	global $root;
-	$uri = "$root/client/post/" . str_replace(' ', '+', $u);
+	$uri = "$root/post/" . str_replace(' ', '+', $u);
 	$data = get_data($uri);
 	header('Content-Type: text/turtle; charset=utf-8'); 
 	foreach($data as $triple) {
@@ -117,7 +112,7 @@ function do_post($post, $uri = null, $is_auth = false) {
 	$date = $post['date'];
 	$reply_of = $post['reply_of'];
 	$reply_of_of = $post['reply_of_of'];
-	$pic = either($post['depiction'], $post['img'], "$root/img/avatar-blank.jpg");
+	$pic = either($post['depiction'], $post['img'], "$root/../img/avatar-blank.jpg");
 	// Find the topics
 	$ht .= "<div class=\"post\" typeof=\"sioct:MicroblogPost\" about=\"$uri\">\n";
 	$ht .= "<img src=\"$pic\" class=\"depiction\" alt=\"Depiction for $foaf_uri\"/>";
@@ -168,7 +163,7 @@ function do_post($post, $uri = null, $is_auth = false) {
 
 function show_post($id) {
 	global $root;
-	$uri = "$root/client/post/" . str_replace(' ', '+', $id);
+	$uri = "$root/post/" . str_replace(' ', '+', $id);
 	return show_uri($uri);
 }
 
@@ -197,7 +192,7 @@ function show_posts($page = 0) {
 function do_person($person, $uri) {
 	global $root;
 	$names = either($person['names'], array("Anonymous"));
-	$imgs = either($person['images'], array("$root/img/avatar-blank.jpg"));
+	$imgs = either($person['images'], array("$root/../img/avatar-blank.jpg"));
 	$homepage = $person['homepage'];
 	$weblog = $person['weblog'];
 	$knows = $person['knows'];
@@ -406,8 +401,8 @@ function show_users($users) {
 
 function get_follows() {
 	global $root, $sioc_nick;
-	$user_uri = "$root/user/$sioc_nick";
-	$query = "
+	$user_uri =  user_uri();
+		$query = "
 SELECT *
 WHERE {
 	<$user_uri> sioc:follows ?uri
@@ -417,7 +412,7 @@ WHERE {
 
 function get_followers() {
 	global $root, $sioc_nick;
-	$user_uri = "$root/user/$sioc_nick";
+	$user_uri =  user_uri();
 	$query = "
 SELECT *
 WHERE {

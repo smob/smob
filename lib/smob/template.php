@@ -21,12 +21,12 @@ xml:lang="fr">
 <head profile="http://ns.inria.fr/grddl/rdfa/">
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
   <title>SMOB</title>
-  <link rel="stylesheet" type="text/css" href="<?php echo "$root/css/style.css"; ?>" />
-  <link rel="stylesheet" type="text/css" href="<?php echo "$root/install/install.css"; ?>" />
-  <script type="text/javascript" src="<?php echo "$root/js/jquery-1.3.2.min.js"; ?>"></script>
-  <script type="text/javascript" src="<?php echo "$root/js/jquery.timers-1.2.js"; ?>"></script>
-  <script type="text/javascript" src="<?php echo "$root/js/ui.core.js"; ?>"></script>
-  <script type="text/javascript" src="<?php echo "$root/js/smob.js"; ?>"></script>
+  <link rel="stylesheet" type="text/css" href="<?php echo "$root/../css/style.css"; ?>" />
+  <link rel="stylesheet" type="text/css" href="<?php echo "$root/../install/install.css"; ?>" />
+  <script type="text/javascript" src="<?php echo "$root/../js/jquery-1.3.2.min.js"; ?>"></script>
+  <script type="text/javascript" src="<?php echo "$root/../js/jquery.timers-1.2.js"; ?>"></script>
+  <script type="text/javascript" src="<?php echo "$root/../js/ui.core.js"; ?>"></script>
+  <script type="text/javascript" src="<?php echo "$root/../js/smob.js"; ?>"></script>
 
   <script type="text/javascript">
 	var state = 0;
@@ -53,7 +53,7 @@ xml:lang="fr">
 <div id="full">
 
 <div id="header">
-<h1><a href="<?php echo "$root/client"; ?>">SMOB</a></h1>
+<h1><a href="<?php echo "$root"; ?>">SMOB</a></h1>
 <h2>This is the SMOB hub for <?php echo $sioc_nick; ?></h2>
 </div>
 
