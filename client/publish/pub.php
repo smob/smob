@@ -17,31 +17,33 @@ function laconica_post($service, $content, $user, $pass)  {
   return curl_post($dest, $content, $user, $pass);
 }
 
+function do_curl_post($url, $postfields, $userpwd = null) {
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, $url);
+	curl_setopt($ch, CURLOPT_HEADER, 0);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt($ch, CURLOPT_POSTFIELDS, $postfields);
+	if ($userpwd) {
+		curl_setopt($ch, CURLOPT_USERPWD, $userpwd);
+	}
+	$data = curl_exec($ch);
+	curl_close($ch);
+	return $data;
+}
+
 function curl_post($dest, $content, $user, $pass) {
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, $dest);
-  curl_setopt($ch, CURLOPT_HEADER, 0);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch, CURLOPT_POSTFIELDS, "status=$content&source=smob");
-  curl_setopt($ch, CURLOPT_USERPWD, "$user:$pass");
-  $data = curl_exec($ch);
-  curl_close($ch);
-  return $data;
+	$postfields = "status=$content&source=smob";
+	$userpwd = "$user:$pass";
+	return do_curl_post($dest, $postfields, $userpwd);
 }
 
 function load_post($post, $server) {
 	global $servers;
 	$key = $servers[$server];
 	$query = urlencode("LOAD <$post> ");
+	$postfields = "query=$query&key=$key";
 	$dest = "${server}sparql.php";
-	$ch = curl_init();
-	curl_setopt($ch, CURLOPT_URL, $dest);
-	curl_setopt($ch, CURLOPT_HEADER, 0);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-	curl_setopt($ch, CURLOPT_POSTFIELDS, "query=$query&key=$key");
-	$data = curl_exec($ch);
-	curl_close($ch);
-	return $data;
+	return do_curl_post($dest, $postfields);
 }
 
 function send_data($url, $server) {
@@ -158,18 +160,20 @@ function publish($content, $srv, $location) {
 	
 	if($srv) {
 		$ex = explode(' ', $srv);
+		print_r($srv);
 		foreach($ex as $server) {
 			if(in_array($server, array_keys($servers))) {
 				print "<li> ";
 				load_post($post_uri, $server);
 				print "</li>\n";
+			} elseif (substr($server, 0, 2) == 'tw') {
+				$twitter_user = substr($server, 3);
+				global $twitter_pass;
+				print "<li> Relaying your message to Twitter as <a href='http://twitter.com/$twitter_user'>$twitter_user</a>.\n";
+				twitter_post($content, $twitter_user, $twitter_pass);
+				print "</li>";				
 			}
 		}
-	}
-	if($_GET['twitter']) {
-		print "<li> Relaying your message to Twitter as <a href='http://twitter.com/$twitter_user'>$twitter_user</a>.\n";
-		twitter_post($content, $twitter_user, $twitter_pass);
-		print "</li>";
 	}
 	if($_GET['laconica']) {
 		foreach($_POST['laconica'] as $service => $v) {
@@ -218,6 +222,8 @@ $location= $_GET['location'];
 
 // In case we need to publish content
 if($content) {
+
+print_r($_GET);
 
 $wrappers['user'] = get_wrappers('user');	
 $wrappers['tag'] = get_wrappers('tag');	

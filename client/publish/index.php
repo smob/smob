@@ -63,13 +63,12 @@ $form = <<<__END__
 	<fieldset><legend>Networks</legend>
 __END__;
 	
+	$form .= "<div id='servers-form'>";
 	foreach($servers as $server => $key) {
-		$form .= "<div id='servers-form'>";
 		$form .= "<input type='checkbox' name='servers[]' value='$server' />$server<br/>";
-		$form .= '</div>';
 	}
 	if($twitter_user && $twitter_pass) {
-	  	$form .= "<input type='checkbox' name='twitter' value='twit' />Twitter as $twitter_user<br/>";
+	  	$form .= "<input type='checkbox' name='servers[]' value='tw-$twitter_user' />Twitter as $twitter_user<br/>";
 	}
 	if($laconica) {
 	  foreach($laconica as $service => $user) {
@@ -77,6 +76,8 @@ __END__;
    		$form .= "<input type='checkbox' name='laconica[$service]' value='twit' />$service as $twitter_user<br/>";
 	  }
 	}
+	$form .= '</div>';
+	
 
 	$form .= <<<_END_
 		</fieldset>
