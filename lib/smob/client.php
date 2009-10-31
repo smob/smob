@@ -78,7 +78,7 @@ function do_post($post, $uri = null, $is_auth = false) {
 	if(!$uri) {
 		$uri = $post['post'];		
 	}
-	$content = $post['content'];
+	$ocontent = $content = $post['content'];
 	$author = $post['author'];
 	$date = $post['date'];
 	$reply_of = $post['reply_of'];
@@ -92,8 +92,7 @@ function do_post($post, $uri = null, $is_auth = false) {
 		foreach($users as $t) {
 			$user = $t['user'];
 			$name = $t['name'];
-			$enc = get_view_uri($user);
-			$r = "<a class=\"topic\" property=\"sioc:topic\" href=\"$user\"><a href=\"$enc\">@$name</a></a>";
+			$enc = "<a class=\"topic\" rel=\"sioc:topic\" href=\"$user\"><a href=\"$enc\">@$name</a></a>";
 			$content = str_replace("@$name", $r, $content);
 		}
 	}
@@ -103,12 +102,13 @@ function do_post($post, $uri = null, $is_auth = false) {
 			$tag = $t['tag'];
 			$resource = $t['uri'];
 			$enc = get_view_uri($uri);
-			$r = "<span class=\"topic\" property=\"sioc:topic\" href=\"$resource\"><a href=\"$enc\">#$tag</a></span>";
+			$r = "<span class=\"topic\" rel=\"sioc:topic\" href=\"$resource\"><a href=\"$enc\">#$tag</a></span>";
 			$content = str_replace("#$tag", $r, $content);
 		}
 	}
 	$enc = get_view_uri($author);
-	$ht .= "  <span class=\"content\" property=\"sioc:content\">$content</span>\n";
+	$ht .= "  <span class=\"content\">$content</span>\n";
+	$ht .= "  <span style=\"display:none;\" property=\"sioc:content\">$ocontent</span>\n";
 	$ht .= "  (by <span class=\"author\" rel=\"foaf:maker\" href=\"$author\"><a href=\"$enc\">$sioc_nick</a></span> - \n";
 	$ht .= "  <span class=\"date\" property=\"dcterms:created\">$date</span>)\n";
 	$ht .= "<br />";
