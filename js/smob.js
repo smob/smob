@@ -59,6 +59,17 @@ function charsleft() {
 	}
 }
 
+// Get news ?
+function getnews() {
+	var ts = $('#ts').html(); 
+	$.get("news.php?ts="+urlencode(ts)+getCacheBusterParam(), function(data) {
+		if(data) {
+			$("#news").show("normal");
+			$('#news').html(data);	
+		}
+	});
+}
+
 // Setup functions
 
 function process(){
