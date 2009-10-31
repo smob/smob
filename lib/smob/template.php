@@ -48,7 +48,7 @@ xml:lang="fr">
 </script>
 </head>
 
-<body>
+<body about="<?php echo $root; ?>" typeof="sioc:Microblog">
 
 <div id="full">
 
