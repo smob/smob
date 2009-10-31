@@ -143,7 +143,6 @@ function publish($content, $srv, $location) {
 	$ts = date('c');
 
 	print "<h2>Publishing your message...</h2>\n";
-	
 		
 	$post_uri = "$root/client/post/$ts";
 	$opo_uri = "$post_uri#presence";	
@@ -189,7 +188,6 @@ function publish($content, $srv, $location) {
 
 	return $post_uri;
 }
-
 
 function get_wrappers($type) {
 	if ($handle = opendir(dirname(__FILE__)."/wrappers/$type")) {

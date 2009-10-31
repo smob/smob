@@ -53,6 +53,8 @@ function smob_go($content) {
 <h2>Navigation</h2>
 <ul>
 <li><a href='$root/client'>Home</a></li>
+<li><a href='$root/client/follows'>Follows</a></li>
+<li><a href='$root/client/followers'>Followers</a></li>
 ";
 if(is_auth()) $n .= "<li><a href='$root/client/publish'>Publish</a></li>";
 $n .= "
@@ -169,8 +171,6 @@ function show_post($id) {
 	$uri = "$root/client/post/" . str_replace(' ', '+', $id);
 	return show_uri($uri);
 }
-
-
 
 function show_uri($uri) {
 	$p = get_post($uri);
@@ -381,3 +381,47 @@ $optionals
 	return $rs;
 }
 
+function follows() {
+	global $sioc_nick;
+	$ht .= "<h2>People that $sioc_nick follows</h2>";
+	return $ht . show_users(get_follows());
+}
+
+function followers() {
+	global $sioc_nick;
+	$ht .=  "<h2>Followers of $sioc_nick</h2>";
+	return $ht . show_users(get_followers());
+}
+
+function show_users($users) {
+	if($users) {
+		$ht = '<ul>';
+		foreach($users as $u) {
+				$ht .= '<li>'.$u['uri'].'</li>';
+		}
+		$ht .= '</ul>';
+	}
+	return $ht;
+}
+
+function get_follows() {
+	global $root, $sioc_nick;
+	$user_uri = "$root/user/$sioc_nick";
+	$query = "
+SELECT *
+WHERE {
+	<$user_uri> sioc:follows ?uri
+} ";
+	return do_query($query);
+}
+
+function get_followers() {
+	global $root, $sioc_nick;
+	$user_uri = "$root/user/$sioc_nick";
+	$query = "
+SELECT *
+WHERE {
+	?uri sioc:follows <$user_uri>
+} ";
+	return do_query($query);
+}
