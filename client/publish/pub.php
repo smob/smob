@@ -112,7 +112,7 @@ function post_template($post_uri, $user_uri, $foaf_uri, $ts, $content, $reply_of
 	foreach ($reply_ofs as $reply_of)
 		$triples[] = array("sioc:reply_of", uri($reply_of));
 
-	return render_sparql_triples($triples);
+	return $triples;
 }
 
 function opo_template($opo_uri, $post_uri, $user_uri, $foaf_uri, $ts, $content, $reply_ofs, $location) {
@@ -123,12 +123,11 @@ function opo_template($opo_uri, $post_uri, $user_uri, $foaf_uri, $ts, $content, 
 	$triples[] = array("opo:customMessage", uri($post_uri));
 	if($location) {
 		$location_pure=substr($location, 0, stripos($location,","));
-	
 		$location_uri=find_geo_uri($location_pure);
 		$triples[] = array("opo:currentLocation", uri($location_uri));
 	}
 
-	return render_sparql_triples($triples);
+	return $triples;
 }
 
 
@@ -138,41 +137,35 @@ function publish($content, $srv, $location) {
 	if(get_magic_quotes_gpc()) {
 		$content = stripslashes($content);
 	}
-	print "<h2>Publishing your message...</h2>\n";
 	
-	$ts = date('c');
-		
-	$post_uri = "$root/client/post/$ts";
-	$opo_uri = "$root/client/post/opo-$ts";
-	$user_uri = "$root/user/$sioc_nick";
-
 	$reply_ofs = array();
 	if ($_GET['sioc:reply_of'])
 		$reply_ofs[] = $_GET['sioc:reply_of'];
+		
+	$ts = date('c');
 
-	$post_rdf = post_template($post_uri, $user_uri, $foaf_uri, $ts, $content, $reply_ofs);
-	$opo_rdf = opo_template($opo_uri, $post_uri, $user_uri, $foaf_uri, $ts, $content, $reply_ofs, $location);
-
-	print "<ul>\n";
+	print "<h2>Publishing your message...</h2>\n";
 	
-	$query = "INSERT INTO <${opo_uri}.rdf> { $opo_rdf }";
-	$query_opo = "INSERT INTO <${post_uri}.rdf> { $post_rdf }";
+		
+	$post_uri = "$root/client/post/$ts";
+	$opo_uri = "$post_uri#presence";	
+	$user_uri = "$root/user/$sioc_nick";
+
+	$sioc = post_template($post_uri, $user_uri, $foaf_uri, $ts, $content, $reply_ofs);
+	$opo = opo_template($opo_uri, $post_uri, $user_uri, $foaf_uri, $ts, $content, $reply_ofs, $location);
+	$rdf = render_sparql_triples(array_merge($sioc, $opo));	
+	$query = "INSERT INTO <${post_uri}.rdf> { $rdf }";
+	$res = do_query($query);
+
+	print "<ul>\n";	
 	print "<li> Messaged stored locally.</li>\n";
 	
-	$res = do_query($query);
-	$res1 = do_query($query_opo);
-
-	// use a cron to update the foaf profile on each server
-
 	if($srv) {
 		$ex = explode(' ', $srv);
 		foreach($ex as $server) {
 			if(in_array($server, array_keys($servers))) {
 				print "<li> ";
 				load_post($post_uri, $server);
-				load_post($opo_uri, $server);
-				// The FOAF file should not be sent everytime - fix it
-				//send_data($foaf_uri, $server);
 				print "</li>\n";
 			}
 		}
