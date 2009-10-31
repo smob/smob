@@ -80,6 +80,22 @@ function show_resource($u) {
 	return $ht;
 }
 
+function show_data($u) {
+	global $root;
+	$uri = "$root/client/post/" . str_replace(' ', '+', $u);
+	$data = get_data($uri);
+	header('Content-Type: text/turtle; charset=utf-8'); 
+	foreach($data as $triple) {
+		$s = $triple['s'];
+		$p = $triple['p'];
+		$o = $triple['o'];	
+		$ot = $triple['o type'];	
+		echo "<$s> <$p> ";
+		echo ($ot == 'uri') ? "<$o> " : "\"$o\"";
+		echo ".\n" ;
+	}
+}
+
 function show_postss($posts) {
 	global $sioc_nick;  
 	$is_auth = is_auth();
@@ -129,6 +145,8 @@ function do_post($post, $uri = null, $is_auth = false) {
 	$ht .= "  <span class=\"date\" property=\"dcterms:created\">$date</span>)\n";
 	$ht .= "<br />";
 	$ht .= " [<a href=\"$uri\">Permalink</a>]\n";
+	$data = str_replace('post', 'data', $uri);
+	$ht .= " [<a href=\"$data\">RDF</a>]\n";
 	$enc2 = get_publish_uri($uri);
 	if($is_auth) {
 		$ht .= " [<a href=\"$enc2\">Post a reply</a>]\n";
@@ -256,6 +274,17 @@ WHERE {
 } 
 ORDER BY DESC(?date)
 ";
+	return do_query($query);
+}
+
+function get_data($post) {	
+	$query = "
+SELECT *
+WHERE { 
+	GRAPH <$post.rdf> {
+		?s ?p ?o
+	}
+}";
 	return do_query($query);
 }
 
