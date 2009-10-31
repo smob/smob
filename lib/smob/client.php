@@ -141,9 +141,9 @@ function do_post($post, $uri = null, $is_auth = false) {
 	$enc = get_uri($author, 'user');
 	$ht .= "  <span class=\"content\">$content</span>\n";
 	$ht .= "  <span style=\"display:none;\" property=\"sioc:content\">$ocontent</span>\n";
+	$ht .= '  <div class="infos">';
 	$ht .= "  (by <span class=\"author\" rel=\"foaf:maker\" href=\"$author\"><a href=\"$enc\">$sioc_nick</a></span> - \n";
 	$ht .= "  <span class=\"date\" property=\"dcterms:created\">$date</span>)\n";
-	$ht .= "<br />";
 	$ht .= " [<a href=\"$uri\">Permalink</a>]\n";
 	$data = str_replace('post', 'data', $uri);
 	$ht .= " [<a href=\"$data\">RDF</a>]\n";
@@ -159,6 +159,7 @@ function do_post($post, $uri = null, $is_auth = false) {
 		$enc4 = get_uri($reply_of_of, 'post');
 		$ht .= " [<a href=\"$enc4\">Child</a>]\n";
 	}
+	$ht .= '  </div>';
 	$ht .= "</div>\n\n";
 	return $ht;
 }
