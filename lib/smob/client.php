@@ -138,9 +138,14 @@ function show_post($id) {
 function show_uri($uri) {
 	$p = get_post($uri);
 	if ($p)
-		return "<h1>$id</h1>\n\n" . do_post($p[0], $uri);
+		return do_post($p[0], $uri);
+
+	$p = get_person($uri);
+	if ($p)
+		return do_person($p, $uri);
+
 	# TODO add same for other resource types here
-	return "Error: Don't know how to show URI: $uri";
+	return "Error: Don't know how to show URI: <a href=\"$uri\">$uri</a>";
 }
 
 function show_posts($page = 0) {
@@ -148,6 +153,36 @@ function show_posts($page = 0) {
 	$offset = $page * $limit;
 	$posts = get_posts($offset, $limit);
 	return "<h1>Public timeline</h1>\n\n" . show_postss($posts ) . pager($page);
+}
+
+function do_person($person, $uri) {
+	global $root;
+	$names = either($person['names'], array("Anonymous"));
+	$imgs = either($person['images'], array("$root/img/avatar-blank.jpg"));
+	$homepage = $person['homepage'];
+	$weblog = $person['weblog'];
+	$knows = $person['knows'];
+
+	$name = $names[0];
+	$pic = $imgs[0];
+
+	$ht = "<div class=\"person\">\n";
+	$ht .= "<img src=\"$pic\" class=\"depiction\" alt=\"Depiction\" />";
+	$ht .= "$name\n";
+
+	foreach ($homepage as $h) {
+		$ht .= " [<a href=\"$h\">Website</a>]\n";
+	}
+	foreach ($weblog as $w) {
+		$ht .= " [<a href=\"$w\">Blog</a>]\n";
+	}
+	foreach ($knows as $k) {
+		$enc = get_view_uri($k);
+		$ht .= " [<a href=\"$enc\">Friend</a>]\n";
+	}
+
+	$ht .= "</div>\n\n";
+	return $ht;
 }
 
 function pager($start) {
@@ -219,4 +254,59 @@ WHERE {
 	return do_query($query);
 }
 
-?>
+function optionals($subj, $props) {
+	$r = "";
+	foreach ($props as $p) {
+		$name = substr($p, stripos($p, ":")+1);
+		$r .= "UNION { <$subj> $p ?$name . }\n";
+	}
+	return $r;
+}
+
+function optionals_to_array_of_arrays($all, $rs) {
+	$r = array();
+	foreach ($all as $name) {
+		$name = substr($name, stripos($name, ":")+1);
+		$r[$name] = array();
+	}
+	foreach ($rs as $row) {
+		foreach ($all as $name) {
+			$name = substr($name, stripos($name, ":")+1);
+			if ($row[$name])
+				$r[$name][] = $row[$name];
+		}
+	}
+	return $r;
+}
+
+function choose_optional($names, $rs) {
+	foreach ($names as $name) {
+		$name = substr($name, stripos($name, ":")+1);
+		if ($rs[$name])
+			return $rs[$name];
+	}
+	return array();
+}
+
+function get_person($uri) {
+	$names = explode(" ", "foaf:name foaf:firstName foaf:nick rdfs:label");
+	$images = explode(" ", "foaf:depiction foaf:img");
+	$misc = explode(" ", "foaf:homepage foaf:weblog foaf:knows");
+	$all = array_merge($names, $images, $misc);
+	$optionals = optionals($uri, $all);
+	$query = "
+SELECT *
+WHERE {
+{ <$uri> rdf:type foaf:Person . }
+$optionals
+} ";
+	$rs = do_query($query);
+	if (!$rs)
+		return $rs;
+	$rs = optionals_to_array_of_arrays($all, $rs);
+	$rs['names'] = choose_optional($names, $rs);
+	$rs['images'] = choose_optional($images, $rs);
+
+	return $rs;
+}
+

@@ -33,7 +33,7 @@ a:hover {
 	padding: 10px;
 }
 
-.post {
+.post, .person {
 	border: 1px solid #666;;
 	background: #ccc;
 	margin-bottom: 10px;
