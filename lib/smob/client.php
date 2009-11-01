@@ -115,6 +115,7 @@ function do_post($post, $uri = null, $is_auth = false) {
 	$pic = either($post['depiction'], $post['img'], "$root/../img/avatar-blank.jpg");
 	// Find the topics
 	$ht .= "<div class=\"post\" typeof=\"sioct:MicroblogPost\" about=\"$uri\">\n";
+	$ht .= "<span style=\"display:none;\" rel=\"sioc:has_container\" href=\"$root\"></span>\n";
 	$ht .= "<img src=\"$pic\" class=\"depiction\" alt=\"Depiction for $foaf_uri\"/>";
 	$users = get_users($uri);
 	if($users) {
