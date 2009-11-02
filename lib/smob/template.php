@@ -79,7 +79,7 @@ function smob_footer($blocks) {
 </div>
 
 <div id="footer">
-Powered by <a href="http://smob.siob-project.org/">SMOB</a> thanks to <a href="http://www.w3.org/2001/sw/">Semantic Web</a> technologies and <a href="http://linkeddata.org">Linked Data</a><br/>
+Powered by <a href="http://smob.sioc-project.org/">SMOB</a> thanks to <a href="http://www.w3.org/2001/sw/">Semantic Web</a> technologies and <a href="http://linkeddata.org">Linked Data</a><br/>
 </div>
 </div>
 
