@@ -33,6 +33,10 @@ a:hover {
 	padding: 10px;
 }
 
+.smob {
+	color: #900;
+}
+
 .post, .person {
 	border: 1px solid #666;;
 	background: #ccc;

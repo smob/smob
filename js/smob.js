@@ -1,45 +1,22 @@
 // Publishing functions
-
 function publish() {
+
+	var lod = '';
+	
+	$("#lod-form :checked").each(function() {
+		lod = lod + ' ' + $(this).val();		
+	})
 
 	var params = {'content': $("#content").val(),
 	              'reply_of': $("#reply_of").val(),
 	              'location': $("#location").val(),
-	             };
+	              'twitter': $("#twitter:checked").length,
+				  'lod': lod,
+	             };		
 
-	var servers;
-	
-	$("#smob-publish").show("normal");
-
-	$("#servers-form :checked").each(function() {
-		servers = servers + ' ' + $(this).val();		
-	})
-
-	params['servers'] = servers;
-		
-	$.get("pub.php?" + $.param(params)+getCacheBusterParam(), function(data){
+	$.get("ajax/pub.php?" + $.param(params)+getCacheBusterParam(), function(data){
+		$("#smob-publish").show("normal");
 		$("#smob-publish").html(data);
-	});
-}
-
-function mappings() {
-
-	var checked;
-	var unchecked;
-	
-	var post = $("#post-id").val();
-	
-	$("#smob-mappings").show("normal");
-	
-	$("#mappings-form :checked").each(function() {
-		checked = checked + ' ' + $(this).val();		
-	})
-	$("#mappings-form :unchecked").each(function() {
-		unchecked = unchecked + ' ' + $(this).val();
-	})
-		
-	$.get("pub.php?post="+urlencode(post)+"&checked="+urlencode(checked)+"&unchecked="+urlencode(unchecked)+getCacheBusterParam(), function(data){
-		$("#smob-mappings").html(data);
 	});
 }
 
@@ -59,6 +36,26 @@ function charsleft() {
 	}
 }
 
+// LOD links suggestion
+function interlink() {
+
+	var text = $('#content').val(); 
+	var words = jQuery.trim(text).split(' ');	
+	var current_words = words.length - 1;
+	
+	if(current_words > numwords) {
+		numwords = current_words;
+		words.pop();
+		current = words.pop();
+		first = current.charAt(0);
+		if(first == '#') {
+			$.get("ajax/interlink.php?type=tag&term="+urlencode(current)+getCacheBusterParam(), function(data){
+				$("#lod-form").append(data);
+			});
+		}
+	}
+}
+
 // Get news ?
 function getnews() {
 	var ts = $('#ts').html(); 
@@ -71,7 +68,6 @@ function getnews() {
 }
 
 // Setup functions
-
 function process(){
 	showStatus();
 	switch(state) {
@@ -145,7 +141,7 @@ function getFiles(){
 	$("#get-files-pane-in").hide("normal");
 	$("#get-files-pane-out").show("normal");
 		
-	$.get("install.php?cmd=get-files&wget="+wget+"&curl="+curl+"&tar="+tar+getCacheBusterParam(), function(data){
+	$.get("ajax/install.php?cmd=get-files&wget="+wget+"&curl="+curl+"&tar="+tar+getCacheBusterParam(), function(data){
 		$("#get-files-pane-out").html(data);
 	});
 }
@@ -159,27 +155,23 @@ function createDB(){
 	$("#create-db-pane-in").hide("normal");
 	$("#create-db-pane-out").show("normal");
 
-	$.get("install.php?cmd=create-db&host="+urlencode(host)+"&name="+name+"&user="+user+"&pwd="+pwd+getCacheBusterParam(), function(data){
+	$.get("ajax/install.php?cmd=create-db&host="+urlencode(host)+"&name="+name+"&user="+user+"&pwd="+pwd+getCacheBusterParam(), function(data){
 		$("#create-db-pane-out").html(data);
 	});
 }
 
 function setupSMOB(){
 	
-	var server_key = $("#server-key").val();
-	var server_gmap = $("#server-gmap").val();
-	var client_ping = $("#client-ping").val();
-		
-	var client_uri = $("#client-uri").val();
-	var client_nick = $("#client-nick").val();
-		
-	var client_twitter_login = $("#client-twitter-login").val();
-	var client_twitter_pass = $("#client-twitter-pass").val();
+	var smob_root = $("#smob-root").val();	
+	var server_gmap = $("#smob-gmap").val();	
+	var client_uri = $("#smob-uri").val();
+	var client_twitter_login = $("#smob-twitter-login").val();
+	var client_twitter_pass = $("#smob-twitter-pass").val();
 		
 	$("#smob-config-pane-in").hide("normal");
 	$("#smob-config-pane-out").show("normal");
-
-	$.get("install.php?cmd=setup-smob&server_key="+server_key+"&server_gmap="+server_gmap+"&client_ping="+client_ping+"&client_uri="+client_uri+"&client_nick="+client_nick+"&client_twitter_login="+client_twitter_login+"&client_twitter_pass="+client_twitter_pass+getCacheBusterParam(), function(data){
+	
+	$.get("ajax/install.php?cmd=setup-smob&smob_root="+smob_root+"&server_gmap="+server_gmap+"&client_uri="+client_uri+"&client_twitter_login="+client_twitter_login+"&client_twitter_pass="+client_twitter_pass+getCacheBusterParam(), function(data){
 		$("#smob-config-pane-out").html(data);
 	});
 			

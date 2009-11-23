@@ -1,5 +1,7 @@
 <?php
 
+// This trigger is used to load FOAF profiles at each update 
+
 ARC2::inc('Class');
 
 class ARC2_LoadTrigger extends ARC2_Class {
