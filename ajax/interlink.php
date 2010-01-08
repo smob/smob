@@ -1,14 +1,14 @@
 <?php
 
 require_once(dirname(__FILE__).'/../lib/smob/SMOB.php'); 
-require_once(dirname(__FILE__)."/../config.php");
+require_once(dirname(__FILE__)."/../config/config.php");
 
 function get_wrappers($type) {
-	if ($handle = opendir(dirname(__FILE__)."/../smob/lib/wrappers/$type")) {
+	if ($handle = opendir(dirname(__FILE__)."/../lib/smob/wrappers/$type")) {
     	while (false !== ($file = readdir($handle))) {
 			if (substr($file, 0, 1) != '.') {
-				$services[] = $file;
-				require_once(dirname(__FILE__)."/../smob/lib/wrappers/$type/$file/index.php");
+				$services[] = substr($file, 0, -4);
+				require_once(dirname(__FILE__)."/../lib/smob/wrappers/$type/$file");
 			}
 		}
 		closedir($handle);
