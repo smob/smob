@@ -57,7 +57,7 @@ class SMOBInstaller {
 						<label for="db-host">database host:</label> <input type="text" id="db-host" name="db-host" value="localhost" size="50"><br />
 						<label for="db-name">database name:</label> <input type="text" id="db-name" name="db-name" value="smob" size="20"><br />
 						<label for="db-user">user name:</label> <input type="text" id="db-user" name="db-user" value="root" size="10"><br />
-						<label for="db-pwd">password:</label> <input type="text" id="db-pwd" name="db-pwd" value="root" size="10"><br />
+						<label for="db-pwd">password:</label> <input type="password" id="db-pwd" name="db-pwd" value="root" size="10"><br />
 					</fieldset>
 				</form>
 				<p class="note">
@@ -75,7 +75,7 @@ class SMOBInstaller {
 					<fieldset>
 						<legend>SMOB settings</legend>
 						<label for="smob-root">SMOR Hub address:</label> <input type="text" id="smob-root" name="smob-root" value="$root" size="50"><br />
-						<label for="smob-gmap">GoogleMap API key:</label> <input type="text" id="smob-gmap" name="smob-gmap" value="" size="50"><br />
+						<label for="smob-gmap">GoogleMap API key (optional):</label> <input type="text" id="smob-gmap" name="smob-gmap" value="" size="50"><br />
 						<label for="smob-uri">FOAF URI:</label> <input type="text" id="smob-uri" name="smob-uri" value="" size="50"><br />
 						<label for="smob-twitter-login">Twitter login:</label> <input type="text" id="smob-twitter-login" name="smob-twitter-login" value="" size="50"><br />
 						<label for="smob-twitter-pass">Twitter pass:</label> <input type="password" id="smob-twitter-pass" name="smob-twitter-pass" value="" size="50"><br />

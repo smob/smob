@@ -137,7 +137,7 @@ class SMOBTools {
 	}
 	
 	function check_config() {
-		return file_exists(dirname(__FILE__)."/../../config.php");
+		return file_exists(dirname(__FILE__)."/../../config/config.php");
 	}
 	
 	function render_sparql_triple($triple) {

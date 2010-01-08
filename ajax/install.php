@@ -83,6 +83,8 @@ function createDB(){
 }
 
 function createStore($host, $name, $user, $pwd){
+
+	include_once(dirname(__FILE__).'/../lib/arc/ARC2.php');
 	
 	$store_name = 'smob';
 	 
@@ -106,7 +108,7 @@ function createStore($host, $name, $user, $pwd){
 	// write databsed information in the config file
 	$config = "<?php
 
-	include_once(dirname(__FILE__).'/lib/arc/ARC2.php');
+	include_once(dirname(__FILE__).'/../lib/arc/ARC2.php');
 
 	\$arc_config = array(
 		'db_host' => '$host', 
@@ -126,7 +128,7 @@ function createStore($host, $name, $user, $pwd){
 	);
 	
 ";
-	$f = fopen(dirname(__FILE__).'/../config.php', 'w');
+	$f = fopen(dirname(__FILE__).'/../config/config.php', 'w');
 	fwrite($f, $config);
 	fclose($f);
 	
@@ -154,7 +156,7 @@ function setupSMOB() {
 
 ?>";
 	
-	$f = fopen(dirname(__FILE__).'/../config.php', 'a');
+	$f = fopen(dirname(__FILE__).'/../config/config.php', 'a');
 	fwrite($f, $config);
 	fclose($f);
 	
