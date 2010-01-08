@@ -48,8 +48,10 @@ LIMIT $limit
 		$ts = date('c');
 		$ht = '<h1>'.$this->title().'</h1>';
 		$ht .= "<div id=\"ts\" style=\"display:none;\">$ts</div><div id=\"news\"></div>";
-		foreach($this->posts as $post) {
-			$ht .= $post->render();
+		if($posts) {
+			foreach($this->posts as $post) {
+				$ht .= $post->render();
+			}
 		}
 		$ht .= $this->pager();
 		return $ht;
