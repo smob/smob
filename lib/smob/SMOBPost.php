@@ -12,7 +12,7 @@ class SMOBPost {
 	var $content;
 	var $triples = array();
 	
-	public function __construct($uri = null, $data = null) {
+	public function __construct($uri = null, $data = null) {		
 		global $smob_root;
 		if($uri) {
 			$this->uri = $uri;
@@ -37,8 +37,8 @@ WHERE {
 	dct:created ?date .
 OPTIONAL { <$uri> sioc:reply_of ?reply_of. }
 OPTIONAL { ?reply_of_of sioc:reply_of <$uri> . }
-OPTIONAL { ?author foaf:depiction ?depiction. }
-OPTIONAL { ?author foaf:img ?img . }
+OPTIONAL { 
+	{ ?author foaf:depiction ?depiction. } UNION { ?author foaf:img ?depiction . }
 } ";
 		$res = SMOBStore::query($query);
 		$this->data = $res[0];
@@ -81,7 +81,7 @@ OPTIONAL { ?author foaf:img ?img . }
 		$reply_of = $this->data['reply_of'];
 		$reply_of_of = $this->data['reply_of_of'];
 
-		$pic = SMOBTools::either($this->data['depiction'], $this->data['img'], "${smob_root}img/avatar-blank.jpg");
+		$pic = SMOBTools::either($this->data['depiction'], "${smob_root}img/avatar-blank.jpg");
 
 		$ht .= "<div class=\"post\" typeof=\"sioct:MicroblogPost\" about=\"$uri\">\n";
 		$ht .= "<span style=\"display:none;\" rel=\"sioc:has_container\" href=\"$smob_root\"></span>\n";
@@ -174,20 +174,18 @@ WHERE {
 				if($mapping[0] == 'user') {
 					$user = $mapping[1];
 					$uri = $mapping[2];
-					$triples[] = array(SMOBTools::uri($post), "sioc:addressed_to", SMOBTools::uri($this->uri));
+					$triples[] = array(SMOBTools::uri($this->uri), "sioc:addressed_to", SMOBTools::uri($uri));
 					$triples[] = array(SMOBTools::uri($uri), "sioc:name", SMOBTools::literal($user));
 				}
 				elseif($mapping[0] == 'tag') {
 					$tag = $mapping[1];
-					print 'q';
 					$uri = $mapping[2];
-					print 'w';
-					// Update with MOAT / commonTag
 					$tagging = "${smob_root}tagging/".uniqid();
 					$triples[] = array(SMOBTools::uri($tagging), "a", "tags:RestrictedTagging");
 					$triples[] = array(SMOBTools::uri($tagging), "tags:taggedResource", SMOBTools::uri($this->uri));
 					$triples[] = array(SMOBTools::uri($tagging), "tags:associatedTag", SMOBTools::literal($tag));
 					$triples[] = array(SMOBTools::uri($tagging), "moat:tagMeaning", SMOBTools::uri($uri));
+					$triples[] = array(SMOBTools::uri($this->uri), "moat:taggedWith", SMOBTools::uri($uri));
 				}
 			}
 		}

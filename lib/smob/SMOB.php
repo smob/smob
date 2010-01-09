@@ -64,6 +64,7 @@ class SMOB {
 	}
 
 	// Browsing a list of posts
+	private function resource() { return $this->posts(); }
 	private function posts() {
 		$class = 'SMOBPostList'.ucfirst($this->type);
 		$list = new $class($this->uri, $this->page);

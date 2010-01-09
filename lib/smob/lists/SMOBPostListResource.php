@@ -1,20 +1,19 @@
 <?php
 
-class SMOBPostListPosts extends SMOBPostList {
+class SMOBPostListResource extends SMOBPostList {
 
 	public function title() {
 		return 'Posts linked to ' . $this->uri;
 	}
 		
 	public function load_pattern() {
+		$uri = $this->uri;
 		return "
 	?post rdf:type sioct:MicroblogPost ;
 		sioc:content ?content ;
 		foaf:maker ?author ;
-		dct:created ?date .
-	?tagging a tags:RestrictedTagging ;
-		tags:taggedResource ?post ;
-		moat:tagMeaning <$uri> .";
+		dct:created ?date ;
+		moat:taggedWith <$uri> .";
 	}
 
 /*	
@@ -30,3 +29,5 @@ class SMOBPostListPosts extends SMOBPostList {
 				return $ht;
 	}
 	*/
+	
+}
