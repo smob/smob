@@ -62,7 +62,6 @@ OPTIONAL { ?author foaf:img ?img . }
 				$tag = $t['tag'];
 				$resource = $t['uri'];
 				$enc = SMOBTools::get_uri($resource, 'resource');
-				echo "ok - $tag - $resource";
 				$r = "<span class=\"topic\" rel=\"sioc:topic\" href=\"$resource\"><a href=\"$enc\">#$tag</a></span>";
 				$this->data['content'] = str_replace("#$tag", $r, $this->data['content']);
 			}
