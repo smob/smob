@@ -22,11 +22,11 @@ if($content) {
 
 	$post = new SMOBPost();
 	$post->set_data(date('c'), $content, $replies, $location, $mappings);
-		
+	
 	print "<h2>Publishing your message...</h2>\n";
 	print "<ul>\n";	
-	print '<li>'.$post->save().'</li>';
-	print '<li>'.$post->notify().'</li>';
+	$post->save();
+	$post->notify();
 	if($twitter) {
 	//	print '<li>'.$post->tweet().'</li>';		
 	}
