@@ -1,0 +1,21 @@
+# If you want to enable FOAF-SSL, uncommenting the following lines
+# shoud work. If note, please read
+# http://foaf.me/Enabling_SSL_Client_Certificates_on_Apache.php
+
+#SSLVerifyClient optional_no_ca
+#SSLVerifyDepth 1
+#SSLOptions +StdEnvVars
+#SSLOptions +ExportCertData
+
+# If you want a simple .htaccess authentication, uncomment the following 
+# lines and create a corresponding htpasswd file, containing
+# login:pass
+# see http://www.htaccesstools.com/htpasswd-generator/ for generation
+AuthUserFile /Users/alex/Sites/smob/auth/.htpasswd
+AuthGroupFile /dev/null
+AuthName "Restricted area !"
+AuthType Basic
+
+<Limit GET>
+require valid-user
+</Limit>
