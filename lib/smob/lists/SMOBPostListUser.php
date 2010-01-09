@@ -8,10 +8,6 @@ class SMOBPostListUser extends SMOBPostList {
 	
 	public function load_pattern() {
 		return "
-	?post rdf:type sioct:MicroblogPost ;
-		sioc:content ?content ;
-		foaf:maker ?author ;
-		dct:created ?date .
 	?tagging a tags:RestrictedTagging ;
 		tags:taggedResource ?post ;
 		moat:tagMeaning <$uri> .";

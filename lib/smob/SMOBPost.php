@@ -29,16 +29,18 @@ class SMOBPost {
 	private function process() {
 		$uri = $this->uri;
 		$query = "
-SELECT ?content ?author ?date ?reply_of ?reply_of_of ?depiction
+SELECT DISTINCT ?content ?author ?creator ?date ?reply_of ?reply_of_of ?depiction ?name
 WHERE {
 <$uri> rdf:type sioct:MicroblogPost ;
 	sioc:content ?content ;
+	sioc:has_creator ?creator ;
 	foaf:maker ?author ;
 	dct:created ?date .
 	OPTIONAL { <$uri> sioc:reply_of ?reply_of. }
 	OPTIONAL { ?reply_of_of sioc:reply_of <$uri> . }
 	OPTIONAL { ?author foaf:depiction ?depiction. } 
 	OPTIONAL { ?author foaf:img ?depiction . }
+	OPTIONAL { ?author foaf:name ?name . }
 } ";
 		$res = SMOBStore::query($query);
 		$this->data = $res[0];
@@ -77,7 +79,9 @@ WHERE {
 		
 		$ocontent = $content = $this->data['content'];
 		$author = $this->data['author'];
+		$creator = $this->data['creator'];
 		$date = $this->data['date'];
+		$name = $this->data['name'];
 		$reply_of = $this->data['reply_of'];
 		$reply_of_of = $this->data['reply_of_of'];
 
@@ -89,7 +93,8 @@ WHERE {
 		$ht .= "  <span class=\"content\">$content</span>\n";
 		$ht .= "  <span style=\"display:none;\" property=\"sioc:content\">$ocontent</span>\n";
 		$ht .= '  <div class="infos">';
-		$ht .= "  (by <span class=\"author\" rel=\"foaf:maker\" href=\"$author\"><a href=\"$enc\">$sioc_nick</a></span> - \n";
+		$ht .= "  (by <span class=\"author\" rel=\"foaf:maker\" href=\"$author\" property=\"foaf:name\">$name</span> - \n";
+		$ht .= "  <span style=\"display:none;\" rel=\"sioc:has_creator\" href=\"$creator\"></span>\n";
 		$ht .= "  <span class=\"date\" property=\"dcterms:created\">$date</span>)\n";
 		$ht .= " [<a href=\"$uri\">Permalink</a>]\n";
 		$data = str_replace('post', 'data', $uri);

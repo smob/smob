@@ -25,14 +25,21 @@ class SMOBPostList {
 		$start = ($this->page-1)*$limit;
 		// The load_pattern() function must be defined in the inherited classes
 		$pattern = $this->load_pattern();
+		// Weird ARC2 bug iw adding ?creator in the following varlist !
 		$query = "
-SELECT DISTINCT ?post ?content ?date ?reply_of ?reply_of_of ?author ?depiction
+SELECT DISTINCT ?post ?content ?author ?date ?reply_of ?reply_of_of ?depiction ?name
 WHERE {
+	?post rdf:type sioct:MicroblogPost ;
+		sioc:content ?content ;
+		foaf:maker ?author ;
+		sioc:has_creator ?creator ;
+		dct:created ?date .
 	$pattern
 	OPTIONAL { ?post sioc:reply_of ?reply_of. }
 	OPTIONAL { ?reply_of_of sioc:reply_of ?post . }
 	OPTIONAL { ?author foaf:depiction ?depiction . } 
 	OPTIONAL { ?author foaf:img ?depiction . }
+	OPTIONAL { ?author foaf:name ?name . }
 } 
 ORDER BY DESC(?date) OFFSET $start LIMIT $limit
 ";	

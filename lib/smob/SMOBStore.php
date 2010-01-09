@@ -25,7 +25,7 @@ class SMOBStore {
 	PREFIX opo: <http://ggg.milanstankovic.org/opo/ns#>
 	PREFIX opo-actions: <http://ggg.milanstankovic.org/opo-actions/ns#>
 
-		$query";
+		$query";		
 		
 		$rs = $store->query($query);
 		
