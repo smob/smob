@@ -53,7 +53,7 @@ OPTIONAL { ?author foaf:img ?img . }
 				$user = $t['user'];
 				$name = $t['name'];
 				$enc = "<a class=\"topic\" rel=\"sioc:topic\" href=\"$user\"><a href=\"$enc\">@$name</a></a>";
-				$this->post['content'] = str_replace("@$name", $r, $this->post['content']);
+				$this->data['content'] = str_replace("@$name", $r, $this->data['content']);
 			}
 		}
 		$tags = $this->get_tags();
@@ -62,12 +62,12 @@ OPTIONAL { ?author foaf:img ?img . }
 				$tag = $t['tag'];
 				$resource = $t['uri'];
 				$enc = SMOBTools::get_uri($resource, 'resource');
+				echo "ok - $tag - $resource";
 				$r = "<span class=\"topic\" rel=\"sioc:topic\" href=\"$resource\"><a href=\"$enc\">#$tag</a></span>";
-				$this->post['content'] = str_replace("#$tag", $r, $this->post['content']);
+				$this->data['content'] = str_replace("#$tag", $r, $this->data['content']);
 			}
 		}
 		return;
-	//	$enc = get_uri($author, 'user');
 		}
 	
 	// Render the post in RDFa/XHTML
