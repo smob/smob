@@ -18,7 +18,6 @@ class SMOBPostList {
 		$this->uri = $uri;
 		$this->page = $page;
 		$this->process();
-
 	}
 	
 	public function process() {
@@ -37,6 +36,7 @@ WHERE {
 } 
 ORDER BY DESC(?date) OFFSET $start LIMIT $limit
 ";	
+
 		$posts = SMOBStore::query($query);
 		foreach($posts as $post) {
 			$uri = $post['post'];
@@ -61,12 +61,12 @@ ORDER BY DESC(?date) OFFSET $start LIMIT $limit
 
 	function pager() {
 		$page = $this->page;
-		if($page == 0) {
-			return "<div><a href='?page=1'>Previous posts</a></div>";
+		if(!$page || $page == 1) {
+			return "<div><a href='?p=2'>Previous posts</a></div>";
 		} else {
 			$previous = $page + 1;
 			$next = $page - 1;
-			return "<div><a href='?page=$next'>Next posts</a> -- <a href='?page=$previous'>Previous posts</a></div>";
+			return "<div><a href='?p=$next'>Next posts</a> -- <a href='?p=$previous'>Previous posts</a></div>";
 		}
 	}
 
