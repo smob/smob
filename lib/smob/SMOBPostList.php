@@ -29,18 +29,18 @@ WHERE {
 	OPTIONAL { ?post sioc:reply_of ?reply_of. }
 	OPTIONAL { ?reply_of_of sioc:reply_of ?post . }
 	OPTIONAL { 
-		{ ?author foaf:depiction ?depiction. } UNION { ?author foaf:img ?depiction . }
+		{ ?author foaf:depiction ?depiction . } UNION { ?author foaf:img ?depiction . }
 	}
 } 
-ORDER BY DESC(?date)
-OFFSET $start
-LIMIT $limit
+ORDER BY DESC(?date) OFFSET $start LIMIT $limit
 ";	
 		$posts = SMOBStore::query($query);
 		foreach($posts as $post) {
 			$uri = $post['post'];
 			$this->posts[] = new SMOBPost($uri, $post);
 		}
+		// ARC2 bug with ORDER ?
+		$this->posts = array_reverse($this->posts);
 		return;		
 	}
 		
