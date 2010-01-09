@@ -205,19 +205,17 @@ WHERE {
 		$rdf = SMOBTools::render_sparql_triples($this->triples);	
 		$query = "INSERT INTO <${post_uri}.rdf> { $rdf }";
 		SMOBStore::query($query);
-		return 'Message stored locally !';
+		print '<li>Message saved locally !</li>';
 	}
 	
 	public function notify() {
-		// send to followers
-	//	function sent_to_followers($post) {
-	//		$followers = get_followers();
-	//		foreach($followers as $follow) {
-	//			$endpoint = str_replace('owner', 'sparql.php', $follow['uri']);
-	//			$query = 'query='.urlencode("LOAD <$post> ");
-	//			do_curl_post($endpoint, $query);
-	//		}
-	//	}
+		$followers = SMOBTools::followers();
+		foreach($followers as $follow) {
+			$endpoint = str_replace('user/owner', 'sparql.php', $follow['uri']);
+			$query = 'query='.urlencode('LOAD <'.$this->uri.'>');
+			$res = SMOBTools::do_curl($endpoint, $query);
+		}
+		print '<li>Message sent to your followers</li>';
 	}
 	
 	public function tweet() {
@@ -251,40 +249,5 @@ WHERE {
 		}
 		exit();
 	}
-	
-	
-	/*
-
-	function load_post($post, $server) {
-		global $servers;
-		$key = $servers[$server];
-		$query = urlencode("LOAD <$post> ");
-		$postfields = "query=$query&key=$key";
-		$dest = "${server}sparql.php";
-		return do_curl_post($dest, $postfields);
-	}
-
-	function send_data($url, $server) {
-	  global $servers;
-	  $key = $servers[$server];
-	  $dest = "$server/load/index.php?key=$key&data=".urlencode($url);
-
-	  print "Telling <a href='$server'>$server</a>";
-	  print " about <a href='$url'>$url</a>...\n";
-
-	  list ($resp, $status, $code) = curl_get($dest);
-
-	  if ($code != 200 && $status)
-	    print "$status: ";
-	  if (!$resp) {
-	    if ($code == 200)
-	      print "Done.";
-	    else
-	      print "No response!";
-	  }
-	  print "$resp\n";
-	}
-
-	*/
 		
 }
