@@ -11,10 +11,7 @@ $DEBUG = false;
 if(isset($_GET['cmd'])){ 
 	$cmd = $_GET['cmd'];
 
-	if($cmd =="get-files") {
-		echo getFiles();
-	}
-	elseif($cmd =="create-db") {
+	if($cmd =="create-db") {
 		echo createDB();         
 	} 
 	elseif($cmd =="setup-smob") {
@@ -23,27 +20,8 @@ if(isset($_GET['cmd'])){
 	else echo "<p>Sorry, I didn't understand the command ...</p>";            
 }
 
-function getFiles() {
-	global $DEBUG;
-	$wget =  $_GET['wget'];
-	$curl = $_GET['curl'];
-	$tar = $_GET['tar'];
-	
-	$arc = "http://code.semsol.org/source/arc.tar.gz";
-	$local = dirname(__FILE__);
-	
-	if($tar && file_exists("${tar}tar") && ($wget && file_exists("${wget}/wget") || $curl && file_exists("${curl}/curl"))) {
-		if($wget && file_exists("${wget}/wget")) {
-			$getfile = "${wget}wget";
-		}
-		else {
-			$getfile = "${curl}curl -O";
-		}
-		exec("cd $local/../lib/ ; $getfile $arc ; tar -xf arc.tar.gz ; rm arc.tar.gz");
-		return "ARC2 properly downloaded and installer";
-	}
-	return "Cannot download the files, please download <a href='http://arc.semsol.org'>ARC2 manually</a> and unzip it under the <code>lib/</code> folder ";
-}
+return "Cannot download the files, please download <a href='http://arc.semsol.org'>ARC2 manually</a> and unzip it under the <code>lib/</code> folder ";
+
 
 function createDB(){
 	global $DEBUG;
@@ -160,7 +138,8 @@ function setupSMOB() {
 	fwrite($f, $config);
 	fclose($f);
 	
-	print "<p>Enjoy, you can now access your <a href='.'>SMOB Hub</a> !</p>";
+	print "<p>Enjoy, you can now access your <a href='.'>SMOB Hub</a> !<br/>
+	Also, be sure to restrict access to the <code>config/</code> directory.</p>";
 }
 
 ?>

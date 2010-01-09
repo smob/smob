@@ -118,7 +118,7 @@ button {
 	font-style: italic;
 }
 
-#get-files-pane, #get-files-pane-out, #create-db-pane, #create-db-pane-out, #smob-config-pane, #smob-config-pane-out, #done-pane, #skip, #restart {
+#server-pane, #server-pane-out, #create-db-pane, #create-db-pane-out, #smob-config-pane, #smob-config-pane-out, #done-pane, #skip, #restart {
 	display: none;
 }
 
