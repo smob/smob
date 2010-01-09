@@ -94,8 +94,8 @@ WHERE {
 		$ht .= " [<a href=\"$uri\">Permalink</a>]\n";
 		$data = str_replace('post', 'data', $uri);
 		$ht .= " [<a href=\"$data\">RDF</a>]\n";
-	//		$enc2 = get_publish_uri($uri);
 		if(SMOBAuth::check()) {
+			$enc2 = $this->get_publish_uri();
 			$ht .= " [<a href=\"$enc2\">Post a reply</a>]\n";
 		}
 		if ($reply_of) {
@@ -109,6 +109,12 @@ WHERE {
 		$ht .= '  </div>';
 		$ht .= "</div>\n\n";
 		return $ht;
+	}
+	
+	// URI for publishing
+	private function get_publish_uri() {
+		global $smob_root;
+		return "${smob_root}?r=" . urlencode($this->uri);
 	}
 		
 	// Get the users mentioned in that post	

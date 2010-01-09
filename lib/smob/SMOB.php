@@ -19,6 +19,7 @@ class SMOB {
 	var $page = 1;
 	var $uri;
 	var $publisher;
+	var $reply_of;
 	var $commands = array('data', 'following', 'followers', 'post', 'posts', 'replies', 'resource', 'user');
 	
 	// Construct - save parameters and setup the RDF store
@@ -36,6 +37,11 @@ class SMOB {
 		$this->publish = SMOBAuth::check();
 	}
 	
+	// Setup the reply_of elemnents
+	public function reply_of($reply_of) {
+		$this->reply_of = $reply_of;
+	}
+	
 	// Main method - analyse the query type, get the content and render it
 	public function go() {
 		if(in_array($this->type, $this->commands)) {
@@ -45,7 +51,7 @@ class SMOB {
 			$content = "Cannot interpret that command";
 		}
 		// Passer ce publish parametre dans une list particuliere
-		SMOBTemplate::header($this->publish);
+		SMOBTemplate::header($this->publish, $this->reply_of);
 		print $content;
 		SMOBTemplate::footer();
 	}

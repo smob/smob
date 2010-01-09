@@ -45,6 +45,7 @@ if(!SMOBTools::check_config()) {
 		$ep->go();	
 	} else {
 		$smob = new SMOB($t, $u, $p);
+		$smob->reply_of($r);
 		$smob->go();
 	}
 }
