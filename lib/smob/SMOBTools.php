@@ -180,15 +180,6 @@ class SMOBTools {
 		return $r;
 	}
 	
-	function get_publish_uri($reply_of = NULL) {
-		global $smob_root;
-		$uri = "${smob_root}publish/";
-		if ($reply_of) {
-			$uri .= "?sioc:reply_of=" . urlencode($reply_of);
-		}
-		return $uri;
-	}
-	
 	# XXX maybe one day, someone writes the proper escaping functions for PHP...
 	function uri($uri) {
 		return "<" . $uri . ">";

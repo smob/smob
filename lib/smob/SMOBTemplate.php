@@ -6,9 +6,14 @@
 
 class SMOBTemplate {
 		
-	public function publisher_header() {
+	public function publisher_header($reply_of = null) {
 		global $servers, $twitter_user, $twitter_pass, $laconica, $smob_root;
-
+		
+		$contentblock = $reply_of ? "$('.content-details').show();" : "
+		$('#content').focus(function() {
+	      $('.content-details').show();
+	    });";
+	
 		$form_js = <<<__END__
 		<script type="text/javascript">
 		  $(document).ready(function() {
@@ -16,10 +21,8 @@ class SMOBTemplate {
 		    $("#publish").click(function () {
 		      publish();
 		    });
-		    $('#content').focus(function() {
-		      $('.content-details').show();
-			  numwords = 0;
-		    });
+			$contentblock
+			numwords = 0;
 		    // XXX form.blur doesn't work :-/
 		    $('#content-form').blur(function() {
 		      if ($('#content').val().length == 0) {
@@ -85,9 +88,9 @@ _END_;
 		return array($form_js, $form);
 	}
 			
-	public function header($publisher) {
+	public function header($publisher, $reply_of = null) {
 		if($publisher) {
-			list($form_js, $form) = SMOBTemplate::publisher_header();
+			list($form_js, $form) = SMOBTemplate::publisher_header($reply_of);
 		}
 		global $smob_root;
 		$root = $smob_root ? $smob_root : './';
