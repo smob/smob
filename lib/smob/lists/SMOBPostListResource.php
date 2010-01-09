@@ -9,11 +9,7 @@ class SMOBPostListResource extends SMOBPostList {
 	public function load_pattern() {
 		$uri = $this->uri;
 		return "
-	?post rdf:type sioct:MicroblogPost ;
-		sioc:content ?content ;
-		foaf:maker ?author ;
-		dct:created ?date ;
-		moat:taggedWith <$uri> .";
+	?post moat:taggedWith <$uri> .";
 	}
 
 /*	
