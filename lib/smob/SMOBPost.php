@@ -217,7 +217,7 @@ WHERE {
 	public function notify() {
 		$followers = SMOBTools::followers();
 		foreach($followers as $follow) {
-			$endpoint = str_replace('user/owner', 'sparql.php', $follow['uri']);
+			$endpoint = str_replace('user/owner', 'sparql', $follow['uri']);
 			$query = 'query='.urlencode('LOAD <'.$this->uri.'>');
 			$res = SMOBTools::do_curl($endpoint, $query);
 		}

@@ -166,6 +166,7 @@ xml:lang="fr">
 <li><a href='<?php echo $smob_root; ?>'>Home</a></li>
 <li><a href='<?php echo $smob_root; ?>following'>Following</a></li>
 <li><a href='<?php echo $smob_root; ?>followers'>Followers</a></li>
+<li><a href='<?php echo $smob_root; ?>sparql'>SPARQL</a></li>
 </ul>
 
 <h2>Hub owner ?</h2>
