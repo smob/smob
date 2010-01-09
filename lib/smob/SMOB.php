@@ -22,7 +22,7 @@ class SMOB {
 	var $commands = array('data', 'following', 'followers', 'post', 'posts', 'replies', 'resource', 'user');
 	
 	// Construct - save parameters and setup the RDF store
-	public function __construct($type, $uri, $page, $publish) {
+	public function __construct($type, $uri, $page) {
 		if($type) {
 			$this->type = $type;
 		}
@@ -33,9 +33,7 @@ class SMOB {
 		if($page) {
 			$this->page = $page;
 		}
-		if($publish) {
-			$this->publish = $publish;
-		}
+		$this->publish = SMOBAuth::check();
 	}
 	
 	// Main method - analyse the query type, get the content and render it

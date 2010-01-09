@@ -95,7 +95,7 @@ WHERE {
 		$data = str_replace('post', 'data', $uri);
 		$ht .= " [<a href=\"$data\">RDF</a>]\n";
 	//		$enc2 = get_publish_uri($uri);
-		if($is_auth) {
+		if(SMOBAuth::check()) {
 			$ht .= " [<a href=\"$enc2\">Post a reply</a>]\n";
 		}
 		if ($reply_of) {
