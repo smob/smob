@@ -44,8 +44,7 @@ if(!SMOBTools::check_config()) {
 		$ep = ARC2::getStoreEndpoint($arc_config);
 		$ep->go();	
 	} else {
-		$pub = SMOBAuth::check();
-		$smob = new SMOB($t, $u, $p, $pub);
+		$smob = new SMOB($t, $u, $p);
 		$smob->go();
 	}
 }
