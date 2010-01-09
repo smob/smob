@@ -82,8 +82,7 @@ WHERE {
 		$reply_of_of = $this->data['reply_of_of'];
 
 		$pic = SMOBTools::either($this->data['depiction'], "${smob_root}img/avatar-blank.jpg");
-
-		$class = strpos($uri, $smob_root) == 0 ? "post internal" : "post external";
+		$class = strpos($uri, $smob_root) !== FALSE ? "post internal" : "post external";
 		$ht .= "<div class=\"$class\" typeof=\"sioct:MicroblogPost\" about=\"$uri\">\n";
 		$ht .= "<span style=\"display:none;\" rel=\"sioc:has_container\" href=\"$smob_root\"></span>\n";
 		$ht .= "<img src=\"$pic\" class=\"depiction\" alt=\"Depiction for $foaf_uri\"/>";
