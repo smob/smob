@@ -9,19 +9,15 @@ $content = $_GET['content'];
 $location = $_GET['location'];
 $twitter = $_GET['twitter'];
 $mappings = $_GET['lod'];
+$reply_of = $_GET['reply_of'];
 
 if($content) {
 	if(get_magic_quotes_gpc()) {
 		$content = stripslashes($content);
 	}
 
-	$replies = array();
-	if ($_GET['sioc:reply_of']) {
-		$replies = $_GET['sioc:reply_of'];
-	}
-
 	$post = new SMOBPost();
-	$post->set_data(date('c'), $content, $replies, $location, $mappings);
+	$post->set_data(date('c'), $content, $reply_of, $location, $mappings);
 	
 	print "<h2>Publishing your message...</h2>\n";
 	print "<ul>\n";	
