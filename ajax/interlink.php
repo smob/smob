@@ -34,7 +34,7 @@ if($type == 'tag') {
 		$uris = find_uris($wrapper, $tag, 'tag');
 		if($uris) {
 			foreach($uris as $name=>$uri) {
-				$val = "$type--$item--$uri";
+				$val = "$type--$tag--$uri";
 				print "<input type='checkbox' value='$val'/>$name ($uri)<br/>";
 			}
 		} else {

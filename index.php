@@ -9,6 +9,7 @@ if(!SMOBTools::check_config()) {
 	$installer->go();
 } else {
 	require_once(dirname(__FILE__)."/config/config.php");	
+	// Follower / followings
 	if($a && $a == 'add') {
 		$u = str_replace('http:/', 'http://', $u);
 		// Add a new follower

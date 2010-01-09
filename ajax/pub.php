@@ -8,6 +8,7 @@ require_once(dirname(__FILE__)."/../lib/geonames/geonames.php");
 $content = $_GET['content'];
 $location = $_GET['location'];
 $twitter = $_GET['twitter'];
+$mappings = $_GET['lod'];
 
 if($content) {
 	if(get_magic_quotes_gpc()) {
@@ -20,7 +21,7 @@ if($content) {
 	}
 
 	$post = new SMOBPost();
-	$post->set_data(date('c'), $content, $replies, $location);
+	$post->set_data(date('c'), $content, $replies, $location, $mappings);
 		
 	print "<h2>Publishing your message...</h2>\n";
 	print "<ul>\n";	

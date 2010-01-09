@@ -6,14 +6,14 @@ function publish() {
 	$("#lod-form :checked").each(function() {
 		lod = lod + ' ' + $(this).val();		
 	})
-
+		
 	var params = {'content': $("#content").val(),
 	              'reply_of': $("#reply_of").val(),
 	              'location': $("#location").val(),
 	              'twitter': $("#twitter:checked").length,
 				  'lod': lod,
 	             };		
-
+				
 	$.get("ajax/pub.php?" + $.param(params)+getCacheBusterParam(), function(data){
 		$("#smob-publish").show("normal");
 		$("#smob-publish").html(data);
