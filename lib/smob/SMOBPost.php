@@ -175,8 +175,7 @@ WHERE {
 				if($mapping[0] == 'user') {
 					$user = $mapping[1];
 					$uri = $mapping[2];
-					// Update with sioc:xxx
-					$triples[] = array(SMOBTools::uri($post), "sioc:topic", SMOBTools::uri($this->uri));
+					$triples[] = array(SMOBTools::uri($post), "sioc:addressed_to", SMOBTools::uri($this->uri));
 					$triples[] = array(SMOBTools::uri($uri), "sioc:name", SMOBTools::literal($user));
 				}
 				elseif($mapping[0] == 'tag') {
