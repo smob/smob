@@ -29,16 +29,17 @@ class SMOBPost {
 	private function process() {
 		$uri = $this->uri;
 		$query = "
-SELECT *
+SELECT ?content ?author ?date ?reply_of ?reply_of_of ?depiction
 WHERE {
 <$uri> rdf:type sioct:MicroblogPost ;
 	sioc:content ?content ;
 	foaf:maker ?author ;
 	dct:created ?date .
-OPTIONAL { <$uri> sioc:reply_of ?reply_of. }
-OPTIONAL { ?reply_of_of sioc:reply_of <$uri> . }
-OPTIONAL { 
-	{ ?author foaf:depiction ?depiction. } UNION { ?author foaf:img ?depiction . }
+	OPTIONAL { <$uri> sioc:reply_of ?reply_of. }
+	OPTIONAL { ?reply_of_of sioc:reply_of <$uri> . }
+	OPTIONAL { 
+		{ ?author foaf:depiction ?depiction. } UNION { ?author foaf:img ?depiction . }
+	}
 } ";
 		$res = SMOBStore::query($query);
 		$this->data = $res[0];
