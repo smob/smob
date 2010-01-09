@@ -172,24 +172,25 @@ WHERE {
 			$mp = explode(' ', $mappings);
 			foreach($mp as $m) {
 				$mapping = explode('--', $m);
-				if($mapping[0] == 'users') {
+				if($mapping[0] == 'user') {
 					$user = $mapping[1];
 					$uri = $mapping[2];
 					// Update with sioc:xxx
-					$triples[] = array(uri($post), "sioc:topic", SMOBTools::uri($this->uri));
-					$triples[] = array(uri($uri), "sioc:name", SMOBTools::literal($user));
+					$triples[] = array(SMOBTools::uri($post), "sioc:topic", SMOBTools::uri($this->uri));
+					$triples[] = array(SMOBTools::uri($uri), "sioc:name", SMOBTools::literal($user));
 				}
-				elseif($mapping[0] == 'tags') {
+				elseif($mapping[0] == 'tag') {
 					$tag = $mapping[1];
+					print 'q';
 					$uri = $mapping[2];
+					print 'w';
 					// Update with MOAT / commonTag
 					$tagging = "${smob_root}tagging/".uniqid();
-					$triples[] = array(uri($tagging), "a", "tags:RestrictedTagging");
-					$triples[] = array(uri($tagging), "tags:taggedResource", SMOBTools::uri($this->uri),);
-					$triples[] = array(uri($tagging), "tags:associatedTag", SMOBTools::literal($tag));
-					$triples[] = array(uri($tagging), "moat:tagMeaning", SMOBTools::uri($uri));
+					$triples[] = array(SMOBTools::uri($tagging), "a", "tags:RestrictedTagging");
+					$triples[] = array(SMOBTools::uri($tagging), "tags:taggedResource", SMOBTools::uri($this->uri));
+					$triples[] = array(SMOBTools::uri($tagging), "tags:associatedTag", SMOBTools::literal($tag));
+					$triples[] = array(SMOBTools::uri($tagging), "moat:tagMeaning", SMOBTools::uri($uri));
 				}
-			
 			}
 		}
 
