@@ -32,7 +32,9 @@ if(!SMOBTools::check_config()) {
 			$follow = "<$local_user> sioc:follows <$remote_user> . ";
 			$local = "INSERT INTO <${smob_root}data/following> { $follow }";
 			SMOBStore::query($local);
-			echo "$remote_user was added to your following list and was notified about your subscription";
+			SMOBTemplate::header('');
+			print "$remote_user was added to your following list and was notified about your subscription";
+			SMOBTemplate::footer();	
 			// And ping to update the followers list remotely
 			$ping = "{$u}ping/follower/$local_user";
 			SMOBTools::do_curl($ping);
