@@ -23,7 +23,7 @@ class SMOBPostList {
 		// The load_pattern() function must be defined in the inherited classes
 		$pattern = $this->load_pattern();
 		$query = "
-SELECT *
+SELECT DISTINCT ?post ?content ?author ?date ?reply_of ?reply_of_of ?depiction
 WHERE {
 	$pattern
 	OPTIONAL { ?post sioc:reply_of ?reply_of. }

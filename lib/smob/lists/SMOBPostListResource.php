@@ -5,7 +5,7 @@ class SMOBPostListPosts extends SMOBPostList {
 	public function title() {
 		return 'Posts linked to ' . $this->uri;
 	}
-	
+		
 	public function load_pattern() {
 		return "
 	?post rdf:type sioct:MicroblogPost ;
