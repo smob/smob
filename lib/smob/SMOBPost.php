@@ -93,10 +93,9 @@ WHERE {
 		$ht .= "  <span class=\"content\">$content</span>\n";
 		$ht .= "  <span style=\"display:none;\" property=\"sioc:content\">$ocontent</span>\n";
 		$ht .= '  <div class="infos">';
-		$ht .= "  (by <span class=\"author\" rel=\"foaf:maker\" href=\"$author\" property=\"foaf:name\">$name</span> - \n";
+		$ht .= "  by <span class=\"author\" rel=\"foaf:maker\" href=\"$author\" property=\"foaf:name\">$name</span> - \n";
 		$ht .= "  <span style=\"display:none;\" rel=\"sioc:has_creator\" href=\"$creator\"></span>\n";
-		$ht .= "  <span class=\"date\" property=\"dcterms:created\">$date</span>)\n";
-		$ht .= " [<a href=\"$uri\">Permalink</a>]\n";
+		$ht .= "  <a href=\"$uri\" class=\"date\" property=\"dcterms:created\">$date</a>\n";
 		$data = str_replace('post', 'data', $uri);
 		$ht .= " [<a href=\"$data\">RDF</a>]\n";
 		if(SMOBAuth::check()) {
@@ -105,11 +104,11 @@ WHERE {
 		}
 		if ($reply_of) {
 			$enc3 = SMOBTools::get_uri($reply_of, 'post');
-			$ht .= " [<a href=\"$reply_of\">Parent</a>]\n";
+			$ht .= " [<a href=\"$reply_of\">Replied message</a>]\n";
 		}
 		if ($reply_of_of) {
 			$enc4 = SMOBTools::get_uri($reply_of_of, 'post');
-			$ht .= " [<a href=\"$reply_of_of\">Child</a>]\n";
+			$ht .= " [<a href=\"$reply_of_of\">Replies</a>]\n";
 		}
 		$ht .= '  </div>';
 		$ht .= "</div>\n\n";
