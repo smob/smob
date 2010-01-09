@@ -72,45 +72,32 @@ function process(){
 	showStatus();
 	switch(state) {
 	case 0:
-		log("STEP 1: We gonna download the ARC2 files now ...");
-		$("#get-files-pane").show("normal");
-		setStep("Next ...");
+		log("STEP 1: Let's create the SMOB database now ...");
+		$("#head").hide("normal");
+		$("#create-db-pane").show("normal");	
+		setStep("Go !");
 		nextStep();
 		break;
 	case 1:
 		$("#skip").hide();
-		getFiles();
+		createDB();
 		nextStep();
 		break;
 	case 2:
-		log("STEP 2: We gonna create the database for SMOB now ...");
-		$("#get-files-pane").hide("normal");
-		$("#create-db-pane").show("normal");
-		setStep("Next ...");
+		log("STEP 3: Let's configure your SMOB settings ...");
+		$("#skip").show();
+		$("#create-db-pane").hide("normal");
+		$("#smob-config-pane").show("normal");
+		setStep("Go !");
 		nextStep();
 		break;
 	case 3:
 		$("#skip").hide();
-		createDB();
-		nextStep();
-		break;
-	case 4:
-		log("STEP 3: Now we will configure SMOB ...");
-		$("#skip").show();
-		$("#get-files-pane").hide("normal");
-		$("#create-db-pane").hide("normal");
-		$("#smob-config-pane").show("normal");
-		setStep("Next ...");
-		nextStep();
-		break;
-	case 5:
-		$("#skip").hide();
 		setupSMOB();
 		nextStep();
 		break;
-	case 6:
+	case 4:
 		log("STEP 4: Done !");
-		$("#get-files-pane").hide("normal");
 		$("#create-db-pane").hide("normal");
 		$("#somb-config-pane").hide("normal");
 		$("#step").hide();
@@ -124,26 +111,11 @@ function process(){
 
 function resetInstall(){
 	log("Ready.");
-	$("#get-files-pane").hide();
 	$("#create-db-pane").hide();
 	$("#done-pane").hide();
 	$("#skip").hide();
 	setStep("START!");
 	state = 0;
-}
-
-function getFiles(){
-	var wget = $("#path-wget").val();
-	var curl = $("#path-curl").val();
-	var tar = $("#path-tar").val();
-	var skip = $("#skip").val();
-	
-	$("#get-files-pane-in").hide("normal");
-	$("#get-files-pane-out").show("normal");
-		
-	$.get("ajax/install.php?cmd=get-files&wget="+wget+"&curl="+curl+"&tar="+tar+getCacheBusterParam(), function(data){
-		$("#get-files-pane-out").html(data);
-	});
 }
 
 function createDB(){
@@ -161,7 +133,6 @@ function createDB(){
 }
 
 function setupSMOB(){
-	
 	var smob_root = $("#smob-root").val();	
 	var server_gmap = $("#smob-gmap").val();	
 	var client_uri = $("#smob-uri").val();

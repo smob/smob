@@ -117,7 +117,7 @@ xml:lang="fr">
   <script type="text/javascript" src="<?php echo $root; ?>js/smob.js"></script>
   <script type="text/javascript">
 	var state = 0;
-	var maxstate = 6;
+	var maxstate = 4;
 	$(function() {
 		$("#step").click(function () {
 			process();
