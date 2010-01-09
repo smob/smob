@@ -6,6 +6,22 @@
 
 class SMOBTools {
 	
+	// List of followers
+	function followers() {
+		$pattern = '?uri sioc:follows <' . SMOBTools::user_uri() . '>';
+		return SMOBTools::people('followers', $pattern);
+	}
+
+	function following() {
+		$pattern = '<' . SMOBTools::user_uri() . '> sioc:follows ?uri';
+		return SMOBTools::people('following', $pattern);
+	}
+	
+	function people($type, $pattern) {
+		$query = "SELECT * WHERE { $pattern }";
+		return SMOBStore::query($query);
+	}
+	
 	function &either() {
 		$arg_list = func_get_args();
 		foreach($arg_list as $i => $arg) {
@@ -17,10 +33,11 @@ class SMOBTools {
 	}
 	
 	function do_curl($url, $postfields = null, $userpwd = null) {
-		$ch = curl_init();
+		$ch = curl_init(POSTURL);
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_POST, 1);
 		if($postfields) {
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $postfields);
 		}

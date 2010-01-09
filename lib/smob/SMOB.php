@@ -70,22 +70,13 @@ class SMOB {
 		$list = new $class($this->uri, $this->page);
 		return $list->render();		
 	}
-
-	// List of followers
-	private function followers() {
-		$pattern = '?uri sioc:follows <' . SMOBTools::user_uri() . '>';
-		return $this->people('followers', $pattern);
-	}
-
+	
 	private function following() {
-		$pattern = '<' . SMOBTools::user_uri() . '> sioc:follows ?uri';
-		return $this->people('following', $pattern);
+		return SMOBTemplate::users($this->type, SMOBTools::following()); 
 	}
-	
-	private function people($type, $pattern) {
-		$query = "SELECT * WHERE { $pattern }";
-		return SMOBTemplate::users($type, SMOBStore::query($query));	
+
+	private function followers() {
+		return SMOBTemplate::users($this->type, SMOBTools::followers());
 	}
-	
 }
 

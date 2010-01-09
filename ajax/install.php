@@ -100,7 +100,7 @@ function createStore($host, $name, $user, $pwd){
 			'insert' => array('loadTrigger'),
 		),
 		'endpoint_features' => array(
-	    	'select', 'construct', 'ask', 'describe',
+	    	'select', 'construct', 'ask', 'describe', 'load'
 		),
 		'sem_html_formats' => 'rdfa',
 	);
