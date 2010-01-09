@@ -21,7 +21,7 @@ class SMOB {
 	var $commands = array('data', 'following', 'followers', 'post', 'posts', 'replies', 'resource', 'user');
 	
 	// Construct - save parameters and setup the RDF store
-	public function __construct($type, $uri, $page, $publish) {		
+	public function __construct($type, $uri, $page, $publish) {
 		if($type) {
 			$this->type = $type;
 		}

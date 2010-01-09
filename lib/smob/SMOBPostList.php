@@ -28,8 +28,9 @@ WHERE {
 	$pattern
 	OPTIONAL { ?post sioc:reply_of ?reply_of. }
 	OPTIONAL { ?reply_of_of sioc:reply_of ?post . }
-	OPTIONAL { ?author foaf:depiction ?depiction. }
-	OPTIONAL { ?author foaf:img ?img . }
+	OPTIONAL { 
+		{ ?author foaf:depiction ?depiction. } UNION { ?author foaf:img ?depiction . }
+	}
 } 
 ORDER BY DESC(?date)
 OFFSET $start
@@ -48,7 +49,7 @@ LIMIT $limit
 		$ts = date('c');
 		$ht = '<h1>'.$this->title().'</h1>';
 		$ht .= "<div id=\"ts\" style=\"display:none;\">$ts</div><div id=\"news\"></div>";
-		if($posts) {
+		if($this->posts) {
 			foreach($this->posts as $post) {
 				$ht .= $post->render();
 			}
