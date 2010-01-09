@@ -27,14 +27,13 @@ class SMOBPostList {
 		// The load_pattern() function must be defined in the inherited classes
 		$pattern = $this->load_pattern();
 		$query = "
-SELECT DISTINCT ?post ?content ?author ?date ?reply_of ?reply_of_of ?depiction
+SELECT DISTINCT ?post ?content ?date ?reply_of ?reply_of_of ?author ?depiction
 WHERE {
 	$pattern
 	OPTIONAL { ?post sioc:reply_of ?reply_of. }
 	OPTIONAL { ?reply_of_of sioc:reply_of ?post . }
-	OPTIONAL { 
-		{ ?author foaf:depiction ?depiction . } UNION { ?author foaf:img ?depiction . }
-	}
+	OPTIONAL { ?author foaf:depiction ?depiction . } 
+	OPTIONAL { ?author foaf:img ?depiction . }
 } 
 ORDER BY DESC(?date) OFFSET $start LIMIT $limit
 ";	
@@ -43,8 +42,6 @@ ORDER BY DESC(?date) OFFSET $start LIMIT $limit
 			$uri = $post['post'];
 			$this->posts[] = new SMOBPost($uri, $post);
 		}
-		// ARC2 bug with ORDER ?
-		$this->posts = array_reverse($this->posts);
 		return;		
 	}
 		

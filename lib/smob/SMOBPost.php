@@ -37,9 +37,8 @@ WHERE {
 	dct:created ?date .
 	OPTIONAL { <$uri> sioc:reply_of ?reply_of. }
 	OPTIONAL { ?reply_of_of sioc:reply_of <$uri> . }
-	OPTIONAL { 
-		{ ?author foaf:depiction ?depiction. } UNION { ?author foaf:img ?depiction . }
-	}
+	OPTIONAL { ?author foaf:depiction ?depiction. } 
+	OPTIONAL { ?author foaf:img ?depiction . }
 } ";
 		$res = SMOBStore::query($query);
 		$this->data = $res[0];
