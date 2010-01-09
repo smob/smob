@@ -31,6 +31,7 @@ WHERE {
 		?s foaf:maker ?p .
 	} 
 }";
+
 	$res = $this->store->query($q);
 	$author = $res['result']['rows'][0]['p'];
 	if($author) {

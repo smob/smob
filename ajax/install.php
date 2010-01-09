@@ -95,7 +95,7 @@ function createStore($host, $name, $user, $pwd){
 		'db_pwd' => '$pwd',
 		'store_name' => '$store_name',
 	
-		'store_triggers_path' => dirname(__FILE__).'/lib/smob/',
+		'store_triggers_path' => dirname(__FILE__).'/../lib/smob/',
 		'store_triggers' => array(
 			'insert' => array('loadTrigger'),
 		),
