@@ -45,6 +45,10 @@ a:hover {
 	height: 45px;
 }
 
+.post external {
+	background: #eee ;
+}
+
 .infos {
 	font-style: italic;
 	margin: 0px;
