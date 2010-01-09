@@ -47,7 +47,7 @@ __END__;
 			
 			<fieldset><legend>Reply</legend>
 			Replying to post (if any)
-			<input type="text" name="sioc:reply_of" id="reply_of" value="$reply_of">
+			<input type="text" name="reply_of" id="reply_of" value="$reply_of">
 			<br/>
 			(The <a href="javascript:window.location='$smob_root/client/publish/bookmarklet.php?uri='+encodeURIComponent(window.location)">In My SMOB!</a> bookmarklet helps fill this in automatically.)
 			</fieldset>

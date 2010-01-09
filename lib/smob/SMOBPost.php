@@ -105,11 +105,11 @@ WHERE {
 		}
 		if ($reply_of) {
 			$enc3 = SMOBTools::get_uri($reply_of, 'post');
-			$ht .= " [<a href=\"$enc3\">Parent</a>]\n";
+			$ht .= " [<a href=\"$reply_of\">Parent</a>]\n";
 		}
 		if ($reply_of_of) {
 			$enc4 = SMOBTools::get_uri($reply_of_of, 'post');
-			$ht .= " [<a href=\"$enc4\">Child</a>]\n";
+			$ht .= " [<a href=\"$reply_of_of\">Child</a>]\n";
 		}
 		$ht .= '  </div>';
 		$ht .= "</div>\n\n";
@@ -148,7 +148,7 @@ WHERE {
 		return SMOBStore::query($query);
 	}
 	
-	public function set_data($ts, $content, $reply_ofs, $location, $mappings) {
+	public function set_data($ts, $content, $reply_of, $location, $mappings) {
 		global $foaf_uri, $smob_root;
 
 		$user_uri = SMOBTools::user_uri();
@@ -162,9 +162,9 @@ WHERE {
 		$triples[] = array("dct:created", SMOBTools::literal($this->ts));
 		$triples[] = array("dct:title", SMOBTools::literal("Update - ".$this->ts));
 		$triples[] = array("sioc:content", SMOBTools::literal($content));
-
-		foreach ($reply_ofs as $reply_of)
-			$triples[] = array("sioc:reply_of", SMOBTools::uri($reply_of));
+		if($reply_of) {
+			$triples[] = array("sioc:reply_of", SMOBTools::uri($reply_of));			
+		}
 
 		$opo_uri = $this->uri.'#presence';
 		$triples[] = array(SMOBTools::uri($opo_uri), "a", "opo:OnlinePresence");
