@@ -5,6 +5,8 @@
 */
 
 require_once(dirname(__FILE__).'/lists/SMOBPostListPosts.php');
+require_once(dirname(__FILE__).'/lists/SMOBPostListResource.php');
+require_once(dirname(__FILE__).'/lists/SMOBPostListUser.php');
 
 class SMOBPostList {
 	
@@ -13,8 +15,10 @@ class SMOBPostList {
 	var $limit = 20;
 	
 	public function __construct($uri, $page) {
+		$this->uri = $uri;
 		$this->page = $page;
 		$this->process();
+
 	}
 	
 	public function process() {
@@ -47,7 +51,7 @@ ORDER BY DESC(?date) OFFSET $start LIMIT $limit
 	public function render() {
 		// The title() function must be defined in the inherited classes
 		$ts = date('c');
-		$ht = '<h1>'.$this->title().'</h1>';
+		$ht = '<h2>'.$this->title().'</h2>';
 		$ht .= "<div id=\"ts\" style=\"display:none;\">$ts</div><div id=\"news\"></div>";
 		if($this->posts) {
 			foreach($this->posts as $post) {

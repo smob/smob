@@ -1,6 +1,6 @@
 <?php
 
-class SMOBPostListPosts extends SMOBPostList {
+class SMOBPostListUser extends SMOBPostList {
 
 	public function title() {
 		return 'Posts created by ' . $this->uri;
@@ -44,3 +44,5 @@ $optionals
 
 
 	*/
+	
+}

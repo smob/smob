@@ -26,8 +26,9 @@ class SMOBStore {
 	PREFIX opo-actions: <http://ggg.milanstankovic.org/opo-actions/ns#>
 
 		$query";
+		
 		$rs = $store->query($query);
-
+		
 		if ($errors = $store->getErrors()) {
 			error_log("SMOB SPARQL Error:\n" . join("\n", $errors));
 			return array();
