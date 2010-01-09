@@ -37,15 +37,18 @@ a:hover {
 	color: #900;
 }
 
-.post, .person {
+.post {
 	border: 1px solid #666;;
-	background: #ccc;
 	margin-bottom: 10px;
 	padding: 5px;
 	height: 45px;
 }
 
-.post external {
+.internal {
+	background: #ccc;
+}
+
+.external {
 	background: #eee ;
 }
 
