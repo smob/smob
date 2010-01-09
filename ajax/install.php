@@ -42,7 +42,7 @@ function getFiles() {
 		exec("cd $local/../lib/ ; $getfile $arc ; tar -xf arc.tar.gz ; rm arc.tar.gz");
 		return "ARC2 properly downloaded and installer";
 	}
-	return "Cannot download the files, please install ARC2 manually";
+	return "Cannot download the files, please download <a href='http://arc.semsol.org'>ARC2 manually</a> and unzip it under the <code>lib/</code> folder ";
 }
 
 function createDB(){
