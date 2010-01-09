@@ -14,10 +14,11 @@ FILTER (?date > \"$ts\")
 }
 ";
 
-$res = SMOBStore::do_query("$query");
+$res = SMOBStore::query($query);
 $news = $res[0]['c'];
 if($news) {
 	print "$news new update(s) since last time ! [<a href='.'>Reload</a>]";
 }
+
 
 ?>
