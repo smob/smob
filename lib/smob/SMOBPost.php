@@ -29,13 +29,16 @@ class SMOBPost {
 	private function process() {
 		$uri = $this->uri;
 		$query = "
-SELECT DISTINCT ?content ?author ?creator ?date ?reply_of ?reply_of_of ?depiction ?name
+SELECT DISTINCT ?content ?author ?creator ?date ?presence ?location ?locname ?reply_of ?reply_of_of ?depiction ?name
 WHERE {
 <$uri> rdf:type sioct:MicroblogPost ;
 	sioc:content ?content ;
 	sioc:has_creator ?creator ;
 	foaf:maker ?author ;
 	dct:created ?date .
+?presence opo:customMessage <$uri> ;
+	opo:currentLocation ?location .
+?location rdfs:label ?locname .	
 	OPTIONAL { <$uri> sioc:reply_of ?reply_of. }
 	OPTIONAL { ?reply_of_of sioc:reply_of <$uri> . }
 	OPTIONAL { ?author foaf:depiction ?depiction. } 
@@ -84,6 +87,9 @@ WHERE {
 		$name = $this->data['name'];
 		$reply_of = $this->data['reply_of'];
 		$reply_of_of = $this->data['reply_of_of'];
+		$presence = $this->data['presence'];
+		$location = $this->data['location'];
+		$locname = $this->data['locname'];
 
 		$pic = SMOBTools::either($this->data['depiction'], "${smob_root}img/avatar-blank.jpg");
 		$class = strpos($uri, $smob_root) !== FALSE ? "post internal" : "post external";
@@ -93,7 +99,9 @@ WHERE {
 		$ht .= "  <span class=\"content\">$content</span>\n";
 		$ht .= "  <span style=\"display:none;\" property=\"sioc:content\">$ocontent</span>\n";
 		$ht .= '  <div class="infos">';
-		$ht .= "  by <span class=\"author\" rel=\"foaf:maker\" href=\"$author\" property=\"foaf:name\">$name</span> - \n";
+		$ht .= "  by <a class=\"author\" rel=\"foaf:maker\" href=\"$author\" property=\"foaf:name\">$name</a> - \n";
+		$ht .= "  location: <a about=\"$presence\" rel=\"opo:currentLocation\" rev=\"opo:customMessage\" href=\"$location\" property=\"rdfs:label\">$locname</a><br/>\n";
+		$ht .= "  <div style=\"margin: 2px;\"></div> ";
 		$ht .= "  <span style=\"display:none;\" rel=\"sioc:has_creator\" href=\"$creator\"></span>\n";
 		$ht .= "  <a href=\"$uri\" class=\"date\" property=\"dcterms:created\">$date</a>\n";
 		$data = str_replace('post', 'data', $uri);
@@ -109,7 +117,7 @@ WHERE {
 		if ($reply_of_of) {
 			$enc4 = SMOBTools::get_uri($reply_of_of, 'post');
 			$ht .= " [<a href=\"$reply_of_of\">Replies</a>]\n";
-		}
+		}		
 		$ht .= '  </div>';
 		$ht .= "</div>\n\n";
 		return $ht;
