@@ -24,6 +24,7 @@ class SMOBStore {
 	PREFIX moat: <http://moat-project.org/ns#>
 	PREFIX opo: <http://ggg.milanstankovic.org/opo/ns#>
 	PREFIX opo-actions: <http://ggg.milanstankovic.org/opo-actions/ns#>
+	PREFIX ctag: <http://commontag.org/ns#>
 
 		$query";		
 		

@@ -104,6 +104,7 @@ $form .= '
   xmlns:foaf="http://xmlns.com/foaf/0.1/" 
   xmlns:sioc="http://rdfs.org/sioc/ns#"
   xmlns:sioct="http://rdfs.org/sioc/types#"
+  xmlns:ctag="http://commontag.org/ns#"
   xmlns:content="http://purl.org/rss/1.0/modules/content/"
 xml:lang="fr">
 
