@@ -83,5 +83,6 @@ class SMOB {
 	private function followers() {
 		return SMOBTemplate::users($this->type, SMOBTools::followers());
 	}
+
 }
 
