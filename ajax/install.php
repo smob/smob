@@ -116,6 +116,7 @@ function setupSMOB() {
 	$client_twitter_login = $_GET['client_twitter_login'];
 	$client_twitter_pass = $_GET['client_twitter_pass'];
 	$server_gmap = $_GET['server_gmap'];
+	$auth = $_GET['auth'];
 	
 	$config = "
 	\$smob_root = '$smob_root';
@@ -125,6 +126,9 @@ function setupSMOB() {
 	\$twitter_pass = '$client_twitter_pass';
 
 	\$gmap_key = '$server_gmap';
+	
+	\$auth_method = '$auth';
+	
 	
 ?>";
 	

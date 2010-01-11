@@ -149,11 +149,12 @@ function setupSMOB(){
 	var client_uri = $("#smob-uri").val();
 	var client_twitter_login = $("#smob-twitter-login").val();
 	var client_twitter_pass = $("#smob-twitter-pass").val();
+	var auth = $("#smob-auth").val();	
 		
 	$("#smob-config-pane-in").hide("normal");
 	$("#smob-config-pane-out").show("normal");
 	
-	$.get("ajax/install.php?cmd=setup-smob&smob_root="+smob_root+"&server_gmap="+server_gmap+"&client_uri="+client_uri+"&client_twitter_login="+client_twitter_login+"&client_twitter_pass="+client_twitter_pass+getCacheBusterParam(), function(data){
+	$.get("ajax/install.php?cmd=setup-smob&smob_root="+smob_root+"&server_gmap="+server_gmap+"&client_uri="+client_uri+"&client_twitter_login="+client_twitter_login+"&client_twitter_pass="+client_twitter_pass+"&auth="+auth+getCacheBusterParam(), function(data){
 		$("#smob-config-pane-out").html(data);
 	});
 			

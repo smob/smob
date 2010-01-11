@@ -62,6 +62,9 @@ class SMOBInstaller {
 					<label for="smob-root">SMOR hub address:</label> <input type="text" id="smob-root" name="smob-root" value="$root" size="50"><br />
 					<label for="smob-gmap">GoogleMap API key (optional):</label> <input type="text" id="smob-gmap" name="smob-gmap" value="" size="50"><br />
 					<label for="smob-uri">FOAF URI:</label> <input type="text" id="smob-uri" name="smob-uri" value="" size="50"><br />
+					<label for="smob-auth">Authentication method:</label> <br/>
+						<input type="radio" name="smob-auth" value="htpasswd" checked="true"> htpasswd<br/>
+						<input type="radio" name="smob-auth" value="foafssl"> foafssl<br/>
 					<label for="smob-twitter-login">Twitter login:</label> <input type="text" id="smob-twitter-login" name="smob-twitter-login" value="" size="50"><br />
 					<label for="smob-twitter-pass">Twitter pass:</label> <input type="password" id="smob-twitter-pass" name="smob-twitter-pass" value="" size="50"><br />
 				</fieldset>	
