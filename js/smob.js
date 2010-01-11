@@ -53,6 +53,16 @@ function interlink() {
 				$("#lod-form").append(data);
 			});
 		}
+		else if(first == 'L') {
+			if(current.length > 1) {
+				second = current.charAt(1);
+				if(second == ':') {
+					$.get("ajax/interlink.php?type=location&term="+urlencode(current)+getCacheBusterParam(), function(data){
+						$("#lod-form").append(data);
+					});	
+				}
+			}
+		}
 	}
 }
 
