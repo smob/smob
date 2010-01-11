@@ -36,27 +36,25 @@ class SMOBTemplate {
 		  });
 		</script>
 __END__;
-		$form = <<<__END__
-			<h2>What&apos;s on your mind?</h2>
+		$form = '<h2>What&apos;s on your mind?</h2>';
+		if($reply_of) {
+				$form .= "<p>You are replying to post <a href='$reply_of'>$reply_of</a></p>";
+		}
+		$form .= '
 			<span class="content-details" style="display: none;">
 			(You have <span id="charsleft">140</span> characters left)
 			</span>
 			<form id="content-form">
 			<textarea name="content" id="content" rows="5" cols="82"></textarea>
 			<div class="content-details" style="display: none;">
-			
-			<fieldset><legend>Reply</legend>
-			Replying to post (if any)
-			<input type="text" name="reply_of" id="reply_of" value="$reply_of">
-			<br/>
-			(The <a href="javascript:window.location='$smob_root/client/publish/bookmarklet.php?uri='+encodeURIComponent(window.location)">In My SMOB!</a> bookmarklet helps fill this in automatically.)
-			</fieldset>
-			
+';
+		if($twitter_user && $twitter_pass) {
+			$form .= "
 			<fieldset><legend>Broadcast</legend>
-__END__;
-			if($twitter_user && $twitter_pass) {
-			  	$form .= "<input type='checkbox' name='twitter' id='twitter' checked='true' />Twitter as $twitter_user<br/>";
-			}
+			<input type='checkbox' name='twitter' id='twitter' checked='true'/>Twitter as $twitter_user<br/>
+			</fieldset>
+";
+		}
 //			$form .= "<div id='servers-form'>";
 //			if($laconica) {
 //			  foreach($laconica as $service => $user) {
@@ -66,7 +64,7 @@ __END__;
 //			}
 //			$form .= '</div>';
 			$form .= <<<_END_
-			</fieldset>
+		
 			
 			<fieldset><legend>Presence Data</legend>
 			Location: <input type="text" name="location" id="location" value="$location"  size="35">
