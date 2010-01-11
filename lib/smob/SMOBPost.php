@@ -93,14 +93,15 @@ WHERE {
 
 		$pic = SMOBTools::either($this->data['depiction'], "${smob_root}img/avatar-blank.jpg");
 		$class = strpos($uri, $smob_root) !== FALSE ? "post internal" : "post external";
+		$ht .= "<div about=\"$presence\" rel=\"opo:customMessage\">\n";
 		$ht .= "<div class=\"$class\" typeof=\"sioct:MicroblogPost\" about=\"$uri\">\n";
 		$ht .= "<span style=\"display:none;\" rel=\"sioc:has_container\" href=\"$smob_root\"></span>\n";
 		$ht .= "<img src=\"$pic\" class=\"depiction\" alt=\"Depiction for $foaf_uri\"/>";
 		$ht .= "  <span class=\"content\">$content</span>\n";
 		$ht .= "  <span style=\"display:none;\" property=\"sioc:content\">$ocontent</span>\n";
 		$ht .= '  <div class="infos">';
-		$ht .= "  by <a class=\"author\" rel=\"foaf:maker\" href=\"$author\" property=\"foaf:name\">$name</a> - \n";
-		$ht .= "  location: <a about=\"$presence\" rel=\"opo:currentLocation\" rev=\"opo:customMessage\" href=\"$location\" property=\"rdfs:label\">$locname</a><br/>\n";
+		$ht .= "  by <a class=\"author\" rel=\"foaf:maker\" href=\"$author\"><span property=\"foaf:name\">$name</span></a> - \n";
+		$ht .= "  location: <span about=\"$presence\"><a rel=\"opo:currentLocation\" href=\"$location\"><span property=\"rdfs:label\">$locname</span></a></span><br/>\n";
 		$ht .= "  <div style=\"margin: 2px;\"></div> ";
 		$ht .= "  <span style=\"display:none;\" rel=\"sioc:has_creator\" href=\"$creator\"></span>\n";
 		$ht .= "  <a href=\"$uri\" class=\"date\" property=\"dcterms:created\">$date</a>\n";
@@ -119,6 +120,7 @@ WHERE {
 			$ht .= " [<a href=\"$reply_of_of\">Replies</a>]\n";
 		}		
 		$ht .= '  </div>';
+		$ht .= '</div>';
 		$ht .= "</div>\n\n";
 		return $ht;
 	}
