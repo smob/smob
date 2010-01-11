@@ -124,7 +124,7 @@ function setupSMOB() {
 	\$twitter_user = '$client_twitter_login';
 	\$twitter_pass = '$client_twitter_pass';
 
-	\$gmap_key = '$server_gmap;
+	\$gmap_key = '$server_gmap';
 	
 ?>";
 	
