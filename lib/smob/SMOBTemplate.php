@@ -167,7 +167,7 @@ xml:lang="fr">
 <li><a href='<?php echo $smob_root; ?>sparql'>SPARQL</a></li>
 </ul>
 
-<h2>Hub owner ?</h2>
+<h2>Hub owner</h2>
 <ul>
 <li><a href='<?php echo $smob_root; ?>auth'>Authenticate</a></li>
 </ul>
