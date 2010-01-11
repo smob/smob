@@ -35,7 +35,7 @@ if($type == 'tag') {
 		if($uris) {
 			foreach($uris as $name=>$uri) {
 				$val = "$type--$tag--$uri";
-				print "<input type='checkbox' value='$val'/>$name ($uri)<br/>";
+				print "<input type='checkbox' value='$val'/>$name (<a href='$uri' target='_blank'>$uri</a>)<br/>";
 			}
 		} else {
 			print "Nothing retrieved from this service<br/>";
