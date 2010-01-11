@@ -20,9 +20,6 @@ if(isset($_GET['cmd'])){
 	else echo "<p>Sorry, I didn't understand the command ...</p>";            
 }
 
-return "Cannot download the files, please download <a href='http://arc.semsol.org'>ARC2 manually</a> and unzip it under the <code>lib/</code> folder ";
-
-
 function createDB(){
 	global $DEBUG;
 	$host =  urldecode($_GET['host']);
@@ -115,18 +112,19 @@ function createStore($host, $name, $user, $pwd){
 function setupSMOB() {
 	global $DEBUG;
 	$smob_root = $_GET['smob_root'];
-	$server_gmap = $_GET['server_gmap'];
 	$client_uri = $_GET['client_uri'];
 	$client_twitter_login = $_GET['client_twitter_login'];
 	$client_twitter_pass = $_GET['client_twitter_pass'];
+	$server_gmap = $_GET['server_gmap'];
 	
 	$config = "
 	\$smob_root = '$smob_root';
-	
 	\$foaf_uri = '$client_uri';
-	
+
 	\$twitter_user = '$client_twitter_login';
 	\$twitter_pass = '$client_twitter_pass';
+
+	\$gmap_key = '$server_gmap;
 	
 ?>";
 	
