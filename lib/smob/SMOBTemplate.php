@@ -46,10 +46,18 @@ __END__;
 			<form id="content-form">
 			<textarea name="content" id="content" rows="5" cols="82"></textarea>
 			<div class="content-details" style="display: none;">
+';		
+		if($loc = SMOBTools::location()) {
+			$location_uri = 'value ="'.$loc[0].'"';
+			$location = 'value ="'.$loc[1].'"';
+		}
+$form .= '
 			<fieldset><legend>Current location</legend>
-			<input type="text" name="location" id="location" class="autocomplete"/>
-			<input type="hidden" name="location_uri" id="location_uri"/>
+			<input type="text" name="location" id="location" class="autocomplete" '.$location.'/>
+			<input type="hidden" name="location_uri" id="location_uri" '.$location_uri.'/>
 			</fieldset>
+';		
+$form .= '	
 			<fieldset><legend>Interlinking</legend>
 			<div id="lod-form">Links will be suggested while typing ...</div>
 			</fieldset>

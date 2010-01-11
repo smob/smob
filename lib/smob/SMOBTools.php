@@ -6,6 +6,22 @@
 
 class SMOBTools {
 	
+	// Get current location
+	public function location() {
+		$query = "
+SELECT DISTINCT ?location ?name WHERE {
+?presence opo:currentLocation ?location ;
+	opo:StartTime ?time .
+?location rdfs:label ?name
+}
+ORDER BY DESC(?time)
+LIMIT 1";		
+		$res = SMOBStore::query($query);
+		$loc = $res[0]['location'];
+		$locname = $res[0]['name'];
+		return array($loc, $locname);
+	}
+	
 	// List of followers
 	function followers() {
 		$pattern = '?uri sioc:follows <' . SMOBTools::user_uri() . '>';

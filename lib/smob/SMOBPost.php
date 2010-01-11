@@ -147,7 +147,7 @@ WHERE {
 		return SMOBStore::query($query);
 	}
 	
-	public function set_data($ts, $content, $reply_of, $location, $mappings) {
+	public function set_data($ts, $content, $reply_of, $location, $location_uri, $mappings) {
 		global $foaf_uri, $smob_root;
 
 		$user_uri = SMOBTools::user_uri();
@@ -171,8 +171,9 @@ WHERE {
 		$triples[] = array("opo:declaredBy", SMOBTools::uri($foaf_uri));
 		$triples[] = array("opo:StartTime", SMOBTools::literal($this->ts));
 		$triples[] = array("opo:customMessage", SMOBTools::uri($this->uri));
-		if($location) {
-			$triples[] = array("opo:currentLocation", SMOBTools::uri($location));
+		if($location_uri) {
+			$triples[] = array("opo:currentLocation", SMOBTools::uri($location_uri));
+			$triples[] = array(SMOBTools::uri($location_uri), "rdfs:label", SMOBTools::literal($location));
 		}
 		
 		if($mappings) {
