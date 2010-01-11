@@ -54,9 +54,7 @@ LIMIT 1";
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($ch, CURLOPT_POST, 1);
-		if($postfields) {
-			curl_setopt($ch, CURLOPT_POSTFIELDS, $postfields);
-		}
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $postfields);
 		if ($userpwd) {
 			curl_setopt($ch, CURLOPT_USERPWD, $userpwd);
 		}
