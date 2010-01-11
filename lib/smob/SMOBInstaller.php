@@ -23,14 +23,14 @@ class SMOBInstaller {
 	<div id="head">
 		<h2>1. Server setup</h2>
 		<p>
-			Welcome to the installer of your SMOB Hub. 
+			Welcome to the installer of your SMOB hub. 
 			Before starting, you must ensure that you have met the following requirements:
 		</p>
 		<ul>
-			<li>Download <a href="arc.semsol.org/download">ARC2</a> and unzip it in the <code>lib</code> folder;</li>
+			<li>Download <a href="http://arc.semsol.org/download">ARC2</a> and unzip it in the <code>lib</code> folder;</li>
 			<li>Make the <code>config</code> directory writable by your web server;
 			<li>If your SMOB hub is not in the <code>/smob</code> directory of your website, please edit the <code>.htaccess</code> file 	orrespondingly;</li>
-			<li>If you want to use FOAF-SSL, please also edit the <code>.htaccess</code> file correspondingly;</li>
+			<li>Edit the <code>auth/.htaccess</code> file for authentication purposes.</li>
 		</ul>
 	</div>
 	<div id="create-db-pane">
@@ -59,7 +59,7 @@ class SMOBInstaller {
 			<form>
 				<fieldset>
 					<legend>SMOB settings</legend>
-					<label for="smob-root">SMOR Hub address:</label> <input type="text" id="smob-root" name="smob-root" value="$root" size="50"><br />
+					<label for="smob-root">SMOR hub address:</label> <input type="text" id="smob-root" name="smob-root" value="$root" size="50"><br />
 					<label for="smob-gmap">GoogleMap API key (optional):</label> <input type="text" id="smob-gmap" name="smob-gmap" value="" size="50"><br />
 					<label for="smob-uri">FOAF URI:</label> <input type="text" id="smob-uri" name="smob-uri" value="" size="50"><br />
 					<label for="smob-twitter-login">Twitter login:</label> <input type="text" id="smob-twitter-login" name="smob-twitter-login" value="" size="50"><br />
@@ -67,7 +67,8 @@ class SMOBInstaller {
 				</fieldset>	
 			</form>
 			<p class="note">
-			Your FOAF URI is required, and will be used as well to authenticate via FOAF-SSL. Twitter login / password is optional.
+			Your FOAF URI is required, (<b>please note that this is your personal URI and not the URL of your FOAF profile</b>) and will be used as well to authenticate via FOAF-SSL. <br/>
+			Twitter login / password is optional.
 			</p>
 		</div>
 		<div id="smob-config-pane-out">
