@@ -9,7 +9,7 @@ function publish() {
 		
 	var params = {'content': $("#content").val(),
 	              'reply_of': $("#reply_of").val(),
-	              'location': $("#location").val(),
+	              'location': $("#location_uri").val(),
 	              'twitter': $("#twitter:checked").length,
 				  'lod': lod,
 	             };		
