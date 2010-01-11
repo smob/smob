@@ -2,7 +2,6 @@
 
 require_once(dirname(__FILE__)."/../lib/smob/SMOB.php");
 require_once(dirname(__FILE__)."/../config/config.php");
-require_once(dirname(__FILE__)."/../lib/geonames/geonames.php");
 
 // TODO: Check authentication to avoid hijacking
 $content = $_GET['content'];

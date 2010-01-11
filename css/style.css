@@ -148,5 +148,33 @@ button {
 	font-size: 6px;	
 }
 
+.autocomplete-w1 { 
+	position:absolute; 
+	border: 1px solid;
+	/* IE6 fix: */ 
+	_background: #f00; 
+	_margin:1px 0 0 0; 
+}
 
+.autocomplete { 
+	width: 400px;
+	cursor:default; 
+	text-align:left; 
+}
 
+.autocomplete .selected { 
+	background:#ddd;
+}
+	
+.autocomplete div { 
+	padding:2px 5px; 
+	width: 400px;
+	white-space:nowrap; 
+	overflow:hidden; 
+	background:#fff;
+}
+
+.autocomplete strong { 
+	font-weight:normal; 
+	color:#900; 
+}

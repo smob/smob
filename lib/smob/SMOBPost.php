@@ -172,9 +172,7 @@ WHERE {
 		$triples[] = array("opo:StartTime", SMOBTools::literal($this->ts));
 		$triples[] = array("opo:customMessage", SMOBTools::uri($this->uri));
 		if($location) {
-			$location_pure=substr($location, 0, stripos($location,","));
-			$location_uri=find_geo_uri($location_pure);
-			$triples[] = array("opo:currentLocation", SMOBTools::uri($location_uri));
+			$triples[] = array("opo:currentLocation", SMOBTools::uri($location));
 		}
 		
 		if($mappings) {

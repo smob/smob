@@ -17,7 +17,6 @@ class SMOBTemplate {
 		$form_js = <<<__END__
 		<script type="text/javascript">
 		  $(document).ready(function() {
-		    $("#location").autocomplete("../../lib/geonames/geo_complete.php");
 		    $("#publish").click(function () {
 		      publish();
 		    });
@@ -47,6 +46,10 @@ __END__;
 			<form id="content-form">
 			<textarea name="content" id="content" rows="5" cols="82"></textarea>
 			<div class="content-details" style="display: none;">
+			<fieldset><legend>Current location</legend>
+			<input type="text" name="location" id="location" class="autocomplete"/>
+			<input type="hidden" name="location_uri" id="location_uri"/>
+			</fieldset>
 			<fieldset><legend>Interlinking</legend>
 			<div id="lod-form">Links will be suggested while typing ...</div>
 			</fieldset>
@@ -58,11 +61,9 @@ __END__;
 			</fieldset>
 ";
 		}
+		//			Location: <input type="text" name="location" id="location" value="$location"  size="35">
+		// class="autocomplete"
 		$form .= '
-			<fieldset><legend>Presence Data</legend>
-			Location: <input type="text" name="location" id="location" value="$location"  size="35">
-			</fieldset>
-			
 			</div>
 			</form>
 
@@ -103,7 +104,7 @@ xml:lang="fr">
   <script type="text/javascript" src="<?php echo $root; ?>js/jquery-1.3.2.min.js"></script>
   <script type="text/javascript" src="<?php echo $root; ?>js/jquery.timers-1.2.js"></script>
   <script type="text/javascript" src="<?php echo $root; ?>js/jquery.bgiframe.min.js"></script>
-  <script type="text/javascript" src="<?php echo $root; ?>js/jquery.autocomplete.min.js"></script>
+  <script type="text/javascript" src="<?php echo $root; ?>js/jquery.autocomplete-min.js"></script>
   <script type="text/javascript" src="<?php echo $root; ?>js/ui.core.js"></script>
   <script type="text/javascript" src="<?php echo $root; ?>js/smob.js"></script>
   <script type="text/javascript">
@@ -173,6 +174,20 @@ This page is valid <a href="http://validator.w3.org/check?uri=referer">XHTML</a>
 </div>
 
 </div>
+
+<script type='text/javascript'>
+var options, a;
+jQuery(function(){
+	options = { 
+		serviceUrl:'<?php echo $smob_root; ?>ajax/geonames.php', 
+		minChars:2, 
+		onSelect: function(value, data) { 
+			$('#location_uri').val(data);
+		}, 
+	};
+	a = $('#location').autocomplete(options);
+});
+</script>
 
 </body>
 
