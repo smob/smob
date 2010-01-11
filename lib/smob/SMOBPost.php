@@ -54,7 +54,7 @@ WHERE {
 			foreach($users as $t) {
 				$user = $t['user'];
 				$name = $t['name'];
-				$enc = "<a class=\"topic\" rel=\"sioc:topic\" href=\"$user\"><a href=\"$enc\">@$name</a></a>";
+				$enc = "<a class=\"topic\" rel=\"sioc:addressed_to\" href=\"$user\"><a href=\"$enc\">@$name</a></a>";
 				$this->data['content'] = str_replace("@$name", $r, $this->data['content']);
 			}
 		}
@@ -64,7 +64,7 @@ WHERE {
 				$tag = $t['tag'];
 				$resource = $t['uri'];
 				$enc = SMOBTools::get_uri($resource, 'resource');
-				$r = "<span class=\"topic\" rel=\"sioc:topic\" href=\"$resource\"><a href=\"$enc\">$tag</a></span>";
+				$r = "<span class=\"topic\" rel=\"moat:taggedWith sioc:topic ctag:isAbout\" href=\"$resource\"><a href=\"$enc\">$tag</a></span>";
 				$this->data['content'] = str_replace("$tag", $r, $this->data['content']);
 			}
 		}
