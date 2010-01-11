@@ -52,11 +52,9 @@ class SMOBTools {
 
 		$status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 		$status_line = substr($response, 0, strcspn($response, "\n\r"));
-		$header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-		$body = substr($response, $header_size);
 		curl_close($ch);
 
-		return array($body, $status_line, $status_code);
+		return array($response, $status_line, $status_code);
 	}
 	
 
