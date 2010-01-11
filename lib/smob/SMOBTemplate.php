@@ -105,6 +105,8 @@ $form .= '
   xmlns:sioc="http://rdfs.org/sioc/ns#"
   xmlns:sioct="http://rdfs.org/sioc/types#"
   xmlns:ctag="http://commontag.org/ns#"
+  xmlns:opo="http://ggg.milanstankovic.org/opo/ns#"
+  xmlns:moat="http://moat-project.org/ns#"
   xmlns:content="http://purl.org/rss/1.0/modules/content/"
 xml:lang="fr">
 
