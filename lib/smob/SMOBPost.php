@@ -81,7 +81,8 @@ WHERE {
 
 		$uri = $this->uri;
 		
-		$ocontent = $content = $this->data['content'];
+		$content = $this->data['content'];
+		$ocontent = strip_tags($content);
 		$author = $this->data['author'];
 		$creator = $this->data['creator'];
 		$date = $this->data['date'];
@@ -98,7 +99,7 @@ WHERE {
 		$ht .= "<div class=\"$class\" typeof=\"sioct:MicroblogPost\" about=\"$uri\">\n";
 		$ht .= "<span style=\"display:none;\" rel=\"sioc:has_container\" href=\"$smob_root\"></span>\n";
 		$ht .= "<img src=\"$pic\" class=\"depiction\" alt=\"Depiction for $foaf_uri\"/>";
-		$ht .= "  <span class=\"content\">$content</span>\n";
+		$ht .= "  <span class=\"content\" property=\"content:encoded\">$content</span>\n";
 		$ht .= "  <span style=\"display:none;\" property=\"sioc:content\">$ocontent</span>\n";
 		$ht .= '  <div class="infos">';
 		$ht .= "  by <a class=\"author\" rel=\"foaf:maker\" href=\"$author\"><span property=\"foaf:name\">$name</span></a> - \n";
