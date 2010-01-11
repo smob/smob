@@ -47,6 +47,9 @@ __END__;
 			<form id="content-form">
 			<textarea name="content" id="content" rows="5" cols="82"></textarea>
 			<div class="content-details" style="display: none;">
+			<fieldset><legend>Interlinking</legend>
+			<div id="lod-form">Links will be suggested while typing ...</div>
+			</fieldset>
 ';
 		if($twitter_user && $twitter_pass) {
 			$form .= "
@@ -55,23 +58,9 @@ __END__;
 			</fieldset>
 ";
 		}
-//			$form .= "<div id='servers-form'>";
-//			if($laconica) {
-//			  foreach($laconica as $service => $user) {
-//			    $username = $user['user'];
-//		   		$form .= "<input type='checkbox' name='laconica[$service]' value='twit' />$service as $twitter_user<br/>";
-//			  }
-//			}
-//			$form .= '</div>';
-			$form .= <<<_END_
-		
-			
+		$form .= '
 			<fieldset><legend>Presence Data</legend>
 			Location: <input type="text" name="location" id="location" value="$location"  size="35">
-			</fieldset>
-			
-			<fieldset><legend>Interlinking</legend>
-			<div id="lod-form">Links will be suggested while typing ...</div>
 			</fieldset>
 			
 			</div>
@@ -82,7 +71,7 @@ __END__;
 			<div id="smob-publish" style="display: none;">
 				<br/><em>Publishing content ...</em>
 			</div>
-_END_;
+';
 		return array($form_js, $form);
 	}
 			

@@ -128,10 +128,6 @@ function setupSMOB() {
 	\$twitter_user = '$client_twitter_login';
 	\$twitter_pass = '$client_twitter_pass';
 	
-	// @@TODO
-	// \$laconica['http://identi.ca/'] = array('user' => '', 'pass' => '');
-
-
 ?>";
 	
 	$f = fopen(dirname(__FILE__).'/../config/config.php', 'a');
