@@ -27,13 +27,16 @@ class SMOBPostList {
 		$pattern = $this->load_pattern();
 		// Weird ARC2 bug iw adding ?creator in the following varlist !
 		$query = "
-SELECT DISTINCT ?post ?content ?author ?date ?reply_of ?reply_of_of ?depiction ?name
+SELECT DISTINCT ?post ?content ?author ?date ?presence ?location ?locname ?reply_of ?reply_of_of ?depiction ?name
 WHERE {
 	?post rdf:type sioct:MicroblogPost ;
 		sioc:content ?content ;
 		foaf:maker ?author ;
 		sioc:has_creator ?creator ;
 		dct:created ?date .
+	?presence opo:customMessage ?post ;
+			opo:currentLocation ?location .
+	?location rdfs:label ?locname .		
 	$pattern
 	OPTIONAL { ?post sioc:reply_of ?reply_of. }
 	OPTIONAL { ?reply_of_of sioc:reply_of ?post . }

@@ -41,7 +41,7 @@ a:hover {
 	border: 1px solid #666;;
 	margin-bottom: 10px;
 	padding: 5px;
-	height: 45px;
+	height: 55px;
 }
 
 .internal {
@@ -106,6 +106,7 @@ button {
 .depiction {
 	height: 45px;
 	float: right;
+	margin-top: 5px;
 }
 
 /* Box for AJAXy new items */
