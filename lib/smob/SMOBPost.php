@@ -68,7 +68,8 @@ WHERE {
 				$resource = $t['uri'];
 				$enc = SMOBTools::get_uri($resource, 'resource');
 				$r = "<span class=\"topic\" rel=\"moat:taggedWith sioc:topic ctag:isAbout\" href=\"$resource\"><a href=\"$enc\">$tag</a></span>";
-				$this->data['content'] = str_replace("$tag", $r, $this->data['content']);
+				$this->data['content'] = str_replace("#$tag", "#$r", $this->data['content']);
+				$this->data['content'] = str_replace("L:$tag", "L:$r", $this->data['content']);
 			}
 		}
 		return;
