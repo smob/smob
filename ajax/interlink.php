@@ -25,16 +25,21 @@ function find_uris($wrapper, $term, $type) {
 $type = $_GET['type'];
 $term = $_GET['term'];
 
-if($type == 'tag') {
-	$tag = substr($term, 1);
-	print "<fieldset><legend>#$tag</legend>";
-	$wrappers = get_wrappers('tag');
+
+if($type == 'tag' || $type == 'location') {
+	print "<fieldset><legend>$term</legend>";
+	if($type == 'tag') {
+		$term = substr($term, 1);
+	} else if($type == 'location') {
+		$term = substr($term, 2);
+	}
+	$wrappers = get_wrappers($type);
 	foreach($wrappers as $wrapper) {
 		print "<fieldset><legend>Via $wrapper</legend>";
-		$uris = find_uris($wrapper, $tag, 'tag');
+		$uris = find_uris($wrapper, $term, $type);
 		if($uris) {
 			foreach($uris as $name=>$uri) {
-				$val = "$type--$tag--$uri";
+				$val = "$type--$term--$uri";
 				print "<input type='checkbox' value='$val'/>$name (<a href='$uri' target='_blank'>$uri</a>)<br/>";
 			}
 		} else {
