@@ -118,6 +118,7 @@ xml:lang="fr">
   <script type="text/javascript" src="<?php echo $root; ?>js/jquery.autocomplete-min.js"></script>
   <script type="text/javascript" src="<?php echo $root; ?>js/ui.core.js"></script>
   <script type="text/javascript" src="<?php echo $root; ?>js/smob.js"></script>
+  <base href="<?php echo $root; ?>" />
   <script type="text/javascript">
 	var state = 0;
 	var maxstate = 4;
