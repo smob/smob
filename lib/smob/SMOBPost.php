@@ -64,8 +64,8 @@ WHERE {
 				$tag = $t['tag'];
 				$resource = $t['uri'];
 				$enc = SMOBTools::get_uri($resource, 'resource');
-				$r = "<span class=\"topic\" rel=\"sioc:topic\" href=\"$resource\"><a href=\"$enc\">#$tag</a></span>";
-				$this->data['content'] = str_replace("#$tag", $r, $this->data['content']);
+				$r = "<span class=\"topic\" rel=\"sioc:topic\" href=\"$resource\"><a href=\"$enc\">$tag</a></span>";
+				$this->data['content'] = str_replace("$tag", $r, $this->data['content']);
 			}
 		}
 		return;
@@ -186,7 +186,7 @@ WHERE {
 					$triples[] = array(SMOBTools::uri($this->uri), "sioc:addressed_to", SMOBTools::uri($uri));
 					$triples[] = array(SMOBTools::uri($uri), "sioc:name", SMOBTools::literal($user));
 				}
-				elseif($mapping[0] == 'tag') {
+				elseif($mapping[0] == 'tag' || $mapping[0] == 'location') {
 					$tag = $mapping[1];
 					$uri = $mapping[2];
 					$tagging = "${smob_root}tagging/".uniqid();
