@@ -29,8 +29,8 @@ class SMOBInstaller {
 		<ul>
 			<li>Download <a href="http://arc.semsol.org/download">ARC2</a> and unzip it in the <code>lib</code> folder;</li>
 			<li>Make the <code>config</code> directory writable by your web server;
-			<li>If your SMOB hub is not in the <code>/smob</code> directory of your website, please edit the <code>.htaccess</code> file 	orrespondingly;</li>
-			<li>Edit the <code>auth/.htaccess</code> file for authentication purposes.</li>
+			<li>If your SMOB hub is not in the <code>/smob</code> directory of your website, please edit the <code>.htaccess</code> file accordingly;</li>
+			<li>Edit the <code>auth/.htaccess</code> file for authentication purposes. If you use <code>htpasswd</code> authentication, do not forget to create this file.</li>
 		</ul>
 	</div>
 	<div id="create-db-pane">
