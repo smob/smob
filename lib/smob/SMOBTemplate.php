@@ -38,6 +38,9 @@ __END__;
 		$form = '<h2>What&apos;s on your mind?</h2>';
 		if($reply_of) {
 				$form .= "<p>You are replying to post <a href='$reply_of'>$reply_of</a></p>";
+				$form .= "<input type='hidden' name='reply_of' id='reply_of' value='$reply_of' />";
+		} else {
+				$form .= "<input type='hidden' name='reply_of' id='reply_of'/>";
 		}
 		$form .= '
 			<span class="content-details" style="display: none;">
