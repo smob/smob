@@ -24,7 +24,7 @@ if($content) {
 	$post->save();
 	$post->notify();
 	if($twitter) {
-	//	print '<li>'.$post->tweet().'</li>';		
+		print '<li>'.$post->tweet().'</li>';		
 	}
 	print "</ul>\n";	
 }
