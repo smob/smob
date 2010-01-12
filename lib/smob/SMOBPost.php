@@ -29,21 +29,23 @@ class SMOBPost {
 	private function process() {
 		$uri = $this->uri;
 		$query = "
-SELECT DISTINCT ?content ?author ?creator ?date ?presence ?location ?locname ?reply_of ?reply_of_of ?depiction ?name
+SELECT DISTINCT ?content ?author ?creator ?date ?presence ?reply_of ?reply_of_of ?depiction ?name ?location ?locname
 WHERE {
 <$uri> rdf:type sioct:MicroblogPost ;
 	sioc:content ?content ;
 	sioc:has_creator ?creator ;
 	foaf:maker ?author ;
 	dct:created ?date .
-?presence opo:customMessage <$uri> ;
-	opo:currentLocation ?location .
-?location rdfs:label ?locname .	
+?presence opo:customMessage <$uri> .
 	OPTIONAL { <$uri> sioc:reply_of ?reply_of. }
 	OPTIONAL { ?reply_of_of sioc:reply_of <$uri> . }
 	OPTIONAL { ?author foaf:depiction ?depiction. } 
 	OPTIONAL { ?author foaf:img ?depiction . }
 	OPTIONAL { ?author foaf:name ?name . }
+	OPTIONAL {
+		?presence opo:currentLocation ?location .
+		?location rdfs:label ?locname .
+	}
 } ";
 		$res = SMOBStore::query($query);
 		$this->data = $res[0];
@@ -103,7 +105,11 @@ WHERE {
 		$ht .= "  <span style=\"display:none;\" property=\"sioc:content\">$ocontent</span>\n";
 		$ht .= '  <div class="infos">';
 		$ht .= "  by <a class=\"author\" rel=\"foaf:maker\" href=\"$author\"><span property=\"foaf:name\">$name</span></a> - \n";
-		$ht .= "  location: <span about=\"$presence\"><a rel=\"opo:currentLocation\" href=\"$location\"><span property=\"rdfs:label\">$locname</span></a></span><br/>\n";
+		if($location) {
+			$ht .= "  location: <span about=\"$presence\"><a rel=\"opo:currentLocation\" href=\"$location\"><span property=\"rdfs:label\">$locname</span></a></span><br/>\n";	
+		} else {
+			$ht .= "  location: <span about=\"$presence\">unspecified</span><br/>\n";	
+		}
 		$ht .= "  <div style=\"margin: 2px;\"></div> ";
 		$ht .= "  <span style=\"display:none;\" rel=\"sioc:has_creator\" href=\"$creator\"></span>\n";
 		$ht .= "  <a href=\"$uri\" class=\"date\" property=\"dcterms:created\">$date</a>\n";
