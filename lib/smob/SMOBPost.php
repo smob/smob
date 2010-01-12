@@ -174,7 +174,7 @@ WHERE {
 		$this->uri();
 		
 		$triples[] = array(SMOBTools::uri($this->uri), "a", "sioct:MicroblogPost");
-		$triples[] = array("sioc:has_creator", SMOBTools::uri($user_uri));
+		$triples[] = array("sioc:has_creator", SMOBTools::uri($smob_root));
 		$triples[] = array("foaf:maker", SMOBTools::uri($foaf_uri));
 		$triples[] = array("dct:created", SMOBTools::literal($this->ts));
 		$triples[] = array("dct:title", SMOBTools::literal("Update - ".$this->ts));
