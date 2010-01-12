@@ -231,10 +231,12 @@ WHERE {
 	
 	public function notify() {
 		$followers = SMOBTools::followers();
-		foreach($followers as $follow) {
-			$endpoint = $follow['uri'] . 'sparql';
-			$query = 'query='.urlencode('LOAD <'.$this->uri.'>');
-			$res = SMOBTools::do_curl($endpoint, $query);
+		if($followers) {
+			foreach($followers as $follow) {
+				$endpoint = $follow['uri'] . 'sparql';
+				$query = 'query='.urlencode('LOAD <'.$this->uri.'>');
+				$res = SMOBTools::do_curl($endpoint, $query);
+			}
 		}
 		print '<li>Message sent to your followers !</li>';
 	}
