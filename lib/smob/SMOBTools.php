@@ -25,7 +25,6 @@ class SMOBTools {
 				if($followers) {
 					foreach($followers as $f) {
 						$f = $f['uri'];
-						$f = str_replace('user/owner', '', $f);
 						if(strpos($f, $uri) == 0) {
 							return true;
 						}
@@ -144,7 +143,8 @@ LIMIT 1";
 	}
 
 	function user_uri() {
-		return SMOBTools::get_uri('owner', 'user');
+		global $smob_root;
+		return $smob_root;
 	}
 	
 	function get_uri($uri, $type) {
