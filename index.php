@@ -26,7 +26,7 @@ if(!SMOBTools::check_config()) {
 			if(substr($u, -1) != '/') {
 				$u = "$u/";
 			}
-			$remote_user = "${u}user/owner";
+			$remote_user = "${u}";
 			// Store the new relationship locally
 			$local_user = SMOBTools::user_uri();
 			$follow = "<$local_user> sioc:follows <$remote_user> . ";
