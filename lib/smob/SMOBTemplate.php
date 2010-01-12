@@ -72,8 +72,6 @@ $form .= '
 			</fieldset>
 ";
 		}
-		//			Location: <input type="text" name="location" id="location" value="$location"  size="35">
-		// class="autocomplete"
 		$form .= '
 			</div>
 			</form>
@@ -159,6 +157,7 @@ xml:lang="fr">
 	
 	public function footer() {
 		global $smob_root;
+		$version = SMOBTools::version();
 ?>
 </div>
 
@@ -183,7 +182,7 @@ xml:lang="fr">
 </div>
 
 <div id="footer">
-Powered by <a href="http://smob.sioc-project.org/">SMOB</a> thanks to <a href="http://www.w3.org/2001/sw/">Semantic Web</a> and <a href="http://linkeddata.org">Linked Data</a> technologies.<br/>
+Powered by <a href="http://smob.sioc-project.org/">SMOB</a> <?php echo $version; ?> thanks to <a href="http://www.w3.org/2001/sw/">Semantic Web</a> and <a href="http://linkeddata.org">Linked Data</a> technologies.<br/>
 This page is valid <a href="http://validator.w3.org/check?uri=referer">XHTML</a> and <a href="http://www.w3.org/2007/08/pyRdfa/extract?uri=referer">contains RDFa markup</a>.
 <br/>
 </div>
