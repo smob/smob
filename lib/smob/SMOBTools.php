@@ -73,7 +73,7 @@ LIMIT 1";
 	
 
 	function get_uri_if_found($uri) {
-		list ($resp, $status, $code) = curl_get($uri);
+		list ($resp, $status, $code) = SMOBTools::do_curl($uri);
 		if ($code == 200)
 			return $uri;
 		else if ($code == 404)
