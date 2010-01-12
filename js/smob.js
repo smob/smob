@@ -63,6 +63,10 @@ function interlink() {
 					});	
 				}
 			}
+		} else if(first == '@') {	
+			$.get("ajax/interlink.php?type=user&term="+urlencode(current)+getCacheBusterParam(), function(data){
+				$("#lod-form").append(data);
+			});
 		}
 	}
 }

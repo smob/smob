@@ -4,11 +4,10 @@
 
 class TwitterUserWrapper extends SMOBURIWrapper {
 	
-	function get_uri() {
-		return array($this->item => get_uri_if_found("http://twitter.com/".$this->item));
+	function get_uris() {
+		return array($this->item => SMOBTools::get_uri_if_found("http://twitter.com/".$this->item));
 	}
 		
 }
-
 
 ?>

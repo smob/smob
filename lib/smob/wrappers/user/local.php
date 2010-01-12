@@ -4,8 +4,8 @@
 
 class LocalUserWrapper extends SMOBURIWrapper {
 
-	function get_uri() {
-		$rs = do_query("
+	function get_uris() {
+		$rs = SMOBStore::query("
 	SELECT DISTINCT ?person ?user WHERE {
 	  ?post rdf:type sioct:MicroblogPost .
 	  ?post sioc:has_creator ?user .
