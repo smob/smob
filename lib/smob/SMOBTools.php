@@ -6,6 +6,11 @@
 
 class SMOBTools {
 	
+	// Get version
+	public function version() {
+		return file_get_contents(dirname(__FILE__).'/../../VERSION');
+	}
+	
 	// Get current location
 	public function location() {
 		$query = "
