@@ -47,11 +47,15 @@ WHERE {
 } 
 ORDER BY DESC(?date) OFFSET $start LIMIT $limit
 ";	
-
 		$posts = SMOBStore::query($query);
+		$uris = array();
 		foreach($posts as $post) {
 			$uri = $post['post'];
-			$this->posts[] = new SMOBPost($uri, $post);
+			if(!in_array($uri, $uris)) {
+				echo "*$uri<br/>";
+				$this->posts[] = new SMOBPost($uri, $post);
+				$uris[] = $uri;
+			}
 		}
 		return;		
 	}
