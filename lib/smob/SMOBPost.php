@@ -237,7 +237,7 @@ WHERE {
 			$query = 'query='.urlencode('LOAD <'.$this->uri.'>');
 			$res = SMOBTools::do_curl($endpoint, $query);
 		}
-		print '<li>Message sent to your followers</li>';
+		print '<li>Message sent to your followers !</li>';
 	}
 	
 	public function tweet() {
@@ -246,7 +246,7 @@ WHERE {
 		$postfields = 'status='.urlencode($this->content).'&source=smob';
 		$userpwd = $twitter_user.':'.$twitter_pass;
 		SMOBTools::do_curl($dest, $postfields, $userpwd);
-		return 'Notified on Twitter !';
+		print '<li>Notified on Twitter !</li>';
 	}
 	
 	public function raw() {	
