@@ -11,6 +11,31 @@ class SMOBTools {
 		return file_get_contents(dirname(__FILE__).'/../../VERSION');
 	}
 	
+	// Check if allowed to LOAD
+	function checkLoad($_POST) {
+		if($query = trim($_POST['query'])) {
+			// update to regexp
+			$load = substr_count($query, 'LOAD');
+			$first = substr_count($query, '<');
+			$last = substr_count($query, '>');
+			if($load == 1 && $first == 1 && $last == 1) {
+				preg_match('/<(.*)>/', $query, $matches);
+				$uri = $matches[1];
+				$followers = SMOBTools::following();
+				if($followers) {
+					foreach($followers as $f) {
+						$f = $f['uri'];
+						$f = str_replace('user/owner', '', $f);
+						if(strpos($f, $uri) == 0) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+		die();		
+	}
+	
 	// Get current location
 	public function location() {
 		$query = "
