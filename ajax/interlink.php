@@ -22,6 +22,30 @@ function find_uris($wrapper, $term, $type) {
 	return $x->get_uris();
 }
 
+function existing_uris($term, $type) {
+	$uris = array();
+	if($type == 'user') {
+		$query = "
+SELECT DISTINCT ?uri
+WHERE {
+	[] sioc:addressed_to ?uri .
+	?uri sioc:name '$term' .
+}";
+	} elseif(in_array($type, array('tag', 'location'))) {
+		$query = "
+SELECT DISTINCT ?uri
+WHERE {
+	[] tags:associatedTag '$term' ;
+		moat:tagMeaning ?uri .
+}";		
+	}
+	$res = SMOBStore::query($query);
+	foreach($res as $r) {
+		$uris[] = $r['uri'];
+	}
+	return $uris;
+}
+
 $type = $_GET['type'];
 $term = $_GET['term'];
 
@@ -36,11 +60,13 @@ if($type == 'tag' || $type == 'user') {
 $wrappers = get_wrappers($type);
 foreach($wrappers as $wrapper) {
 	print "<fieldset><legend>Via $wrapper</legend>";
+	$existing = existing_uris($term, $type);
 	$uris = find_uris($wrapper, $term, $type);
 	if($uris) {
 		foreach($uris as $name=>$uri) {
 			$val = "$type--$term--$uri";
-			print "<input type='checkbox' value='$val'/>$name (<a href='$uri' target='_blank'>$uri</a>)<br/>";
+			$checked = in_array($uri, $existing) ? 'checked="true"' : '';
+			print "<input type='checkbox' value='$val' $checked/>$name (<a href='$uri' target='_blank'>$uri</a>)<br/>";
 		}
 	} else {
 		print "Nothing retrieved from this service<br/>";
