@@ -52,7 +52,6 @@ ORDER BY DESC(?date) OFFSET $start LIMIT $limit
 		foreach($posts as $post) {
 			$uri = $post['post'];
 			if(!in_array($uri, $uris)) {
-				echo "*$uri<br/>";
 				$this->posts[] = new SMOBPost($uri, $post);
 				$uris[] = $uri;
 			}
