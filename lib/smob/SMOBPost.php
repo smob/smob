@@ -55,10 +55,11 @@ WHERE {
 		$users = $this->get_users();
 		if($users) {
 			foreach($users as $t) {
+				print_r($t);
 				$user = $t['user'];
 				$name = $t['name'];
-				$enc = "<a class=\"topic\" rel=\"sioc:addressed_to\" href=\"$user\"><a href=\"$enc\">@$name</a></a>";
-				$this->data['content'] = str_replace("@$name", $r, $this->data['content']);
+				$r = "<a class=\"topic\" rel=\"sioc:addressed_to\" href=\"$user\"><a href=\"$user\" target=\"_blank\">$name</a></a>";
+				$this->data['content'] = str_replace("@$name", "@$r", $this->data['content']);
 			}
 		}
 		$tags = $this->get_tags();
@@ -139,7 +140,7 @@ WHERE {
 		$query = "
 SELECT ?user ?name
 WHERE {
-	<$post> sioc:topic ?user .
+	<$post> sioc:addressed_to ?user .
 	?user sioc:name ?name .
 }";
 		return SMOBStore::query($query);
