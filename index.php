@@ -41,6 +41,9 @@ if(!SMOBTools::check_config()) {
 		}
 	}
 	elseif($t == 'sparql') {
+		if($_POST) {
+			SMOBTools::checkLoad($_POST);
+		}
 		$ep = ARC2::getStoreEndpoint($arc_config);
 		$ep->go();	
 	} else {
