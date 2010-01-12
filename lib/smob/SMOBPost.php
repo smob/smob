@@ -55,7 +55,6 @@ WHERE {
 		$users = $this->get_users();
 		if($users) {
 			foreach($users as $t) {
-				print_r($t);
 				$user = $t['user'];
 				$name = $t['name'];
 				$r = "<a class=\"topic\" rel=\"sioc:addressed_to\" href=\"$user\"><a href=\"$user\" target=\"_blank\">$name</a></a>";
