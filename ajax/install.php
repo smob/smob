@@ -94,7 +94,7 @@ function createStore($host, $name, $user, $pwd){
 	
 		'store_triggers_path' => dirname(__FILE__).'/../lib/smob/',
 		'store_triggers' => array(
-			'insert' => array('loadTrigger'),
+			'insert' => array('load'),
 		),
 		'endpoint_features' => array(
 	    	'select', 'construct', 'ask', 'describe', 'load'
