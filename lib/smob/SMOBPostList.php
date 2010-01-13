@@ -90,9 +90,9 @@ WHERE {
 		
 	public function render() {
 		// The title() function must be defined in the inherited classes
-		$ts = date('c');
+		$np = $this->count();
 		$ht = '<h2>'.$this->title().'</h2>';
-		$ht .= "<div id=\"ts\" style=\"display:none;\">$ts</div><div id=\"news\"></div>";
+		$ht .= "<div id=\"np\" style=\"display:none;\">$np</div><div id=\"news\"></div>";
 		if($this->posts) {
 			foreach($this->posts as $post) {
 				$ht .= $post->render();

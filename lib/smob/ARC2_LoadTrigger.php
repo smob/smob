@@ -38,7 +38,6 @@ WHERE {
 		$res = $this->store->query("LOAD <$author>");
 	}
 	return;
-	
   }
 
 }

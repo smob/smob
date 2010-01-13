@@ -130,7 +130,7 @@ xml:lang="fr">
 		});
 	});
 	$(function() { 
-		$("#ts").everyTime(5000,function(i) {
+		$("#np").everyTime(10000,function(i) {
 			getnews();
 		});
 	});
