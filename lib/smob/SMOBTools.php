@@ -228,9 +228,12 @@ LIMIT 1";
 	}
 
 	function literal($literal) {
-		return '"' . addslashes($literal) . '"';
+		return '"' . addslashes($literal) . '"^^xsd:string';
 	}
 	
+	function date($date) {
+		return '"' . addslashes($date) . '"^^xsd:dateTime';
+	}
 }
 
 ?>
