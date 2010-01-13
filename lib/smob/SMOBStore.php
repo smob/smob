@@ -26,6 +26,7 @@ class SMOBStore {
 	PREFIX opo-actions: <http://ggg.milanstankovic.org/opo-actions/ns#>
 	PREFIX ctag: <http://commontag.org/ns#>
 	PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+	PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
 		$query";		
 				

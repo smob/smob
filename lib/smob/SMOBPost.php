@@ -176,7 +176,7 @@ WHERE {
 		$triples[] = array(SMOBTools::uri($this->uri), "a", "sioct:MicroblogPost");
 		$triples[] = array("sioc:has_creator", SMOBTools::uri($smob_root));
 		$triples[] = array("foaf:maker", SMOBTools::uri($foaf_uri));
-		$triples[] = array("dct:created", SMOBTools::literal($this->ts));
+		$triples[] = array("dct:created", SMOBTools::date($this->ts));
 		$triples[] = array("dct:title", SMOBTools::literal("Update - ".$this->ts));
 		$triples[] = array("sioc:content", SMOBTools::literal($content));
 		if($reply_of) {
@@ -187,7 +187,7 @@ WHERE {
 		$triples[] = array(SMOBTools::uri($opo_uri), "a", "opo:OnlinePresence");
 		$triples[] = array("opo:declaredOn", SMOBTools::uri($user_uri));
 		$triples[] = array("opo:declaredBy", SMOBTools::uri($foaf_uri));
-		$triples[] = array("opo:StartTime", SMOBTools::literal($this->ts));
+		$triples[] = array("opo:StartTime", SMOBTools::date($this->ts));
 		$triples[] = array("opo:customMessage", SMOBTools::uri($this->uri));
 		if($location_uri) {
 			$triples[] = array("opo:currentLocation", SMOBTools::uri($location_uri));
@@ -234,6 +234,7 @@ WHERE {
 		$graph = $this->graph();
 		$rdf = SMOBTools::render_sparql_triples($this->triples);	
 		$query = "INSERT INTO <$graph> { $rdf }";
+		print $rdf;
 		SMOBStore::query($query);
 		print '<li>Message saved locally !</li>';
 	}
@@ -273,12 +274,14 @@ WHERE {
 		$data = SMOBStore::query($query);
 		header('Content-Type: text/turtle; charset=utf-8'); 
 		foreach($data as $triple) {
+		//	print_r($triple);
 			$s = $triple['s'];
 			$p = $triple['p'];
 			$o = $triple['o'];	
 			$ot = $triple['o type'];	
+			$odt = in_array('o datatype', array_keys($triple)) ? '^^<'.$triple['o datatype'].'>' : '';
 			echo "<$s> <$p> ";
-			echo ($ot == 'uri') ? "<$o> " : "\"$o\"";
+			echo ($ot == 'uri') ? "<$o> " : "\"$o\"$odt ";
 			echo ".\n" ;
 		}
 		exit();
