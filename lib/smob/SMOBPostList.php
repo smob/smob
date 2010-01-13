@@ -26,8 +26,9 @@ class SMOBPostList {
 		// The load_pattern() function must be defined in the inherited classes
 		$pattern = $this->load_pattern();
 		// Weird ARC2 bug iw adding ?creator in the following varlist !
+		// Bug as well for the /resource/XXX if adding the ?depiction and ?name in the query
 		$query = "
-SELECT DISTINCT ?post ?content ?author ?date ?presence ?reply_of ?reply_of_of ?depiction ?name ?location ?locname 
+SELECT DISTINCT ?post ?content ?author ?date ?presence ?reply_of ?reply_of_of ?location ?locname 
 WHERE {
 	?post rdf:type sioct:MicroblogPost ;
 		sioc:content ?content ;
@@ -37,9 +38,6 @@ WHERE {
 	$pattern
 	OPTIONAL { ?post sioc:reply_of ?reply_of. }
 	OPTIONAL { ?reply_of_of sioc:reply_of ?post . }
-	OPTIONAL { ?author foaf:depiction ?depiction . } 
-	OPTIONAL { ?author foaf:img ?depiction . }
-	OPTIONAL { ?author foaf:name ?name . }
 	OPTIONAL {
 		?presence opo:currentLocation ?location .
 		?location rdfs:label ?locname .
@@ -49,14 +47,31 @@ ORDER BY DESC(?date) OFFSET $start LIMIT $limit
 ";	
 		$posts = SMOBStore::query($query);
 		$uris = array();
+		$authors = array();
 		foreach($posts as $post) {
 			$uri = $post['post'];
+			$author = $post['author'];
+			if(!in_array($author, array_keys($authors))) {
+				$authors[$author] = $this->authorinfo($author);
+			}
 			if(!in_array($uri, $uris)) {
-				$this->posts[] = new SMOBPost($uri, $post);
+				$this->posts[] = new SMOBPost($uri, array_merge($post, $authors[$author][0]));
 				$uris[] = $uri;
 			}
 		}
 		return;		
+	}
+	
+	private function authorinfo($author) {
+		$query = "
+SELECT DISTINCT ?depiction ?name
+WHERE {
+	[] foaf:maker <$author> .
+	OPTIONAL { <$author> foaf:depiction ?depiction }
+	OPTIONAL { <$author> foaf:img ?depiction }
+	OPTIONAL { <$author> foaf:name ?name }
+} ORDER BY ASC(?name) ASC(?depiction) LIMIT 1";
+		return SMOBStore::query($query);
 	}
 	
 	// Get the number of messages in that list

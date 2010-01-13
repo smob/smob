@@ -28,7 +28,7 @@ class SMOBStore {
 	PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 		$query";		
-		
+				
 		$rs = $store->query($query);
 		
 		if ($errors = $store->getErrors()) {
