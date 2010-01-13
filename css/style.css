@@ -58,7 +58,7 @@ a:hover {
 	font-size: 10px;
 }
 
-.content {
+content {
 	font-size: 15px;
 }
 
@@ -96,6 +96,10 @@ a:hover {
 
 textarea, input, button, fieldset {
 	border: 1px solid #900;	
+}
+
+textarea {
+	width: 600px;
 }
 
 button {
