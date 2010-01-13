@@ -27,7 +27,7 @@ class SMOBInstaller {
 			Before starting, you must ensure that you have met the following requirements:
 		</p>
 		<ul>
-			<li>Download <a href="http://arc.semsol.org/download">ARC2</a> and unzip it in the <code>lib</code> folder;</li>
+			<li>Download <a href="http://arc.semsol.org/download">ARC2</a> and unzip it in the current <code>lib</code> folder;</li>
 			<li>Make the <code>config</code> directory writable by your web server;
 			<li>If your SMOB hub is not in the <code>/smob</code> directory of your website, please edit the <code>.htaccess</code> file accordingly;</li>
 			<li>Edit the <code>auth/.htaccess</code> file for authentication purposes. If you use <code>htpasswd</code> authentication, do not forget to create this file.</li>
@@ -70,7 +70,10 @@ class SMOBInstaller {
 				</fieldset>	
 			</form>
 			<p class="note">
-			Your FOAF URI is required, (<b>please note that this is your personal URI and not the URL of your FOAF profile</b>) and will be used as well to authenticate via FOAF-SSL. <br/>
+			Your FOAF URI is required in order to sign your posts. 
+			It will also be used as well to authenticate via FOAF-SSL if you wish to do so. 
+			<b>Please note that this is your personal URI and not the URL of your FOAF profile. For more information about the difference between both, you can check the <a href="http://pedantic-web.org/fops.html#inconsist">Pedantic Web page</a> on the topic.</b> 
+			<br/>
 			Twitter login / password is optional.
 			</p>
 		</div>
