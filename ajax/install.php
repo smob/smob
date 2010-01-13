@@ -94,7 +94,8 @@ function createStore($host, $name, $user, $pwd){
 	
 		'store_triggers_path' => dirname(__FILE__).'/../lib/smob/',
 		'store_triggers' => array(
-			'insert' => array('load'),
+			'insert' => array('foafLoad'),
+			'load' => array('foafLoad'),
 		),
 		'endpoint_features' => array(
 	    	'select', 'construct', 'ask', 'describe', 'load'
