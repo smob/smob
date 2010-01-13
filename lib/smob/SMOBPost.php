@@ -240,7 +240,8 @@ WHERE {
 		if($followers) {
 			foreach($followers as $follow) {
 				$endpoint = $follow['uri'] . 'sparql';
-				$query = 'query='.urlencode('LOAD <'.$this->uri.'>');
+				$uri = str_replace('/post/', '/data/', $this->uri);
+				$query = 'query='.urlencode("LOAD <$uri>");
 				$res = SMOBTools::do_curl($endpoint, $query);
 			}
 		}
