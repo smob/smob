@@ -59,7 +59,7 @@ class SMOBInstaller {
 			<form>
 				<fieldset>
 					<legend>SMOB settings</legend>
-					<label for="smob-root">SMOR hub address:</label> <input type="text" id="smob-root" name="smob-root" value="$root" size="50"><br />
+					<label for="smob-root">SMOB hub address:</label> <input type="text" id="smob-root" name="smob-root" value="$root" size="50"><br />
 					<label for="smob-gmap">GoogleMap API key (optional):</label> <input type="text" id="smob-gmap" name="smob-gmap" value="" size="50"><br />
 					<label for="smob-uri">FOAF URI:</label> <input type="text" id="smob-uri" name="smob-uri" value="" size="50"><br />
 					<label for="smob-auth">Authentication method:</label> <br/>
