@@ -39,8 +39,8 @@ function charsleft() {
 
 // LOD links suggestion
 function interlink() {
-
-	var text = $('#content').val(); 
+	
+	var text = $('#content').val() + '#'; 
 	var words = jQuery.trim(text).split(' ');	
 	var current_words = words.length - 1;
 	
