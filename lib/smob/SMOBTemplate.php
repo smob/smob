@@ -62,7 +62,7 @@ $form .= '
 ';		
 $form .= '	
 			<fieldset><legend>Interlinking</legend>
-			<div id="lod-form">Links will be suggested while typing ...</div>
+			<div id="lod-form">Links will be suggested while typing ... (space required after each #tag)</div>
 			</fieldset>
 ';
 		if($twitter_user && $twitter_pass) {
