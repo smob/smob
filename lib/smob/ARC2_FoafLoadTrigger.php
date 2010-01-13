@@ -4,7 +4,7 @@
 
 ARC2::inc('Class');
 
-class ARC2_LoadTrigger extends ARC2_Class {
+class ARC2_FoafLoadTrigger extends ARC2_Class {
 
   function __construct($a = '', &$caller) {/* caller is a store */
     parent::__construct($a, $caller);
@@ -22,6 +22,9 @@ class ARC2_LoadTrigger extends ARC2_Class {
   function go() { /* automatically called by store or endpoint */
 	$a = $this->a;
 	$graph = $a['query_infos']['query']['target_graph'];
+	if(!$graph) {
+		$graph = $a['query_infos']['query']['url'];
+	}
 	$q = "
 PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 
@@ -31,7 +34,6 @@ WHERE {
 		?s foaf:maker ?p .
 	} 
 }";
-
 	$res = $this->store->query($q);
 	$author = $res['result']['rows'][0]['p'];
 	if($author) {
