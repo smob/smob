@@ -16,7 +16,7 @@ class SMOBPost {
 		global $smob_root;
 		if($uri) {
 			$this->uri = $uri;
-			if($data && $author) {
+			if($data) {
 				$this->data = $data;
 				$this->process_content();
 			} else {
