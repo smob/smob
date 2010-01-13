@@ -73,8 +73,8 @@ function interlink() {
 
 // Get news ?
 function getnews() {
-	var ts = $('#ts').html(); 
-	$.get("ajax/news.php?ts="+urlencode(ts)+getCacheBusterParam(), function(data) {
+	var np = $('#np').html(); 
+	$.get("ajax/news.php?np="+urlencode(np)+getCacheBusterParam(), function(data) {
 		if(data) {
 			$("#news").show("normal");
 			$('#news').html(data);	
