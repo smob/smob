@@ -224,7 +224,7 @@ jQuery(function(){
 		} else {
 			$ht .= 'No one at the moment';
 		}
-		if($type == 'following' || SMOBAuth::check()) {
+		if($type == 'following' && SMOBAuth::check()) {
 			$ht .= "<p>If you want to follow new people, use the <a href=\"javascript:window.location='${smob_root}ping/following/'+window.location\">Follow in my SMOB!</a> bookmarklet.</p>";
 		}
 		return $ht;
