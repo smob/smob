@@ -58,6 +58,20 @@ ORDER BY DESC(?date) OFFSET $start LIMIT $limit
 		}
 		return;		
 	}
+	
+	// Get the number of messages in that list
+	private function count() {
+		$pattern = $this->load_pattern();
+		$query = "
+SELECT COUNT(?post) as ?count
+WHERE {
+	?post rdf:type sioct:MicroblogPost .
+	$pattern
+} 
+";	
+		$count = SMOBStore::query($query);
+		return $count[0]['count'];
+	}
 		
 	public function render() {
 		// The title() function must be defined in the inherited classes
@@ -74,14 +88,23 @@ ORDER BY DESC(?date) OFFSET $start LIMIT $limit
 	}
 
 	function pager() {
-		$page = $this->page;
-		if(!$page || $page == 1) {
-			return "<div><a href='?p=2'>Previous posts</a></div>";
-		} else {
+		$curlimit = $this->page*$this->limit;
+		$count = $this->count();
+		if($count > $curlimit) {
 			$previous = $page + 1;
+			$older = "<a href='?p=$previous'>Older posts</a>";
+		} 
+		if($page > 1) {
 			$next = $page - 1;
-			return "<div><a href='?p=$next'>Next posts</a> -- <a href='?p=$previous'>Previous posts</a></div>";
+			$recent = "<a href='?p=$next'>More recent posts</a>";
 		}
-	}
+		if ($older && $recent) {
+			return  "<div>$recent -- $older</div>";
+		} elseif($recent) {
+			return  "<div>$recent</div>";
+		} elseif($older) {
+			return  "<div>$older</div>";
+		}
+	} 
 
 }
