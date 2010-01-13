@@ -12,7 +12,7 @@ class SMOBPost {
 	var $content;
 	var $triples = array();
 	
-	public function __construct($uri = null, $data = null) {		
+	public function __construct($uri = null, $data = null) {	
 		global $smob_root;
 		if($uri) {
 			$this->uri = $uri;
@@ -171,7 +171,7 @@ WHERE {
 		$user_uri = SMOBTools::user_uri();
 		$this->ts = $ts;
 		$this->content = $content;
-		$this->uri();
+		$this->uri($ts);
 		
 		$triples[] = array(SMOBTools::uri($this->uri), "a", "sioct:MicroblogPost");
 		$triples[] = array("sioc:has_creator", SMOBTools::uri($smob_root));
@@ -224,13 +224,16 @@ WHERE {
 	private function uri() {
 		global $smob_root;
 		$this->uri = "${smob_root}post/".$this->ts;
-		return $this->uri;
+	}
+	
+	private function graph() {
+		return str_replace('/post/', '/data/', $this->uri);
 	}
 	
 	public function save() {
-		$post_uri = $this->uri();
+		$graph = $this->graph();
 		$rdf = SMOBTools::render_sparql_triples($this->triples);	
-		$query = "INSERT INTO <${post_uri}.rdf> { $rdf }";
+		$query = "INSERT INTO <$graph> { $rdf }";
 		SMOBStore::query($query);
 		print '<li>Message saved locally !</li>';
 	}
@@ -240,8 +243,8 @@ WHERE {
 		if($followers) {
 			foreach($followers as $follow) {
 				$endpoint = $follow['uri'] . 'sparql';
-				$uri = str_replace('/post/', '/data/', $this->uri);
-				$query = 'query='.urlencode("LOAD <$uri>");
+				$graph = $this->graph();
+				$query = 'query='.urlencode("LOAD <$graph>");
 				$res = SMOBTools::do_curl($endpoint, $query);
 			}
 		}
@@ -258,14 +261,15 @@ WHERE {
 	}
 	
 	public function raw() {	
-		$uri = $this->uri;
+		$uri = $this->graph();
 		$query = "
 SELECT *
 WHERE { 
-	GRAPH <$uri.rdf> {
+	GRAPH <$uri> {
 		?s ?p ?o
 	}
 }";
+
 		$data = SMOBStore::query($query);
 		header('Content-Type: text/turtle; charset=utf-8'); 
 		foreach($data as $triple) {
