@@ -55,7 +55,7 @@ ORDER BY DESC(?date) OFFSET $start LIMIT $limit
 				$authors[$author] = $this->authorinfo($author);
 			}
 			if(!in_array($uri, $uris)) {
-				$this->posts[] = new SMOBPost($uri, array_merge($post, $authors[$author][0]));
+				$this->posts[] = new SMOBPost($uri, array_merge($post, $authors[$author]));
 				$uris[] = $uri;
 			}
 		}
@@ -71,7 +71,8 @@ WHERE {
 	OPTIONAL { <$author> foaf:img ?depiction }
 	OPTIONAL { <$author> foaf:name ?name }
 } ORDER BY ASC(?name) ASC(?depiction) LIMIT 1";
-		return SMOBStore::query($query);
+		$res = SMOBStore::query($query);
+		return sizeof($res) == 1 ? $res[0] : array();
 	}
 	
 	// Get the number of messages in that list
