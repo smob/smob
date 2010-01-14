@@ -15,7 +15,7 @@ if(isset($_GET['cmd'])){
 		echo createDB();         
 	} 
 	elseif($cmd =="setup-smob") {
-			setupSMOB();         
+		setupSMOB();         
 	}
 	else echo "<p>Sorry, I didn't understand the command ...</p>";            
 }
