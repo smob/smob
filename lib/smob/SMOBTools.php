@@ -38,10 +38,12 @@ class SMOBTools {
 	
 	// Get current location
 	public function location() {
+		global $foaf_uri;
 		$query = "
 SELECT DISTINCT ?location ?name WHERE {
 ?presence opo:currentLocation ?location ;
-	opo:StartTime ?time .
+	opo:StartTime ?time ;
+	opo:declaredBy <$foaf_uri> .
 ?location rdfs:label ?name
 }
 ORDER BY DESC(?time)
