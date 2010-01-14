@@ -4,6 +4,7 @@ require_once(dirname(__FILE__).'/../lib/smob/SMOB.php');
 require_once(dirname(__FILE__)."/../config/config.php");
 
 $np = $_GET['np'];
+if(!$np) die();
 
 $query = "
 SELECT count(?post) as ?c
