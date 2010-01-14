@@ -32,6 +32,7 @@ class SMOBTools {
 				}
 			}
 		}
+		print "Operation not allowed";
 		die();		
 	}
 	
