@@ -11,6 +11,14 @@ class SMOBTools {
 		return file_get_contents(dirname(__FILE__).'/../../VERSION');
 	}
 	
+	// check if the FOAF URI is correct
+	public function checkFoaf($foaf) {
+		SMOBStore::query("LOAD <$foaf>");
+		$name = "SELECT DISTINCT ?o WHERE { <$foaf> ?p ?o } LIMIT 1";
+		$res = SMOBStore::query($name);
+		return sizeof($res) == 1;
+	}
+	
 	// Check if allowed to LOAD
 	function checkLoad($_POST) {
 		if($query = trim($_POST['query'])) {

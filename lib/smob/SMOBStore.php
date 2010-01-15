@@ -10,6 +10,12 @@ class SMOBStore {
 	
 	function query($query) {
 		global $arc_config;
+		
+		if(!$arc_config) {
+			include_once(dirname(__FILE__).'/../arc/ARC2.php');
+			include_once(dirname(__FILE__).'/../../config/config.php');
+		}				
+		
 		$store = ARC2::getStore($arc_config);
 		if (!$store->isSetUp()) {
 			$store->setUp();

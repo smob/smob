@@ -72,7 +72,8 @@ class SMOBInstaller {
 			<p class="note">
 			Your FOAF URI is required in order to sign your posts. 
 			It will also be used as well to authenticate via FOAF-SSL if you wish to do so. 
-			<b>Please note that this is your personal URI and not the URL of your FOAF profile. For more information about the difference between both, you can check the <a href="http://pedantic-web.org/fops.html#inconsist">Pedantic Web page</a> on the topic.</b> 
+			<b>Please note that this is your personal URI and not the URL of your FOAF profile. For more information about the difference between both, you can check the <a href="http://pedantic-web.org/fops.html#inconsist">Pedantic Web page</a> on the topic. In addition, that URI must be dereferencable and must return RDF information about itself.</b> 
+			<br/>
 			<br/>
 			Twitter login / password is optional.
 			</p>

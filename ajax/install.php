@@ -5,8 +5,6 @@ require_once(dirname(__FILE__).'/../lib/smob/SMOB.php');
 if(file_exists($arc)) {
 	include_once($arc);
 }
-  
-$DEBUG = false;
 
 if(isset($_GET['cmd'])){ 
 	$cmd = $_GET['cmd'];
@@ -21,7 +19,6 @@ if(isset($_GET['cmd'])){
 }
 
 function createDB(){
-	global $DEBUG;
 	$host =  urldecode($_GET['host']);
 	$name =  $_GET['name'];
 	$user = $_GET['user'];
@@ -111,17 +108,22 @@ function createStore($host, $name, $user, $pwd){
 }
 
 function setupSMOB() {
-	global $DEBUG;
 	$smob_root = $_GET['smob_root'];
-	$client_uri = $_GET['client_uri'];
+	$foaf_uri = $_GET['client_uri'];
 	$client_twitter_login = $_GET['client_twitter_login'];
 	$client_twitter_pass = $_GET['client_twitter_pass'];
 	$server_gmap = $_GET['server_gmap'];
 	$auth = $_GET['auth'];
 	
+	if(!SMOBTools::checkFoaf($foaf_uri)) {
+		print "<p>An error occurred with your FOAF URI. <b>Please ensure that it dereferences to an RDF file and that this file contains information about your URI.<b><br/>You will have to <a href='$smob_root'>restart the install process<a/></p>";
+		unlink(dirname(__FILE__).'/../config/config.php');
+		die();
+	}
+	
 	$config = "
 	\$smob_root = '$smob_root';
-	\$foaf_uri = '$client_uri';
+	\$foaf_uri = '$foaf_uri';
 
 	\$twitter_user = '$client_twitter_login';
 	\$twitter_pass = '$client_twitter_pass';
