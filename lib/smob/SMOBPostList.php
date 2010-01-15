@@ -107,11 +107,11 @@ WHERE {
 		$curlimit = $this->page*$this->limit;
 		$count = $this->count();
 		if($count > $curlimit) {
-			$previous = $page + 1;
+			$previous = $this->page + 1;
 			$older = "<a href='?p=$previous'>Older posts</a>";
 		} 
-		if($page > 1) {
-			$next = $page - 1;
+		if($this->page > 1) {
+			$next = $this->page - 1;
 			$recent = "<a href='?p=$next'>More recent posts</a>";
 		}
 		if ($older && $recent) {
