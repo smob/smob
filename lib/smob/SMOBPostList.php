@@ -76,8 +76,8 @@ WHERE {
 	}
 	
 	// Get the number of messages in that list
-	private function count() {
-		$pattern = $this->load_pattern();
+	private function count($pattern = true) {
+		$pattern = $pattern ? $this->load_pattern() : '';
 		$query = "
 SELECT COUNT(?post) as ?count
 WHERE {
@@ -91,7 +91,7 @@ WHERE {
 		
 	public function render() {
 		// The title() function must be defined in the inherited classes
-		$np = $this->count();
+		$np = $this->count(false);
 		$ht = '<h2>'.$this->title().'</h2>';
 		$ht .= "<div id=\"np\" style=\"display:none;\">$np</div><div id=\"news\"></div>";
 		if($this->posts) {
