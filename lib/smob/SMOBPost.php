@@ -247,8 +247,8 @@ WHERE {
 				$query = 'query='.urlencode("LOAD <$graph>");
 				$res = SMOBTools::do_curl($endpoint, $query);
 			}
+			print '<li>Message sent to your followers !</li>';
 		}
-		print '<li>Message sent to your followers !</li>';
 	}
 	
 	public function tweet() {
