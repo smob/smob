@@ -28,8 +28,8 @@ class SMOBStore {
 	PREFIX dct: <http://purl.org/dc/terms/>
 	PREFIX tags: <http://www.holygoat.co.uk/owl/redwood/0.1/tags/>
 	PREFIX moat: <http://moat-project.org/ns#>
-	PREFIX opo: <http://ggg.milanstankovic.org/opo/ns#>
-	PREFIX opo-actions: <http://ggg.milanstankovic.org/opo-actions/ns#>
+	PREFIX opo: <http://online-presence.net/opo/ns#>
+	PREFIX opo-actions: <http://online-presence.net/opo-actions/ns#>
 	PREFIX ctag: <http://commontag.org/ns#>
 	PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 	PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
