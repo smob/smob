@@ -110,6 +110,9 @@ function createStore($host, $name, $user, $pwd){
 
 function setupSMOB() {
 	$smob_root = $_GET['smob_root'];
+	if(substr($smob_root, -1) != '/') {
+		$smob_root = "$smob_root/";
+	}		
 	$foaf_uri = $_GET['client_uri'];
 	$client_twitter_login = $_GET['client_twitter_login'];
 	$client_twitter_pass = $_GET['client_twitter_pass'];

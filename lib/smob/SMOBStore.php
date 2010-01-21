@@ -31,6 +31,7 @@ class SMOBStore {
 	PREFIX opo: <http://online-presence.net/opo/ns#>
 	PREFIX opo-actions: <http://online-presence.net/opo-actions/ns#>
 	PREFIX ctag: <http://commontag.org/ns#>
+	PREFIX smob: <http://smob.me/ns#>
 	PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 	PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
