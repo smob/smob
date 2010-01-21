@@ -81,6 +81,7 @@ function createStore($host, $name, $user, $pwd){
 	$config = "<?php
 
 	include_once(dirname(__FILE__).'/../lib/arc/ARC2.php');
+	include_once(dirname(__FILE__).'/../lib/xmlrpc/lib/xmlrpc.inc');
 
 	\$arc_config = array(
 		'db_host' => '$host', 

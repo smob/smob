@@ -250,6 +250,29 @@ WHERE {
 			print '<li>Message sent to your followers !</li>';
 		}
 	}
+
+	public function sindice() {
+		$client = new xmlrpc_client("http://sindice.com/xmlrpc/api");
+		$payload = new xmlrpcmsg("weblogUpdates.ping");
+   
+		$payload->addParam(new xmlrpcval($this->data['content']));
+		$payload->addParam(new xmlrpcval($this->uri));
+   
+		$response = $client->send($payload);
+		$xmlresponsestr = $response->serialize();
+   
+		$xml = simplexml_load_string($xmlresponsestr);
+		$result = $xml->xpath("//value/boolean/text()");
+		if($result) {
+			if($result[0] == "0"){
+				print '<li>Message sent to Sindice !</li>';
+ 			}
+		} else {
+			$code = $response->faultCode();
+			$err = $response->faultString();
+			print '<li>Failed to submit to Sindice ($code: $err)</li>';
+		}
+	}
 	
 	public function tweet() {
 		global $twitter_user, $twitter_pass;
@@ -273,7 +296,6 @@ WHERE {
 		$data = SMOBStore::query($query);
 		header('Content-Type: text/turtle; charset=utf-8'); 
 		foreach($data as $triple) {
-		//	print_r($triple);
 			$s = $triple['s'];
 			$p = $triple['p'];
 			$o = $triple['o'];	

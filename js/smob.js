@@ -12,7 +12,8 @@ function publish() {
 	              'location': $("#location").val(),
 	              'location_uri': $("#location_uri").val(),
 	              'twitter': $("#twitter:checked").length,
-				  'lod': lod,
+	              'sindice': $("#sindice:checked").length,
+	              'lod': lod,
 	             };		
 				
 	$.get("ajax/pub.php?" + $.param(params)+getCacheBusterParam(), function(data){
