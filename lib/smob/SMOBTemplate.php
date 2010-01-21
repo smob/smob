@@ -65,13 +65,14 @@ $form .= '
 			<div id="lod-form">Links will be suggested while typing ... (space required after each #tag)</div>
 			</fieldset>
 ';
+	
+		$form .= '<fieldset><legend>Broadcast</legend>';
 		if($twitter_user && $twitter_pass) {
-			$form .= "
-			<fieldset><legend>Broadcast</legend>
-			<input type='checkbox' name='twitter' id='twitter' checked='true'/>Twitter as $twitter_user<br/>
-			</fieldset>
-";
+			$form .= "<input type='checkbox' name='twitter' id='twitter' checked='true'/>Twitter as $twitter_user<br/>";
 		}
+		$form .= "<input type='checkbox' name='sindice' id='sindice' checked='true'/>Ping Sindice<br/>";
+		$form .= '</fieldset>'; 
+
 		$form .= '
 			</div>
 			</form>
@@ -105,6 +106,7 @@ $form .= '
   xmlns:sioct="http://rdfs.org/sioc/types#"
   xmlns:ctag="http://commontag.org/ns#"
   xmlns:opo="http://online-presence.net/opo/ns#"
+  xmlns:smob="http://smob.me/ns#"
   xmlns:moat="http://moat-project.org/ns#"
   xmlns:content="http://purl.org/rss/1.0/modules/content/"
 xml:lang="fr">
@@ -138,7 +140,7 @@ xml:lang="fr">
   <?php echo $form_js; ?>
 </head>
 
-<body about="<?php echo $smob_root; ?>" typeof="sioc:Microblog">
+<body about="<?php echo $smob_root; ?>" typeof="smob:Hub sioct:Microblog">
 
 <div id="full">
 
