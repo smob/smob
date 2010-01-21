@@ -39,8 +39,10 @@ WHERE {
 	OPTIONAL { ?post sioc:reply_of ?reply_of. }
 	OPTIONAL { ?reply_of_of sioc:reply_of ?post . }
 	OPTIONAL {
-		?presence opo:currentLocation ?location .
-		?location rdfs:label ?locname .
+		GRAPH ?g {
+			?presence opo:currentLocation ?location .
+			?location rdfs:label ?locname .
+		}
 	}
 } 
 ORDER BY DESC(?date) OFFSET $start LIMIT $limit
