@@ -59,7 +59,7 @@ WHERE {
 			foreach($users as $t) {
 				$user = $t['user'];
 				$name = $t['name'];
-				$r = "<a class=\"topic\" rel=\"sioc:addressed_to\" href=\"$user\"><a href=\"$user\" target=\"_blank\">$name</a></a>";
+				$r = "<span class=\"topic\" rel=\"sioc:addressed_to\" href=\"$user\"><a href=\"$user\" target=\"_blank\">$name</a></span>";
 				$this->data['content'] = str_replace("@$name", "@$r", $this->data['content']);
 			}
 		}
