@@ -56,7 +56,7 @@ SELECT DISTINCT ?time ?location ?name WHERE {
 		?location rdfs:label ?name
 		}
 	}
-ORDER BY DESC(?time);
+ORDER BY DESC(?time)
 LIMIT 1";		
 		$res = SMOBStore::query($query);
 		$loc = $res[0]['location'];
