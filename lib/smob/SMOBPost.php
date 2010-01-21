@@ -255,7 +255,7 @@ WHERE {
 		$client = new xmlrpc_client("http://sindice.com/xmlrpc/api");
 		$payload = new xmlrpcmsg("weblogUpdates.ping");
    
-		$payload->addParam(new xmlrpcval($this->data['content']));
+		$payload->addParam(new xmlrpcval($this->content));
 		$payload->addParam(new xmlrpcval($this->uri));
    
 		$response = $client->send($payload);
