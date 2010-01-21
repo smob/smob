@@ -8,6 +8,7 @@ $content = $_GET['content'];
 $location = $_GET['location'];
 $location_uri = $_GET['location_uri'];
 $twitter = $_GET['twitter'];
+$sindice = $_GET['sindice'];
 $mappings = $_GET['lod'];
 $reply_of = $_GET['reply_of'];
 
@@ -25,6 +26,9 @@ if($content) {
 	$post->notify();
 	if($twitter) {
 		$post->tweet();		
+	}
+	if($sindice) {
+		$post->sindice();		
 	}
 	print "</ul>\n";	
 }
