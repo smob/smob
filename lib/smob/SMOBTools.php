@@ -48,13 +48,15 @@ class SMOBTools {
 	public function location() {
 		global $foaf_uri;
 		$query = "
-SELECT DISTINCT ?location ?name WHERE {
-?presence opo:currentLocation ?location ;
-	opo:StartTime ?time ;
-	opo:declaredBy <$foaf_uri> .
-?location rdfs:label ?name
-}
-ORDER BY DESC(?time)
+SELECT DISTINCT ?time ?location ?name WHERE {
+	GRAPH ?g {
+		?presence opo:currentLocation ?location ;
+			opo:StartTime ?time ;
+			opo:declaredBy <$foaf_uri> .
+		?location rdfs:label ?name
+		}
+	}
+ORDER BY DESC(?time);
 LIMIT 1";		
 		$res = SMOBStore::query($query);
 		$loc = $res[0]['location'];
