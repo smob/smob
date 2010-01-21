@@ -174,7 +174,8 @@ WHERE {
 		$this->uri($ts);
 		
 		$triples[] = array(SMOBTools::uri($this->uri), "a", "sioct:MicroblogPost");
-		$triples[] = array("sioc:has_creator", SMOBTools::uri($smob_root));
+		$triples[] = array("sioc:has_container", SMOBTools::uri($smob_root));
+		$triples[] = array("sioc:has_creator", SMOBTools::uri($smob_root.'me'));
 		$triples[] = array("foaf:maker", SMOBTools::uri($foaf_uri));
 		$triples[] = array("dct:created", SMOBTools::date($this->ts));
 		$triples[] = array("dct:title", SMOBTools::literal("Update - ".$this->ts));
@@ -182,6 +183,8 @@ WHERE {
 		if($reply_of) {
 			$triples[] = array("sioc:reply_of", SMOBTools::uri($reply_of));			
 		}
+
+		$triples[] = array(SMOBTools::uri($smob_root), "a", "smob:Hub");
 
 		$opo_uri = $this->uri.'#presence';
 		$triples[] = array(SMOBTools::uri($opo_uri), "a", "opo:OnlinePresence");
