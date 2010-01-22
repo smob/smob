@@ -28,7 +28,7 @@ class SMOBInstaller {
 		</p>
 		<ul>
 			<li>Download <a href="http://arc.semsol.org/download">ARC2</a> and unzip it in the current <code>lib</code> folder;</li>
-			<li>Download <a href="http://phpxmlrpc.sourceforge.net/">XML-RPC for PHP</a> and unzip it in the current <code>lib</code> folder;</li>
+			<li>Download <a href="http://phpxmlrpc.sourceforge.net/">XML-RPC for PHP</a>, unzip it in the current <code>lib</code> folder and rename it from <code>xmlrpc-version</code> to <code>xmlrpc</code>;</li>
 			<li>Make the <code>config</code> directory writable by your web server;
 			<li>If your SMOB hub is not in the <code>/smob</code> directory of your website, please edit the <code>.htaccess</code> file accordingly;</li>
 			<li>Edit the <code>auth/.htaccess</code> file for authentication purposes. If you use <code>htpasswd</code> authentication, do not forget to create this file.</li>
