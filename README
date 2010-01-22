@@ -37,3 +37,30 @@ Installation
 2. Go to http://example.org/smob and follow the instructions
 
 3. Enjoy
+
+
+Copyright
+---------
+
+SMOB is (c) 2008 - 2010 DERI, National University of Ireland, Galway
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program as the file LICENSE.txt; if not, please see
+http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt.
+
+
+Maintainers and contact
+-----------------------
+
+For informations about current maintainers of SMOB and how to contact us,
+as well as reporting bugs and suggesting features improvement, please check
+http://smob.me
