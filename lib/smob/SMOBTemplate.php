@@ -169,7 +169,7 @@ xml:lang="fr">
 <h2>Navigation</h2>
 <ul>
 <li><a href='<?php echo $smob_root; ?>'>Home</a></li>
-<li><a href='<?php echo $smob_root; ?>following'>Following</a></li>
+<li><a href='<?php echo $smob_root; ?>followings'>Followings</a></li>
 <li><a href='<?php echo $smob_root; ?>followers'>Followers</a></li>
 <li><a href='<?php echo $smob_root; ?>sparql'>SPARQL</a></li>
 </ul>
@@ -221,12 +221,18 @@ jQuery(function(){
 			foreach($users as $u) {
 				$user = $u['uri'];
 				$ht .= "<li><a href='$user'>$user</a>";
+				if (SMOBAuth::check()) {
+					$type = substr($type, 0, -1);
+					$remove = "${smob_root}remove/$type/$user";
+					$ht .= " [<a href=\"$remove\" onclick=\"javascript:return confirm('Are you sure ? This cannot be undone.')\">remove</a>]";
+				}
+				$ht .= "</li>";
 			}
 			$ht .= '</ul>';
 		} else {
 			$ht .= 'No one at the moment';
 		}
-		if($type == 'following' && SMOBAuth::check()) {
+		if($type == 'followings' && SMOBAuth::check()) {
 			$ht .= "<p>If you want to follow new people, use the <a href=\"javascript:window.location='${smob_root}ping/following/'+window.location\">Follow in my SMOB!</a> bookmarklet.</p>";
 		}
 		return $ht;

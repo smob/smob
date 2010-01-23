@@ -20,7 +20,7 @@ class SMOB {
 	var $uri;
 	var $publisher;
 	var $reply_of;
-	var $commands = array('data', 'following', 'followers', 'post', 'posts', 'replies', 'resource', 'user');
+	var $commands = array('data', 'followings', 'followers', 'post', 'posts', 'replies', 'resource', 'user');
 	
 	// Construct - save parameters and setup the RDF store
 	public function __construct($type, $uri, $page) {
@@ -85,8 +85,8 @@ class SMOB {
 		return $list->render();		
 	}
 	
-	private function following() {
-		return SMOBTemplate::users($this->type, SMOBTools::following()); 
+	private function followings() {
+		return SMOBTemplate::users($this->type, SMOBTools::followings()); 
 	}
 
 	private function followers() {
