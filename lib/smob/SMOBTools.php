@@ -29,7 +29,7 @@ class SMOBTools {
 			if($load == 1 && $first == 1 && $last == 1) {
 				preg_match('/<(.*)>/', $query, $matches);
 				$uri = $matches[1];
-				$followers = SMOBTools::following();
+				$followers = SMOBTools::followings();
 				if($followers) {
 					foreach($followers as $f) {
 						$f = $f['uri'];
@@ -70,9 +70,9 @@ LIMIT 1";
 		return SMOBTools::people('followers', $pattern);
 	}
 
-	function following() {
+	function followings() {
 		$pattern = '<' . SMOBTools::user_uri() . '> sioc:follows ?uri';
-		return SMOBTools::people('following', $pattern);
+		return SMOBTools::people('followings', $pattern);
 	}
 	
 	function people($type, $pattern) {
@@ -157,7 +157,7 @@ LIMIT 1";
 
 	function user_uri() {
 		global $smob_root;
-		return $smob_root;
+		return "${smob_root}me";
 	}
 	
 	function get_uri($uri, $type) {
