@@ -11,6 +11,7 @@ require_once(dirname(__FILE__).'/SMOBPostList.php');
 require_once(dirname(__FILE__).'/SMOBStore.php');
 require_once(dirname(__FILE__).'/SMOBTemplate.php');
 require_once(dirname(__FILE__).'/SMOBTools.php');
+require_once(dirname(__FILE__).'/SMOBTweet.php');
 require_once(dirname(__FILE__).'/SMOBURIWrapper.php');
 
 class SMOB {
