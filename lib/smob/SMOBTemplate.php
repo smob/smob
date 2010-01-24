@@ -39,7 +39,7 @@ __END__;
 		if($reply_of) {
 				$r = explode('/', $reply_of);
 				if($r[2] == 'twitter.com') {
-					$reply = '@'.$r[3];
+					$reply = '@'.$r[3].' ';
 				}
 				$len = 140 - strlen($reply);
 				$form .= "<p>You are replying to post <a href='$reply_of'>$reply_of</a></p>";
@@ -178,6 +178,11 @@ xml:lang="fr">
 <li><a href='<?php echo $smob_root; ?>followings'>Followings</a></li>
 <li><a href='<?php echo $smob_root; ?>followers'>Followers</a></li>
 <li><a href='<?php echo $smob_root; ?>sparql'>SPARQL</a></li>
+</ul>
+
+<h2>RSS</h2>
+<ul>
+<li><a href='<?php echo $smob_root; ?>me/rss'>Owner posts</a></li>
 </ul>
 
 <h2>Hub owner</h2>

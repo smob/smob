@@ -8,7 +8,15 @@ class SMOBTools {
 	
 	// Get version
 	public function version() {
-		return file_get_contents(dirname(__FILE__).'/../../VERSION');
+		return trim(file_get_contents(dirname(__FILE__).'/../../VERSION'));
+	}
+	
+	// Name of the Hub owner
+	public function ownername() {
+		global $foaf_uri;
+		$query = "SELECT ?name WHERE { <$foaf_uri> foaf:name ?name } LIMIT 1";
+		$res = SMOBSTore::query($query);
+		return $res[0]['name'];
 	}
 	
 	// check if the FOAF URI is correct
