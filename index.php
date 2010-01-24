@@ -23,6 +23,7 @@ if(!SMOBTools::check_config()) {
 		} 
 		// Add a new following
 		elseif($t == 'following') {
+			if(!SMOBAuth::check()) die();
 			$remote_user = SMOBTools::remote_user($u);
 			if(!$remote_user) {
 				SMOBTemplate::header('');
