@@ -9,12 +9,18 @@ RewriteRule ^replies/(.*)$ index.php?t=replies&u=$1 [L,QSA]
 RewriteRule ^resource/(.*)$ index.php?t=resource&u=$1 [L,QSA]
 RewriteRule ^data/(.*)$ index.php?t=data&u=$1 [L,QSA]
 
-RewriteRule ^following$ index.php?t=following [L,QSA]
+RewriteRule ^followings$ index.php?t=followings [L,QSA]
 RewriteRule ^followers$ index.php?t=followers [L,QSA]
 
+
+RewriteRule ^add/following/(.*)$ index.php?a=add&t=following&u=$1 [L,QSA]
+RewriteRule ^add/follower/(.*)$ index.php?a=add&t=follower&u=$1 [L,QSA]
 RewriteRule ^ping/following/(.*)$ index.php?a=add&t=following&u=$1 [L,QSA]
 RewriteRule ^ping/follower/(.*)$ index.php?a=add&t=follower&u=$1 [L,QSA]
 RewriteRule ^ping/item/(.*)$ index.php?a=add&t=item&u=$1 [L,QSA]
+
+RewriteRule ^remove/following/(.*)$ index.php?a=remove&t=following&u=$1 [L,QSA]
+RewriteRule ^remove/follower/(.*)$ index.php?a=remove&t=follower&u=$1 [L,QSA]
 
 RewriteRule ^sparql(.*)$ index.php?t=sparql [L,QSA]
 
