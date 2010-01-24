@@ -245,7 +245,13 @@ WHERE {
 		$followers = SMOBTools::followers();
 		if($followers) {
 			foreach($followers as $follow) {
-				$endpoint = $follow['uri'] . 'sparql';
+				// In case some hubs are still in 2.0
+				$uri = $follow['uri'];
+				if (substr($uri, -2) == 'me') {
+					$endpoint = substr($uri, 0, -2) . 'sparql';
+				} else {
+					$endpoint = $uri . 'sparql';
+				}
 				$graph = $this->graph();
 				$query = 'query='.urlencode("LOAD <$graph>");
 				$res = SMOBTools::do_curl($endpoint, $query);
