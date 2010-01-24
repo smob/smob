@@ -1,0 +1,13 @@
+# v2.1
+
+- RSS Feeds (for owner messages)
+- Twitter timeline can be loaded in a SMOB Hub
+- Added @reply when replying to a Twitter message
+- Various bugfixes
+
+# v2.0 [2010-01-22] 
+
+- Major rewritting of the original SMOB code
+  See http://apassant.net/blog/2010/01/22/smob-v20 for details
+
+
