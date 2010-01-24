@@ -222,8 +222,8 @@ jQuery(function(){
 				$user = $u['uri'];
 				$ht .= "<li><a href='$user'>$user</a>";
 				if (SMOBAuth::check()) {
-					$type = substr($type, 0, -1);
-					$remove = "${smob_root}remove/$type/$user";
+					$t = substr($type, 0, -1);
+					$remove = "${smob_root}remove/$t/$user";
 					$ht .= " [<a href=\"$remove\" onclick=\"javascript:return confirm('Are you sure ? This cannot be undone.')\">remove</a>]";
 				}
 				$ht .= "</li>";
@@ -233,7 +233,7 @@ jQuery(function(){
 			$ht .= 'No one at the moment';
 		}
 		if($type == 'followings' && SMOBAuth::check()) {
-			$ht .= "<p>If you want to follow new people, use the <a href=\"javascript:window.location='${smob_root}ping/following/'+window.location\">Follow in my SMOB!</a> bookmarklet.</p>";
+			$ht .= "<p>If you want to follow new people, use the <a href=\"javascript:window.location='${smob_root}add/following/'+window.location\">Follow in my SMOB!</a> bookmarklet.</p>";
 		}
 		return $ht;
 	}

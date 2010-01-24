@@ -14,8 +14,8 @@ if(!SMOBTools::check_config()) {
 		$u = str_replace('http:/', 'http://', $u);
 		// Add a new follower
 		if($t == 'follower') {
-			// Do sanity check for the uri
-			$remote_user = $u;
+			$remote_user = SMOBTools::remote_user($u);
+			if(!$remote_user) die();
 			$local_user = SMOBTools::user_uri();
 			$follow = "<$remote_user> sioc:follows <$local_user> . ";	
 			$local = "INSERT INTO <${smob_root}data/followers> { $follow }";
@@ -23,42 +23,40 @@ if(!SMOBTools::check_config()) {
 		} 
 		// Add a new following
 		elseif($t == 'following') {
-			if(substr($u, -1) != '/') {
-				$u = "$u/";
+			$remote_user = SMOBTools::remote_user($u);
+			if(!$remote_user) {
+				SMOBTemplate::header('');
+				print "<a href='$u'>$u</a> is not a valid Hub, user cannot be added";
+				SMOBTemplate::footer();	
+			} else {
+				// Store the new relationship locally
+				$local_user = SMOBTools::user_uri();			
+				$follow = "<$local_user> sioc:follows <$remote_user> . ";
+				$local = "INSERT INTO <${smob_root}data/followings> { $follow }";
+				SMOBStore::query($local);
+				SMOBTemplate::header('');
+				print "<a href='$remote_user'>$remote_user</a> was added to your following list and was notified about your subscription";
+				SMOBTemplate::footer();	
+				// And ping to update the followers list remotely
+				$ping = "{$u}add/follower/$local_user";
+				SMOBTools::do_curl($ping);
 			}
-			$remote_user = "${u}";
-			// Store the new relationship locally
-			$local_user = SMOBTools::user_uri();
-			$follow = "<$local_user> sioc:follows <$remote_user> . ";
-			$local = "INSERT INTO <${smob_root}data/followings> { $follow }";
-			SMOBStore::query($local);
-			SMOBTemplate::header('');
-			print "$remote_user was added to your following list and was notified about your subscription";
-			SMOBTemplate::footer();	
-			// And ping to update the followers list remotely
-			$ping = "{$u}ping/follower/$local_user";
-			SMOBTools::do_curl($ping);
 		}
 	}
-	if($a && $a == 'remove') {
+	elseif($a && $a == 'remove') {
 		if(!SMOBAuth::check()) die();
 		$u = str_replace('http:/', 'http://', $u);
-		// Add a new follower
+		// Remove a follower
 		if($t == 'follower') {
-			// Do sanity check for the uri
 			$remote_user = $u;
 			$local_user = SMOBTools::user_uri();
 			$follow = "<$remote_user> sioc:follows <$local_user> . ";	
 			$local = "DELETE FROM <${smob_root}data/followers> { $follow }";
 			SMOBStore::query($local);
 		} 
-		// Add a new following
+		// Remove a following
 		elseif($t == 'following') {
-			if(substr($u, -1) != '/') {
-				$u = "$u/";
-			}
-			$remote_user = "${u}";
-			// Store the new relationship locally
+			$remote_user = $u;
 			$local_user = SMOBTools::user_uri();
 			$follow = "<$local_user> sioc:follows <$remote_user> . ";			
 			$local = "DELETE FROM <${smob_root}data/followings> { $follow }";

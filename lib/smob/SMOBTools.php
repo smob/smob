@@ -155,6 +155,19 @@ LIMIT 1";
 		return false;
 	}
 
+	// Find the user URI from the loaded page (in case it's loaded from a /resource/xxx)
+	function remote_user($u) {
+		// LOAD the page and fine the Hub
+		$u = str_replace(' ', '+', $u);
+		$res = SMOBStore::query("LOAD <$u>");
+		$hubs = "SELECT DISTINCT ?s WHERE { GRAPH <$u> { ?s a smob:Hub } } LIMIT 1";
+		$res = SMOBStore::query($hubs);
+//		echo $u;
+//		print_r($res);
+		SMOBStore::query("DROP <$u>");
+		return (sizeof($res) == 1) ? $res[0]['s'].'me' : '';
+	}
+	
 	function user_uri() {
 		global $smob_root;
 		return "${smob_root}me";
