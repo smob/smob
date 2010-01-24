@@ -77,6 +77,27 @@ WHERE {
 		return;
 		}
 	
+	// Render the post as RSS 1.0 item
+	public function rss() {
+		$uri = $this->uri;
+		$content = $this->data['content'];
+		$ocontent = strip_tags($content);
+		$date = $this->data['date'];
+		$name = $this->data['name'];
+		
+		$item = "	
+<item rdf:about=\"$uri\">
+	<title>$ocontent</title>
+	<link>$uri</link>
+	<description>$ocontent</description>
+	<dc:creator>$name</dc:creator>
+	<dc:date>$date</dc:date>
+	<content:encoded><![CDATA[$content]]></content:encoded>
+</item>
+";
+		return $item;
+	}
+	
 	// Render the post in RDFa/XHTML
 	public function render() {
 		global $sioc_nick, $smob_root;

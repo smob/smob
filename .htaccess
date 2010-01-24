@@ -19,6 +19,8 @@ RewriteRule ^ping/following/(.*)$ index.php?a=add&t=following&u=$1 [L,QSA]
 RewriteRule ^ping/follower/(.*)$ index.php?a=add&t=follower&u=$1 [L,QSA]
 RewriteRule ^ping/item/(.*)$ index.php?a=add&t=item&u=$1 [L,QSA]
 
+RewriteRule ^me/rss$ index.php?t=rss_owner [L,QSA]
+
 RewriteRule ^remove/following/(.*)$ index.php?a=remove&t=following&u=$1 [L,QSA]
 RewriteRule ^remove/follower/(.*)$ index.php?a=remove&t=follower&u=$1 [L,QSA]
 

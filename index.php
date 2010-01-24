@@ -65,6 +65,11 @@ if(!SMOBTools::check_config()) {
 		}
 		header("Location: ${smob_root}${t}s");
 	}	
+	elseif($t == 'rss_owner') {
+		header ("Content-type: text/xml");
+		$tweet = new SMOBFeed();
+		$tweet->rss();
+	}
 	elseif($t == 'sparql') {
 		if($_POST) {
 			SMOBTools::checkLoad($_POST);
