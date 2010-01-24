@@ -37,17 +37,23 @@ class SMOBTemplate {
 __END__;
 		$form = '<h2>What&apos;s on your mind?</h2>';
 		if($reply_of) {
+				$r = explode('/', $reply_of);
+				if($r[2] == 'twitter.com') {
+					$reply = '@'.$r[3];
+				}
+				$len = 140 - strlen($reply);
 				$form .= "<p>You are replying to post <a href='$reply_of'>$reply_of</a></p>";
 				$form .= "<input type='hidden' name='reply_of' id='reply_of' value='$reply_of' />";
 		} else {
+				$len = 140;
 				$form .= "<input type='hidden' name='reply_of' id='reply_of'/>";
 		}
 		$form .= '
 			<span class="content-details" style="display: none;">
-			(You have <span id="charsleft">140</span> characters left)
+			(You have <span id="charsleft">' . $len . '</span> characters left)
 			</span>
 			<form id="content-form">
-			<textarea name="content" id="content" rows="5" cols="82"></textarea>
+			<textarea name="content" id="content" rows="5" cols="82">' . $reply. '</textarea>
 			<div class="content-details" style="display: none;">
 ';		
 		if($loc = SMOBTools::location()) {
