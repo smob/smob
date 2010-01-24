@@ -8,7 +8,11 @@ class SMOBStore {
 	
 	var $store;
 	
-	function query($query) {
+	function ask($query) {
+		return SMOBStore::query("ASK { $query }", true);
+	}
+	
+	function query($query, $ask=false) {
 		global $arc_config;
 		
 		if(!$arc_config) {
@@ -44,7 +48,11 @@ class SMOBStore {
 			return array();
 		}
 		
-		return $rs['result']['rows'];
+		if($ask) {
+			return $rs['result'];
+		} else {
+			return $rs['result']['rows'];
+		}
 	}
 	
 	

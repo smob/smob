@@ -90,17 +90,20 @@ LIMIT 1";
 		return null;
 	}
 	
-	function do_curl($url, $postfields = null, $userpwd = null) {
-		$ch = curl_init(POSTURL);
+	function do_curl($url, $postfields = null, $userpwd = null, $type='POST') {
+		if($type == 'POST') {
+			$ch = curl_init(POSTURL);
+			curl_setopt($ch, CURLOPT_POST, 1);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $postfields);
+		} else {
+			$ch = curl_init();
+		}
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_POST, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $postfields);
 		if ($userpwd) {
 			curl_setopt($ch, CURLOPT_USERPWD, $userpwd);
 		}
-		
 		$response = curl_exec($ch);
 		if ($error = curl_error($ch)) {
 			return array("$error.", "", 0);
@@ -162,8 +165,6 @@ LIMIT 1";
 		$res = SMOBStore::query("LOAD <$u>");
 		$hubs = "SELECT DISTINCT ?s WHERE { GRAPH <$u> { ?s a smob:Hub } } LIMIT 1";
 		$res = SMOBStore::query($hubs);
-//		echo $u;
-//		print_r($res);
 		SMOBStore::query("DROP <$u>");
 		return (sizeof($res) == 1) ? $res[0]['s'].'me' : '';
 	}
