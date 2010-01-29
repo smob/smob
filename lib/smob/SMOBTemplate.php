@@ -121,10 +121,10 @@ xml:lang="fr">
 <head profile="http://ns.inria.fr/grddl/rdfa/">
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
   <title>SMOB</title>
-  <link rel="stylesheet" type="text/css" href="<?php echo $root; ?>css/style.css" />
-  <link type="text/css" href="http://jqueryui.com/latest/themes/base/ui.base.css" rel="stylesheet" />
-
   <link rel="icon" type="image/png" href="<?php echo $root; ?>/img/smob-icon.png" />
+  <link rel="stylesheet" type="text/css" href="<?php echo $root; ?>css/style.css" />
+  <link type="text/css" href="http://jqueryui.com/latest/themes/base/ui.all.css" rel="stylesheet" />
+
 
   <script type="text/javascript" src="<?php echo $root; ?>js/jquery-1.3.2.min.js"></script>
   <script type="text/javascript" src="<?php echo $root; ?>js/jquery.timers-1.2.js"></script>
