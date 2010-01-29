@@ -43,6 +43,8 @@ function addTab(data) {
 	var obj = JSON.parse(data);
 	$("#lod-form").append("<div id='" + obj.id + "'>" + obj.html + "</div>");
 	$("#tabs").tabs("add", '#'+obj.id, obj.term);
+	size = $('#tabs').tabs("length");
+	(obj.class)
 }
 
 // LOD links suggestion
