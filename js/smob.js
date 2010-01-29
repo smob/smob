@@ -38,6 +38,13 @@ function charsleft() {
 	}
 }
 
+// Tab generation for the interlinking
+function addTab(data) {
+	var obj = JSON.parse(data);
+	$("#lod-form").append("<div id='" + obj.id + "'>" + obj.html + "</div>");
+	$("#tabs").tabs("add", '#'+obj.id, obj.term);
+}
+
 // LOD links suggestion
 function interlink() {
 	
@@ -52,7 +59,7 @@ function interlink() {
 		first = current.charAt(0);
 		if(first == '#') {
 			$.get("ajax/interlink.php?type=tag&term="+urlencode(current)+getCacheBusterParam(), function(data){
-				$("#lod-form").append(data);
+				addTab(data);
 			});
 		}
 		else if(first == 'L') {
@@ -60,13 +67,13 @@ function interlink() {
 				second = current.charAt(1);
 				if(second == ':') {
 					$.get("ajax/interlink.php?type=location&term="+urlencode(current)+getCacheBusterParam(), function(data){
-						$("#lod-form").append(data);
-					});	
+						addTab(data);
+					});
 				}
 			}
 		} else if(first == '@') {	
 			$.get("ajax/interlink.php?type=user&term="+urlencode(current)+getCacheBusterParam(), function(data){
-				$("#lod-form").append(data);
+				addTab(data);
 			});
 		}
 	}

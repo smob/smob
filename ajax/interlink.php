@@ -51,25 +51,39 @@ $term = $_GET['term'];
 
 if(!in_array($type, array('tag', 'location', 'user'))) die();
 
-print "<fieldset><legend>$term</legend>";
+$original = $term;
 if($type == 'tag' || $type == 'user') {
 	$term = substr($term, 1);
 } else if($type == 'location') {
 	$term = substr($term, 2);
 }
+
+// URIs from wrappers
 $wrappers = get_wrappers($type);
+$class = 'empty';
 foreach($wrappers as $wrapper) {
-	print "<fieldset><legend>Via $wrapper</legend>";
+	$ht .= "<fieldset><legend>Via $wrapper</legend>";
 	$existing = existing_uris($term, $type);
 	$uris = find_uris($wrapper, $term, $type);
 	if($uris) {
 		foreach($uris as $name=>$uri) {
 			$val = "$type--$term--$uri";
 			$checked = in_array($uri, $existing) ? 'checked="true"' : '';
-			print "<input type='checkbox' value='$val' $checked/>$name (<a href='$uri' target='_blank'>$uri</a>)<br/>";
+			if($checked) {
+				$class = 'found';
+			}
+			$ht .= "<input type='checkbox' value='$val' $checked/>$name (<a href='$uri' target='_blank'>$uri</a>)<br/>";
 		}
 	} else {
-		print "Nothing retrieved from this service<br/>";
+		$ht .= "Nothing retrieved from this service<br/>";
 	}
-	print "</fieldset>";
+	$ht .= "</fieldset>";
 }
+
+print "
+{
+	\"id\" : \"tc-$type-$term\",
+	\"term\" : \"$original\",
+	\"html\" : \"$ht\",
+	\"class\" : \"$class\"
+}";

@@ -69,6 +69,7 @@ $form .= '
 $form .= '	
 			<fieldset><legend>Interlinking</legend>
 			<div id="lod-form">Links will be suggested while typing ... (space required after each #tag)</div>
+			<div id="tabs"><ul></ul></div>
 			</fieldset>
 ';
 	
@@ -121,13 +122,20 @@ xml:lang="fr">
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
   <title>SMOB</title>
   <link rel="stylesheet" type="text/css" href="<?php echo $root; ?>css/style.css" />
+  <link type="text/css" href="http://jqueryui.com/latest/themes/base/ui.base.css" rel="stylesheet" />
+
   <link rel="icon" type="image/png" href="<?php echo $root; ?>/img/smob-icon.png" />
+
   <script type="text/javascript" src="<?php echo $root; ?>js/jquery-1.3.2.min.js"></script>
   <script type="text/javascript" src="<?php echo $root; ?>js/jquery.timers-1.2.js"></script>
   <script type="text/javascript" src="<?php echo $root; ?>js/jquery.bgiframe.min.js"></script>
   <script type="text/javascript" src="<?php echo $root; ?>js/jquery.autocomplete-min.js"></script>
   <script type="text/javascript" src="<?php echo $root; ?>js/ui.core.js"></script>
+
+  <script type="text/javascript" src="http://jqueryui.com/latest/ui/ui.tabs.js"></script>
+
   <script type="text/javascript" src="<?php echo $root; ?>js/smob.js"></script>
+
   <base href="<?php echo $root; ?>" />
   <script type="text/javascript">
 	var state = 0;
@@ -141,6 +149,9 @@ xml:lang="fr">
 		$("#np").everyTime(10000,function(i) {
 			getnews();
 		});
+	});
+	$(document).ready(function(){
+		$("#tabs").tabs();
 	});
   </script>
   <?php echo $form_js; ?>
