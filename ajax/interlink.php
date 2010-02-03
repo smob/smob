@@ -68,7 +68,7 @@ foreach($wrappers as $wrapper) {
 	if($uris) {
 		foreach($uris as $name=>$uri) {
 			$val = "$type--$term--$uri";
-			$checked = in_array($uri, $existing) ? 'checked="true"' : '';
+			$checked = in_array($uri, $existing) ? 'checked=\'true\'' : '';
 			if($checked) {
 				$class = 'found';
 			}
