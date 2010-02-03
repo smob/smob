@@ -201,6 +201,7 @@ xml:lang="fr">
 <h2>Hub owner</h2>
 <ul>
 <li><a href='<?php echo $smob_root; ?>auth'>Authenticate</a></li>
+<li><a href='<?php echo $smob_root; ?>replies'>@replies</a></li>
 </ul>
 	
 </div>

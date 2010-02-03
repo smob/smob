@@ -14,7 +14,7 @@ class SMOBTweet {
 		$this->user = $twitter_user;
 		$this->pass = $twitter_pass;
 	}
-	
+		
 	public function getposts() {
 		$url  = 'http://twitter.com/statuses/home_timeline.json';
 		$userpwd = $this->user.':'.$this->pass;
@@ -25,7 +25,7 @@ class SMOBTweet {
 			$username = $tweet->user->screen_name;			
 			$uri = "http://twitter.com/$username/status/$id";
 			if (!SMOBStore::ask("<$uri> a sioct:MicroblogPost")) {
-				echo "LOADING $tweet<br/>";
+				echo "LOADING $uri<br/>";
 				$this->load_tweet($tweet);
 			}
 		}
@@ -33,10 +33,12 @@ class SMOBTweet {
 		
 	private function load_tweet($tweet) {
 
-		global $smob_root;
+		global $smob_root, $foaf_uri;
 	
 		$id = $tweet->id;
 		$username = $tweet->user->screen_name;
+
+		$local = $this->user;
 		
 		$uri = "http://twitter.com/$username/status/$id";
 		
@@ -45,33 +47,41 @@ class SMOBTweet {
 		$name = $tweet->user->name;
 		$ts = date('c', time($tweet->created_at));
 		$user_uri = "http://twitter.com/$username";
-		$foaf_uri = "http://twitter.com/$username#me";
+		$user_foaf_uri = "http://twitter.com/$username#me";
 		$depiction = $tweet->user->profile_image_url;
 			
 		$triples = array();
 		$triples[] = array(SMOBTools::uri($uri), "a", "sioct:MicroblogPost");
 		$triples[] = array("sioc:has_container", SMOBTools::uri('http://twitter.com/'));
 		$triples[] = array("sioc:has_creator", SMOBTools::uri($user_uri));
-		$triples[] = array("foaf:maker", SMOBTools::uri($foaf_uri));
+		$triples[] = array("foaf:maker", SMOBTools::uri($user_foaf_uri));
 		$triples[] = array("dct:created", SMOBTools::date($ts));
 		$triples[] = array("dct:title", SMOBTools::literal("Update - ".$ts));
 		$triples[] = array("sioc:content", SMOBTools::literal($content));
+		if(strpos($content, '@'.$this->user)!==false) {
+			$triples[] = array("sioc:addressed_to", SMOBTools::uri($foaf_uri));
+			$triples[] = array("sioc:addressed_to", SMOBTools::uri('http://twitter.com/'.$this->user.'#me'));
+			$triples[] = array(SMOBTools::uri($foaf_uri), 'sioc:name', SMOBTools::literal($this->user));
+			$triples[] = array(SMOBTools::uri('http://twitter.com/'.$this->user.'#me'), 'sioc:name', SMOBTools::literal($this->user));
+		}
 				
-		$triples[] = array(SMOBTools::uri($foaf_uri), "foaf:name", SMOBTools::literal($name));
+		$triples[] = array(SMOBTools::uri($user_foaf_uri), "foaf:name", SMOBTools::literal($name));
 		$triples[] = array("foaf:depiction", SMOBTools::uri($depiction));
 				
 		$opo_uri = $uri.'#presence';
 		$triples[] = array(SMOBTools::uri($opo_uri), "a", "opo:OnlinePresence");
 		$triples[] = array("opo:declaredOn", SMOBTools::uri($user_uri));
-		$triples[] = array("opo:declaredBy", SMOBTools::uri($foaf_uri));
+		$triples[] = array("opo:declaredBy", SMOBTools::uri($user_foaf_uri));
 		$triples[] = array("opo:StartTime", SMOBTools::date($ts));
 		$triples[] = array("opo:customMessage", SMOBTools::uri($uri));
 		
 		$graph = "${smob_root}data/twitter/$id";
 		$rdf = SMOBTools::render_sparql_triples($triples);	
 		
-		$query = "INSERT INTO <$graph> { $rdf }";				
+		$query = "INSERT INTO <$graph> { $rdf }";	
 		$res = SMOBStore::query($query);
+		echo $query;
+		die();
 	}		
 	
 }
