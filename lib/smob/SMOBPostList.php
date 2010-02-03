@@ -7,6 +7,7 @@
 require_once(dirname(__FILE__).'/lists/SMOBPostListPosts.php');
 require_once(dirname(__FILE__).'/lists/SMOBPostListResource.php');
 require_once(dirname(__FILE__).'/lists/SMOBPostListUser.php');
+require_once(dirname(__FILE__).'/lists/SMOBPostListUserReplies.php');
 
 class SMOBPostList {
 	

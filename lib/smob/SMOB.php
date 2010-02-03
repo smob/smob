@@ -22,7 +22,7 @@ class SMOB {
 	var $uri;
 	var $publisher;
 	var $reply_of;
-	var $commands = array('data', 'followings', 'followers', 'post', 'posts', 'replies', 'resource', 'user');
+	var $commands = array('data', 'followings', 'followers', 'post', 'posts', 'replies', 'resource', 'user', 'userReplies');
 	
 	// Construct - save parameters and setup the RDF store
 	public function __construct($type, $uri, $page) {
@@ -80,13 +80,14 @@ class SMOB {
 	}
 	
 	// Browsing a list of posts
+	private function userreplies() { return $this->posts(); }
 	private function resource() { return $this->posts(); }
 	private function posts() {
 		$class = 'SMOBPostList'.ucfirst($this->type);
 		$list = new $class($this->uri, $this->page);
 		return $list->render();		
 	}
-	
+		
 	private function followings() {
 		return SMOBTemplate::users($this->type, SMOBTools::followings()); 
 	}
