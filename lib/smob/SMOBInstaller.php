@@ -61,7 +61,7 @@ class SMOBInstaller {
 				<fieldset>
 					<legend>SMOB settings</legend>
 					<label for="smob-root">SMOB hub address:</label> <input type="text" id="smob-root" name="smob-root" value="$root" size="50"><br />
-					<label for="smob-gmap">GoogleMap API key (optional):</label> <input type="text" id="smob-gmap" name="smob-gmap" value="" size="50"><br />
+					<label for="smob-gmap">GoogleMap API key (optional):</label> <input type="text" id="smob-gmap" name="smob-gmap" value="" size="50"><br />	
 					<label for="smob-uri">FOAF URI:</label> <input type="text" id="smob-uri" name="smob-uri" value="" size="50"><br />
 					<label for="smob-auth">Authentication method:</label> <br/>
 						<input type="radio" name="smob-auth" id="smob-auth" value="htpasswd" checked="true"> htpasswd<br/>
@@ -72,8 +72,8 @@ class SMOBInstaller {
 			</form>
 			<p class="note">
 			Your FOAF URI is required in order to sign your posts. 
-			It will also be used as well to authenticate via FOAF-SSL if you wish to do so. 
-			<b>Please note that this is your personal URI and not the URL of your FOAF profile. For more information about the difference between both, you can check the <a href="http://pedantic-web.org/fops.html#inconsist">Pedantic Web page</a> on the topic. In addition, that URI must be dereferencable and must return RDF information about itself.</b> 
+			(It will also be used as well to authenticate via FOAF-SSL if you wish to do so.)
+			<b>Please note that this is your personal URI and not the URL of your FOAF profile. For more information about the difference between both, you can check the <a href="http://pedantic-web.org/fops.html#inconsist">Pedantic Web page</a> on the topic. In addition, that URI must be dereferencable and must return RDF information about itself. If you do not have a FOAF profile, you can create one <a href="http://foafbuilder.qdos.com/">here</a> or <a href="http://www.ldodds.com/foaf/foaf-a-matic">there</a>, or use your Twitter account via <a href="http://semantictweet.com">SemanticTweet</a></b> 
 			<br/>
 			<br/>
 			Twitter login / password is optional.
