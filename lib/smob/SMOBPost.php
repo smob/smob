@@ -139,7 +139,12 @@ WHERE {
 		$ht .= "  <div id=\"star$count\" class=\"rating\">&nbsp;</div>";		
 		$ht .= "  <span style=\"display:none;\" rel=\"sioc:has_creator\" href=\"$creator\"></span>\n";
 		$ht .= "  <a href=\"$uri\" class=\"date\" property=\"dcterms:created\">$date</a>\n";
-		$data = str_replace('post', 'data', $uri);
+		if(strpos($uri, 'http://twitter.com/') == 0) {
+			$ex = explode('/', $uri);
+			$data = "${smob_root}data/twitter/" . $ex[5];
+		} else { 
+			$data = str_replace('post', 'data', $uri);
+		}
 		$ht .= " [<a href=\"$data\">RDF</a>]\n";
 		if(SMOBAuth::check()) {
 			$enc2 = $this->get_publish_uri();
