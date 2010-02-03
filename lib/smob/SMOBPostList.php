@@ -25,17 +25,17 @@ class SMOBPostList {
 		$start = ($this->page-1)*$limit;
 		// The load_pattern() function must be defined in the inherited classes
 		$pattern = $this->load_pattern();
-		// Weird ARC2 bug iw adding ?creator in the following varlist !
+		// Weird ARC2 bug iw adding ?creator or ?star in the following varlist !
 		// Bug as well for the /resource/XXX if adding the ?depiction and ?name in the query
 		$query = "
-SELECT DISTINCT ?post ?content ?author ?date ?presence ?reply_of ?reply_of_of ?location ?locname 
+SELECT DISTINCT ?post ?content ?author ?date ?reply_of ?reply_of_of ?location ?locname
 WHERE {
 	?post rdf:type sioct:MicroblogPost ;
 		sioc:content ?content ;
 		foaf:maker ?author ;
 		dct:created ?date .
-	?presence opo:customMessage ?post .
 	$pattern
+	?presence opo:customMessage ?post .
 	OPTIONAL { ?post sioc:reply_of ?reply_of. }
 	OPTIONAL { ?reply_of_of sioc:reply_of ?post . }
 	OPTIONAL {
@@ -92,13 +92,16 @@ WHERE {
 	}
 		
 	public function render() {
+		global $count;
 		// The title() function must be defined in the inherited classes
 		$np = $this->count(false);
 		$ht = '<h2>'.$this->title().'</h2>';
 		$ht .= "<div id=\"np\" style=\"display:none;\">$np</div><div id=\"news\"></div>";
 		if($this->posts) {
+			$count = 1;
 			foreach($this->posts as $post) {
 				$ht .= $post->render();
+				$count++;
 			}
 		}
 		$ht .= $this->pager();
