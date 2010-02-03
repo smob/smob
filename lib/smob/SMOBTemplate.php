@@ -11,28 +11,28 @@ class SMOBTemplate {
 		
 		$contentblock = $reply_of ? "$('.content-details').show();" : "
 		$('#content').focus(function() {
-	      $('.content-details').show();
-	    });";
+			$('.content-details').show();
+		});";
 	
 		$form_js = <<<__END__
 		<script type="text/javascript">
-		  $(document).ready(function() {
-		    $("#publish").click(function () {
-		      publish();
-		    });
+		$(document).ready(function() {
+			$("#publish").click(function () {
+				publish();
+			});
 			$contentblock
 			numwords = 0;
-		    // XXX form.blur doesn't work :-/
-		    $('#content-form').blur(function() {
-		      if ($('#content').val().length == 0) {
-  			    $('.content-details').hide();
-		      }
-		    });
-		    $('#content').keyup(function(){
-			  interlink();
-		      return charsleft();
-		    });
-		  });
+			// XXX form.blur doesn't work :-/
+			$('#content-form').blur(function() {
+				if ($('#content').val().length == 0) {
+					$('.content-details').hide();
+				}
+			});
+			$('#content').keyup(function(){
+				interlink();
+				charsleft();
+			});
+		});
 		</script>
 __END__;
 		$form = '<h2>What&apos;s on your mind?</h2>';
