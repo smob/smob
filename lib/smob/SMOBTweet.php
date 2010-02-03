@@ -80,8 +80,6 @@ class SMOBTweet {
 		
 		$query = "INSERT INTO <$graph> { $rdf }";	
 		$res = SMOBStore::query($query);
-		echo $query;
-		die();
 	}		
 	
 }
