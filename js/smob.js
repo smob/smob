@@ -44,17 +44,15 @@ function addTab(data) {
 	$("#lod-form").append("<div id='" + obj.id + "'>" + obj.html + "</div>");
 	$("#tabs").tabs("add", '#'+obj.id, obj.term);
 	size = $('#tabs').tabs("length");
-	(obj.class)
 }
 
 // LOD links suggestion
 function interlink() {
-	
 	var text = $('#content').val() + '#'; 
 	var words = jQuery.trim(text).split(' ');	
 	var current_words = words.length - 1;
 	
-	if(current_words > numwords) {
+	if(current_words > numwords) {		
 		numwords = current_words;
 		words.pop();
 		current = words.pop();
