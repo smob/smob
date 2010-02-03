@@ -144,6 +144,7 @@ function setupSMOB() {
 	fclose($f);
 	
 	print "<p>Enjoy, you can now access your <a href='.'>SMOB Hub</a> !<br/>
+	Log-in using the 'Authenticate' link and start writing microblog po.<br/>
 	Also, be sure to restrict access to the <code>config/</code> directory.</p>";
 }
 
