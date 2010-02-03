@@ -152,6 +152,8 @@ button {
 	font-size: 6px;	
 }
 
+/* Autocomplete */
+
 .autocomplete-w1 { 
 	position:absolute; 
 	border: 1px solid;
@@ -182,3 +184,55 @@ button {
 	font-weight:normal; 
 	color:#900; 
 }
+
+/* Star ratings */
+
+.rating {
+	cursor: pointer;
+	float: left;
+	border-right: -10px;
+	border-left: -10px
+}
+
+.rating:after {
+	content: '.';
+	display: block;
+	height: 0;
+	width: 0;
+	clear: both;
+	visibility: hidden;
+}
+
+.star {
+	float: left;
+	width: 17px;
+	height: 15px;
+	overflow: hidden;
+	text-indent: -999em;
+	cursor: pointer;
+}
+.star-left,
+.star-right {
+  width: 8px
+}
+
+.star,
+.star a {background: url(../img/star.gif) no-repeat 0 0px;}
+	
+.star a {
+	display: block;
+	width: 100%;
+	height: 100%;
+	background-position: 0 0px;
+}
+
+div.rating div.on a {
+	background-position: 0 -16px;
+}
+div.rating div.hover a,
+div.rating div a:hover {
+	background-position: 0 -32px;
+}
+
+
+

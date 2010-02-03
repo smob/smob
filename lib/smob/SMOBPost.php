@@ -100,7 +100,7 @@ WHERE {
 	
 	// Render the post in RDFa/XHTML
 	public function render() {
-		global $sioc_nick, $smob_root;
+		global $sioc_nick, $smob_root, $count;
 
 		$uri = $this->uri;
 		
@@ -115,12 +115,16 @@ WHERE {
 		$presence = $this->data['presence'];
 		$location = $this->data['location'];
 		$locname = $this->data['locname'];
+		$star = $this->get_star();
 
 		$pic = SMOBTools::either($this->data['depiction'], "${smob_root}img/avatar-blank.jpg");
 		$class = strpos($uri, $smob_root) !== FALSE ? "post internal" : "post external";
 		$ht .= "<div about=\"$presence\" rel=\"opo:customMessage\">\n";
+
 		$ht .= "<div class=\"$class\" typeof=\"sioct:MicroblogPost\" about=\"$uri\">\n";
+
 		$ht .= "<span style=\"display:none;\" rel=\"sioc:has_container\" href=\"$smob_root\"></span>\n";
+
 		$ht .= "<img about=\"$author\" rel=\"foaf:depiction\" href=\"$pic\" src=\"$pic\" class=\"depiction\" alt=\"Depiction for $name\"/>";
 		$ht .= "  <span class=\"content\" property=\"content:encoded\">$content</span>\n";
 		$ht .= "  <span style=\"display:none;\" property=\"sioc:content\">$ocontent</span>\n";
@@ -132,6 +136,7 @@ WHERE {
 			$ht .= "  location: <span about=\"$presence\">unspecified</span><br/>\n";	
 		}
 		$ht .= "  <div style=\"margin: 2px;\"></div> ";
+		$ht .= "  <div id=\"star$count\" class=\"rating\">&nbsp;</div>";		
 		$ht .= "  <span style=\"display:none;\" rel=\"sioc:has_creator\" href=\"$creator\"></span>\n";
 		$ht .= "  <a href=\"$uri\" class=\"date\" property=\"dcterms:created\">$date</a>\n";
 		$data = str_replace('post', 'data', $uri);
@@ -151,7 +156,19 @@ WHERE {
 		$ht .= '  </div>';
 		$ht .= '</div>';
 		$ht .= "</div>\n\n";
+		$ht .= "<script>
+$(document).ready(function(){
+	$('#star$count').rating('ajax/star.php?u=$uri', {maxvalue: 1, curvalue: $star});
+	});
+</script>";		
 		return $ht;
+	}
+	
+	private function get_star() {
+		$uri = $this->uri;
+		$pattern = "{ <$uri> rev:rating \"1\"^^xsd:integer . }";
+		$res = SMOBStore::query("ASK $pattern", true);
+		return ($res==1) ? $res : 0;
 	}
 	
 	// URI for publishing

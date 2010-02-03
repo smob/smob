@@ -1,8 +1,15 @@
 # v2.1
 
 - RSS Feeds (for owner messages)
+
 - Twitter timeline can be loaded in a SMOB Hub
+
 - Added @reply when replying to a Twitter message
+
+- Moved #tags mappings to a tabs interface
+
+- Starring system
+
 - Various bugfixes
 
 # v2.0 [2010-01-22] 

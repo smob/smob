@@ -116,6 +116,7 @@ $form .= '
   xmlns:smob="http://smob.me/ns#"
   xmlns:moat="http://moat-project.org/ns#"
   xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  xmlns:rev="http://purl.org/stuff/rev#"
 xml:lang="fr">
 
 <head profile="http://ns.inria.fr/grddl/rdfa/">
@@ -123,14 +124,15 @@ xml:lang="fr">
   <title>SMOB</title>
   <link rel="icon" type="image/png" href="<?php echo $root; ?>/img/smob-icon.png" />
   <link rel="stylesheet" type="text/css" href="<?php echo $root; ?>css/style.css" />
-  <link type="text/css" href="http://jqueryui.com/latest/themes/base/ui.all.css" rel="stylesheet" />
 
+  <link type="text/css" href="http://jqueryui.com/latest/themes/base/ui.all.css" rel="stylesheet" />
 
   <script type="text/javascript" src="<?php echo $root; ?>js/jquery-1.3.2.min.js"></script>
   <script type="text/javascript" src="<?php echo $root; ?>js/jquery.timers-1.2.js"></script>
   <script type="text/javascript" src="<?php echo $root; ?>js/jquery.bgiframe.min.js"></script>
   <script type="text/javascript" src="<?php echo $root; ?>js/jquery.autocomplete-min.js"></script>
   <script type="text/javascript" src="<?php echo $root; ?>js/ui.core.js"></script>
+  <script type="text/javascript" src="<?php echo $root; ?>js/jquery.rating.js"></script>
 
   <script type="text/javascript" src="http://jqueryui.com/latest/ui/ui.tabs.js"></script>
 
