@@ -157,7 +157,8 @@ function createDB(){
 
 function setupSMOB(){
 	var smob_root = $("#smob-root").val();	
-	var server_gmap = $("#smob-gmap").val();	
+	var server_gmap = $("#smob-gmap").val();
+	var purge = $("#smob-purge").val();			
 	var client_uri = $("#smob-uri").val();
 	var client_twitter_login = $("#smob-twitter-login").val();
 	var client_twitter_pass = $("#smob-twitter-pass").val();
@@ -166,7 +167,7 @@ function setupSMOB(){
 	$("#smob-config-pane-in").hide("normal");
 	$("#smob-config-pane-out").show("normal");
 	
-	$.get("ajax/install.php?cmd=setup-smob&smob_root="+urlencode(smob_root)+"&server_gmap="+urlencode(server_gmap)+"&client_uri="+urlencode(client_uri)+"&client_twitter_login="+urlencode(client_twitter_login)+"&client_twitter_pass="+urlencode(client_twitter_pass)+"&auth="+auth+getCacheBusterParam(), function(data){
+	$.get("ajax/install.php?cmd=setup-smob&smob_root="+urlencode(smob_root)+"&server_gmap="+urlencode(server_gmap)+"&purge="+urlencode(purge)+"&client_uri="+urlencode(client_uri)+"&client_twitter_login="+urlencode(client_twitter_login)+"&client_twitter_pass="+urlencode(client_twitter_pass)+"&auth="+auth+getCacheBusterParam(), function(data){
 		$("#smob-config-pane-out").html(data);
 	});
 			

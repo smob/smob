@@ -11,6 +11,34 @@ class SMOBTools {
 		return trim(file_get_contents(dirname(__FILE__).'/../../VERSION'));
 	}
 	
+	// Remove posts older than X days
+	public function purge() {
+		global $purge;
+
+		if($purge > 0) {
+			$date = date('c', time()-$purge*24*3600);
+			$query = "
+SELECT ?graph
+WHERE {
+	GRAPH ?graph {
+		?post a sioct:MicroblogPost ;
+			dct:created ?date .
+		FILTER (?date < '$date')
+	} 
+	OPTIONAL { ?post rev:rating ?star }
+	FILTER (!bound(?star))
+}";
+			$res = SMOBStore::query($query);
+			if($res) {
+				foreach($res as $r) {
+					$g = $r['graph'];
+					$query = "DELETE FROM <$g> ";
+					SMOBStore::query($query);
+				}
+			}
+		}		
+	}
+	
 	// Name of the Hub owner
 	public function ownername() {
 		global $foaf_uri;
