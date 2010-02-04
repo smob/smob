@@ -118,6 +118,7 @@ function setupSMOB() {
 	$client_twitter_pass = $_GET['client_twitter_pass'];
 	$server_gmap = $_GET['server_gmap'];
 	$auth = $_GET['auth'];
+	$purge = $_GET['purge'];
 	
 	if(!SMOBTools::checkFoaf($foaf_uri)) {
 		print "<p>An error occurred with your FOAF URI. <b>Please ensure that it dereferences to an RDF file and that this file contains information about your URI.<b><br/>You will have to <a href='$smob_root'>restart the install process<a/></p>";
@@ -133,6 +134,8 @@ function setupSMOB() {
 	\$twitter_pass = '$client_twitter_pass';
 
 	\$gmap_key = '$server_gmap';
+	
+	\$purge = '$purge';
 	
 	\$auth_method = '$auth';
 	

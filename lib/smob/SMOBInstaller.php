@@ -62,6 +62,7 @@ class SMOBInstaller {
 					<legend>SMOB settings</legend>
 					<label for="smob-root">SMOB hub address:</label> <input type="text" id="smob-root" name="smob-root" value="$root" size="50"><br />
 					<label for="smob-gmap">GoogleMap API key (optional):</label> <input type="text" id="smob-gmap" name="smob-gmap" value="" size="50"><br />	
+					<label for="smob-purge">Purge posts after X days (0 to keep them):</label> <input type="text" id="smob-purge" name="smob-purge" value="5" size="50"><br />	
 					<label for="smob-uri">FOAF URI:</label> <input type="text" id="smob-uri" name="smob-uri" value="" size="50"><br />
 					<label for="smob-auth">Authentication method:</label> <br/>
 						<input type="radio" name="smob-auth" id="smob-auth" value="htpasswd" checked="true"> htpasswd<br/>
