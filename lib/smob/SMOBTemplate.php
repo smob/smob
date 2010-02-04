@@ -127,14 +127,14 @@ xml:lang="fr">
 
   <link type="text/css" href="http://jqueryui.com/latest/themes/base/ui.all.css" rel="stylesheet" />
 
-  <script type="text/javascript" src="<?php echo $root; ?>js/jquery-1.3.2.min.js"></script>
+  <script src="http://www.google.com/jsapi"></script>	
+  <script type="text/javascript">	
+    google.load("jquery", "1.4.1");
+    google.load("jqueryui", "1.7.2");
+  </script>
   <script type="text/javascript" src="<?php echo $root; ?>js/jquery.timers-1.2.js"></script>
-  <script type="text/javascript" src="<?php echo $root; ?>js/jquery.bgiframe.min.js"></script>
   <script type="text/javascript" src="<?php echo $root; ?>js/jquery.autocomplete-min.js"></script>
-  <script type="text/javascript" src="<?php echo $root; ?>js/ui.core.js"></script>
   <script type="text/javascript" src="<?php echo $root; ?>js/jquery.rating.js"></script>
-
-  <script type="text/javascript" src="http://jqueryui.com/latest/ui/ui.tabs.js"></script>
 
   <script type="text/javascript" src="<?php echo $root; ?>js/smob.js"></script>
 
