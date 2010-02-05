@@ -68,8 +68,9 @@ $form .= '
 ';		
 $form .= '	
 			<fieldset><legend>Interlinking</legend>
-			<div id="lod-form">Links will be suggested while typing ... (space required after each #tag)</div>
-			<div id="tabs"><ul></ul></div>
+			<div id="lod-form">Links will be suggested while typing ... (space required after each #tag)
+				<div id="tabs"><ul></ul></div>
+			</div>
 			</fieldset>
 ';
 	
