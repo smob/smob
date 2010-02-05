@@ -5,6 +5,7 @@ RewriteBase /smob/
 RewriteRule ^post/(.*)$ index.php?t=post&u=$1 [L,QSA]
 RewriteRule ^user/(.*)$ index.php?t=user&u=$1 [L,QSA]
 RewriteRule ^me$ index.php?t=user [L,QSA]
+RewriteRule ^map$ index.php?t=map [L,QSA]
 RewriteRule ^replies$ index.php?t=userReplies [L,QSA]
 RewriteRule ^replies/(.*)$ index.php?t=replies&u=$1 [L,QSA]
 RewriteRule ^resource/(.*)$ index.php?t=resource&u=$1 [L,QSA]

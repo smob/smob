@@ -22,7 +22,7 @@ class SMOB {
 	var $uri;
 	var $publisher;
 	var $reply_of;
-	var $commands = array('data', 'followings', 'followers', 'post', 'posts', 'replies', 'resource', 'user', 'userReplies');
+	var $commands = array('data', 'followings', 'followers', 'map', 'post', 'posts', 'replies', 'resource', 'user', 'userReplies');
 	
 	// Construct - save parameters and setup the RDF store
 	public function __construct($type, $uri, $page) {
@@ -53,7 +53,7 @@ class SMOB {
 			$content = "Cannot interpret that command";
 		}
 		// Passer ce publish parametre dans une list particuliere
-		SMOBTemplate::header($this->publish, $this->reply_of);
+		SMOBTemplate::header($this->publish, $this->reply_of, $this->type == 'map');
 		print $content;
 		SMOBTemplate::footer();
 	}
@@ -82,6 +82,7 @@ class SMOB {
 	// Browsing a list of posts
 	private function userreplies() { return $this->posts(); }
 	private function resource() { return $this->posts(); }
+	private function map() { return $this->posts(); }
 	private function posts() {
 		$class = 'SMOBPostList'.ucfirst($this->type);
 		$list = new $class($this->uri, $this->page);

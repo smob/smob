@@ -4,6 +4,7 @@
  	Create posts lists
 */
 
+require_once(dirname(__FILE__).'/lists/SMOBPostListMap.php');
 require_once(dirname(__FILE__).'/lists/SMOBPostListPosts.php');
 require_once(dirname(__FILE__).'/lists/SMOBPostListResource.php');
 require_once(dirname(__FILE__).'/lists/SMOBPostListUser.php');
@@ -21,15 +22,18 @@ class SMOBPostList {
 		$this->process();
 	}
 	
+	public function load_vars() {}
+	
 	public function process() {
 		$limit = $this->limit;
 		$start = ($this->page-1)*$limit;
 		// The load_pattern() function must be defined in the inherited classes
 		$pattern = $this->load_pattern();
+		$vars = $this->load_vars();
 		// Weird ARC2 bug iw adding ?creator or ?star in the following varlist !
 		// Bug as well for the /resource/XXX if adding the ?depiction and ?name in the query
 		$query = "
-SELECT DISTINCT ?post ?content ?author ?date ?reply_of ?reply_of_of ?location ?locname
+SELECT DISTINCT ?post ?content ?author ?date ?reply_of ?reply_of_of ?location ?locname $vars
 WHERE {
 	?post rdf:type sioct:MicroblogPost ;
 		sioc:content ?content ;

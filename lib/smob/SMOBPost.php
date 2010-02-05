@@ -238,6 +238,7 @@ WHERE {
 		if($location_uri) {
 			$triples[] = array("opo:currentLocation", SMOBTools::uri($location_uri));
 			$triples[] = array(SMOBTools::uri($location_uri), "rdfs:label", SMOBTools::literal($location));
+			SMOBStore::query("LOAD <$location_uri>");
 		}
 		
 		if($mappings) {
