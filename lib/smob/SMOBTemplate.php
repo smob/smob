@@ -93,30 +93,34 @@ $form .= '
 		return array($form_js, $form);
 	}
 			
-	public function header($publisher, $reply_of = null) {
+	public function header($publisher, $reply_of = null, $ismap = null) {
+		global $type;
+		echo $type;
 		if($publisher) {
 			list($form_js, $form) = SMOBTemplate::publisher_header($reply_of);
 		}
 		global $smob_root;
 		$root = $smob_root ? $smob_root : './';
+		if(!$ismap) {
+			echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" 
+ 	"http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">';
+		}
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" 
-  "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
-
 <html
-  xmlns="http://www.w3.org/1999/xhtml" 
-  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-  xmlns:dc="http://purl.org/dc/elements/1.1/"
-  xmlns:dcterms="http://purl.org/dc/terms/"
-  xmlns:foaf="http://xmlns.com/foaf/0.1/" 
-  xmlns:sioc="http://rdfs.org/sioc/ns#"
-  xmlns:sioct="http://rdfs.org/sioc/types#"
-  xmlns:ctag="http://commontag.org/ns#"
-  xmlns:opo="http://online-presence.net/opo/ns#"
-  xmlns:smob="http://smob.me/ns#"
-  xmlns:moat="http://moat-project.org/ns#"
-  xmlns:content="http://purl.org/rss/1.0/modules/content/"
-  xmlns:rev="http://purl.org/stuff/rev#"
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:v="urn:schemas-microsoft-com:vml"
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:dcterms="http://purl.org/dc/terms/"
+	xmlns:foaf="http://xmlns.com/foaf/0.1/" 
+	xmlns:sioc="http://rdfs.org/sioc/ns#"
+	xmlns:sioct="http://rdfs.org/sioc/types#"
+	xmlns:ctag="http://commontag.org/ns#"
+	xmlns:opo="http://online-presence.net/opo/ns#"
+	xmlns:smob="http://smob.me/ns#"
+	xmlns:moat="http://moat-project.org/ns#"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:rev="http://purl.org/stuff/rev#"
 xml:lang="fr">
 
 <head profile="http://ns.inria.fr/grddl/rdfa/">
@@ -154,6 +158,7 @@ xml:lang="fr">
 	});
 	$(document).ready(function(){
 		$("#tabs").tabs();
+		<?php if($ismap) { echo "\n\nmap();"; } ?>
 	});
   </script>
   <?php echo $form_js; ?>
