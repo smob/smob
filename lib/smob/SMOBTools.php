@@ -14,7 +14,6 @@ class SMOBTools {
 	// Remove posts older than X days
 	public function purge() {
 		global $purge;
-
 		if($purge > 0) {
 			$date = date('c', time()-$purge*24*3600);
 			$query = "
@@ -55,14 +54,17 @@ WHERE {
 		return sizeof($res) == 1;
 	}
 	
-	// Check if allowed to LOAD
-	function checkLoad($_POST) {
+	// Check if allowed to LOAD / DELETE
+	function checkAccess($_POST) {
 		if($query = trim($_POST['query'])) {
 			// update to regexp
-			$load = substr_count($query, 'LOAD');
+			$action = substr_count($query, 'LOAD');
+			if(!$action) {
+				$action = substr_count($query, 'DELETE FROM');
+			}
 			$first = substr_count($query, '<');
 			$last = substr_count($query, '>');
-			if($load == 1 && $first == 1 && $last == 1) {
+			if($action == 1 && $first == 1 && $last == 1) {
 				preg_match('/<(.*)>/', $query, $matches);
 				$uri = $matches[1];
 				$followers = SMOBTools::followings();
