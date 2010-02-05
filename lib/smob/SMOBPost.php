@@ -54,6 +54,7 @@ WHERE {
 	
 	// Process the content to get #tags and @replies and embeds sioc:topic in it
 	private function process_content() {
+		global $smob_root;
 		$users = $this->get_users();
 		if($users) {
 			foreach($users as $t) {
@@ -69,6 +70,7 @@ WHERE {
 				$tag = $t['tag'];
 				$resource = $t['uri'];
 				$enc = SMOBTools::get_uri($resource, 'resource');
+				$sigma = "http://sig.ma/search?q=$resource&raw=1";
 				$r = "<span class=\"topic\" rel=\"moat:taggedWith sioc:topic ctag:isAbout\" href=\"$resource\"><a href=\"$enc\">$tag</a></span>";
 				$this->data['content'] = str_replace("#$tag", "#$r", $this->data['content']);
 				$this->data['content'] = str_replace("L:$tag", "L:$r", $this->data['content']);
@@ -139,7 +141,7 @@ WHERE {
 		$ht .= "  <div id=\"star$count\" class=\"rating\">&nbsp;</div>";		
 		$ht .= "  <span style=\"display:none;\" rel=\"sioc:has_creator\" href=\"$creator\"></span>\n";
 		$ht .= "  <a href=\"$uri\" class=\"date\" property=\"dcterms:created\">$date</a>\n";
-		if(strpos($uri, 'http://twitter.com/') == 0) {
+		if(strpos($uri, 'http://twitter.com/') !== FALSE) {
 			$ex = explode('/', $uri);
 			$data = "${smob_root}data/twitter/" . $ex[5];
 		} else { 
@@ -147,16 +149,21 @@ WHERE {
 		}
 		$ht .= " [<a href=\"$data\">RDF</a>]\n";
 		if(SMOBAuth::check()) {
-			$enc2 = $this->get_publish_uri();
-			$ht .= " [<a href=\"$enc2\">Post a reply</a>]\n";
+			if(strpos($uri, $smob_root) !== FALSE) {
+				$ex = explode('/', $uri);
+				$action = "${smob_root}delete/".$ex[5];
+				$ht .= " [<a href=\"$action\" onclick=\"javascript:return confirm('Are you sure ? This cannot be undone.')\">Delete post</a>]";			
+			} 
+			$action = $this->get_publish_uri();
+			$ht .= " [<a href=\"$action\">Post a reply</a>]\n";
 		}
 		if ($reply_of) {
-			$enc3 = SMOBTools::get_uri($reply_of, 'post');
-			$ht .= " [<a href=\"$reply_of\">Replied message</a>]\n";
+			$action = SMOBTools::get_uri($reply_of, 'post');
+			$ht .= " [<a href=\"$action\">Replied message</a>]\n";
 		}
 		if ($reply_of_of) {
-			$enc4 = SMOBTools::get_uri($reply_of_of, 'post');
-			$ht .= " [<a href=\"$reply_of_of\">Replies</a>]\n";
+			$action = SMOBTools::get_uri($reply_of_of, 'post');
+			$ht .= " [<a href=\"$action\">Replies</a>]\n";
 		}		
 		$ht .= '  </div>';
 		$ht .= '</div>';
@@ -285,7 +292,14 @@ WHERE {
 		print '<li>Message saved locally !</li>';
 	}
 	
-	public function notify() {
+	public function delete() {
+		$uri = SMOBTools::get_post_uri($this->uri, 'post');
+		$graph = str_replace('/post/', '/data/', $uri);
+		SMOBStore::query("DELETE FROM <$graph>");
+		$this->notify('DELETE FROM');
+	}
+	
+	public function notify($action = 'LOAD') {
 		$followers = SMOBTools::followers();
 		if($followers) {
 			foreach($followers as $follow) {
@@ -297,10 +311,10 @@ WHERE {
 					$endpoint = $uri . 'sparql';
 				}
 				$graph = $this->graph();
-				$query = 'query='.urlencode("LOAD <$graph>");
+				$query = 'query='.urlencode("$action <$graph>");
 				$res = SMOBTools::do_curl($endpoint, $query);
 			}
-			print '<li>Message sent to your followers !</li>';
+			print '<li>Notification sent to your followers !</li>';
 		}
 	}
 

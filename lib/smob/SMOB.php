@@ -22,7 +22,7 @@ class SMOB {
 	var $uri;
 	var $publisher;
 	var $reply_of;
-	var $commands = array('data', 'followings', 'followers', 'map', 'post', 'posts', 'replies', 'resource', 'user', 'userReplies');
+	var $commands = array('data', 'delete', 'followings', 'followers', 'map', 'post', 'posts', 'replies', 'resource', 'user', 'userReplies');
 	
 	// Construct - save parameters and setup the RDF store
 	public function __construct($type, $uri, $page) {
@@ -62,6 +62,15 @@ class SMOB {
 	private function post() {
 		$post = new SMOBPost(SMOBTools::get_post_uri($this->uri, 'post'));
 		return $post->render();
+	}
+	
+	// Delete a post
+	private function delete() {
+		if(!SMOBAuth::check()) die();
+		$post = new SMOBPost(SMOBTools::get_post_uri($this->uri, 'post'));
+		$post->delete();
+		$this->type = 'posts';
+		return $this->posts();
 	}
 	
 	// RDF data for a single post
