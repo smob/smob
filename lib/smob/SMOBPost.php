@@ -53,6 +53,9 @@ WHERE {
 	
 	// Process the content to get #tags and @replies and embeds sioc:topic in it
 	private function process_content() {
+		// Process hyperlinks
+		$this->data['content'] = preg_replace( "`(http|ftp)+(s)?:(//)((\w|\.|\-|_)+)(/)?(\S+)?`i", "<a href=\"\\0\" target=\"_blank\">http://\\4</a>", $this->data['content']); 
+		// Process users
 		$users = $this->get_users();
 		if($users) {
 			foreach($users as $t) {
@@ -62,6 +65,7 @@ WHERE {
 				$this->data['content'] = str_replace("@$name", "@$r", $this->data['content']);
 			}
 		}
+		// Process tags
 		$tags = $this->get_tags();
 		if($tags) {
 			foreach($tags as $t) {

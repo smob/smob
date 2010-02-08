@@ -4,6 +4,7 @@
 - Ability to purge messages older than X days
 - Ability to delete a message
 - Creating a FOAF profile if not provided
+- Parser for hyperlinks
 - Updated installer
 - Various bugfixes and code-cleaning
 
