@@ -12,8 +12,7 @@ class SMOBTools {
 	}
 	
 	// Remove posts older than X days
-	public function purge() {
-		global $purge;
+	public function purge($purge) {
 		if($purge > 0) {
 			$date = date('c', time()-$purge*24*3600);
 			$query = "
