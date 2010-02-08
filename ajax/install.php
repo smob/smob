@@ -122,21 +122,40 @@ define('PURGE', '$purge');
 
 
 function setupUser() {
-	$foaf_uri = $_GET['client_uri'];
-
+	
+	include_once(dirname(__FILE__).'/../config/config.php');
+	
+	$foaf_uri = $_GET['foaf_uri'];
+		
 	$twitter_read = ($_GET['twitter_read'] == 'on') ? 1 : 0;
 	$twitter_post = ($_GET['twitter_post'] == 'on') ? 1 : 0;
 
 	$twitter_login = $_GET['twitter_login'];
 	$twitter_pass = $_GET['twitter_pass'];
+	
 	$auth = $_GET['auth'];
 	
-	if(!SMOBTools::checkFoaf($foaf_uri)) {
-		print "<p>An error occurred with your FOAF URI. <b>Please ensure that it dereferences to an RDF file and that this file contains information about your URI.<b><br/>You will have to <a href='$smob_root'>restart the install process<a/></p>";
-		unlink(dirname(__FILE__).'/../config/config.php');
-		die();
+	if($foaf_uri) {
+		if(!SMOBTools::checkFoaf($foaf_uri)) {
+			print "<p>An error occurred with your FOAF URI. <b>Please ensure that it dereferences to an RDF file and that this file contains information about your URI.<b><br/>You will have to <a href='$smob_root'>restart the install process<a/></p>";
+			unlink(dirname(__FILE__).'/../config/config.php');
+			die();
+		}
+	} else {
+		if(!$foaf_uri) {
+			$foaf_uri = SMOB_ROOT.'me#id';
+			$username = $_GET['username'];
+			$depiction = $_GET['depiction'];
+			$profile = "
+INSERT INTO <".SMOB_ROOT."/profile> {			
+<$foaf_uri> a foaf:Person ; 
+	foaf:name \"$username\" ;
+	foaf:depiction <$depiction> .
+}";
+			SMOBStore::query($profile);
+		}
 	}
-	
+			
 	$config = "
 define('FOAF_URI', '$foaf_uri');
 

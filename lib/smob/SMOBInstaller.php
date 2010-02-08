@@ -75,12 +75,20 @@ class SMOBInstaller {
 			<form>
 				<fieldset>
 					<legend>FOAF settings</legend>
+					<p class="note">
+					Using your existing FOAF URI will provide distributed user-profile, and will be used to link to sign your posts. 
+					(It will also be used as well to authenticate via FOAF-SSL if you wish to do so.).
+					If you do not have a FOAF profile, you can create one <a href="http://foafbuilder.qdos.com/">here</a> or <a href="http://www.ldodds.com/foaf/foaf-a-matic">there</a>, or use your Twitter account via <a href="http://semantictweet.com">SemanticTweet</a>.
+					</p>
+					<p class="note">
+					<b>Please also note that this is your personal URI and not the URL of your FOAF profile. For more information about the difference between both, you can check the <a href="http://pedantic-web.org/fops.html#inconsist">Pedantic Web page</a> on the topic. In addition, that URI must be dereferencable and must return RDF information about itself.</b
+					</p>
 					<label for="smob-uri">FOAF URI:</label> <input type="text" id="smob-uri" name="smob-uri" value="" size="50"><br />
 					<p class="note">
-					Your FOAF URI is required in order to sign your posts. 
-					(It will also be used as well to authenticate via FOAF-SSL if you wish to do so.)
-					<b>Please note that this is your personal URI and not the URL of your FOAF profile. For more information about the difference between both, you can check the <a href="http://pedantic-web.org/fops.html#inconsist">Pedantic Web page</a> on the topic. In addition, that URI must be dereferencable and must return RDF information about itself. If you do not have a FOAF profile, you can create one <a href="http://foafbuilder.qdos.com/">here</a> or <a href="http://www.ldodds.com/foaf/foaf-a-matic">there</a>, or use your Twitter account via <a href="http://semantictweet.com">SemanticTweet</a></b> 
+					If you do not want to create a FOAF profile, you can simply fill-in the following details and SMOB will create one for you.
 					</p>
+					<label for="smob-username">Name:</label> <input type="text" id="smob-username" name="smob-username" value="" size="50"><br />
+					<label for="smob-depiction">Picture:</label> <input type="text" id="smob-depiction" name="smob-depiction" value="" size="50"><br />
 				</fieldset>
 				<fieldset>
 					<legend>Authentication method</legend>
