@@ -13,9 +13,8 @@ class SMOBAuth {
 	}
 	
 	function grant() {
-		global $auth_method;
 		session_start();
-		if($auth_method == 'foafssl') {
+		if(AUTH == 'foafssl') {
 			$foafssl  = SMOBAuth::getAuth();
 			if($foafssl['isAuthenticated']) {
 				$_SESSION['grant'] = true;				

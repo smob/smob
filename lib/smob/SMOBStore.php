@@ -20,7 +20,7 @@ class SMOBStore {
 			include_once(dirname(__FILE__).'/../../config/config.php');
 		}				
 		
-		$store = ARC2::getStore($arc_config);
+		$store = ARC2::getStore(SMOBTools::arc_config());
 		if (!$store->isSetUp()) {
 			$store->setUp();
 		}

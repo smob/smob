@@ -81,9 +81,8 @@ class SMOB {
 
 	// Browsing a list of posts from a user
 	private function user() { 
-		global $foaf_uri;
 		if(!$this->uri) {
-			$this->uri = $foaf_uri;
+			$this->uri = FOAF_URI;
 		} 
 		return $this->posts(); 
 	}

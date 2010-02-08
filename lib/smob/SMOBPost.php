@@ -13,7 +13,6 @@ class SMOBPost {
 	var $triples = array();
 	
 	public function __construct($uri = null, $data = null) {	
-		global $smob_root;
 		if($uri) {
 			$this->uri = $uri;
 			if($data) {
@@ -54,7 +53,6 @@ WHERE {
 	
 	// Process the content to get #tags and @replies and embeds sioc:topic in it
 	private function process_content() {
-		global $smob_root;
 		$users = $this->get_users();
 		if($users) {
 			foreach($users as $t) {
@@ -102,7 +100,7 @@ WHERE {
 	
 	// Render the post in RDFa/XHTML
 	public function render() {
-		global $sioc_nick, $smob_root, $count;
+		global $sioc_nick, $count;
 
 		$uri = $this->uri;
 		
@@ -119,13 +117,13 @@ WHERE {
 		$locname = $this->data['locname'];
 		$star = $this->get_star();
 
-		$pic = SMOBTools::either($this->data['depiction'], "${smob_root}img/avatar-blank.jpg");
-		$class = strpos($uri, $smob_root) !== FALSE ? "post internal" : "post external";
+		$pic = SMOBTools::either($this->data['depiction'], SMOB_ROOT.'img/avatar-blank.jpg');
+		$class = strpos($uri, SMOB_ROOT) !== FALSE ? "post internal" : "post external";
 		$ht .= "<div about=\"$presence\" rel=\"opo:customMessage\">\n";
 
 		$ht .= "<div class=\"$class\" typeof=\"sioct:MicroblogPost\" about=\"$uri\">\n";
 
-		$ht .= "<span style=\"display:none;\" rel=\"sioc:has_container\" href=\"$smob_root\"></span>\n";
+		$ht .= "<span style=\"display:none;\" rel=\"sioc:has_container\" href=\"".SMOB_ROOT."\"></span>\n";
 
 		$ht .= "<img about=\"$author\" rel=\"foaf:depiction\" href=\"$pic\" src=\"$pic\" class=\"depiction\" alt=\"Depiction for $name\"/>";
 		$ht .= "  <span class=\"content\" property=\"content:encoded\">$content</span>\n";
@@ -143,15 +141,15 @@ WHERE {
 		$ht .= "  <a href=\"$uri\" class=\"date\" property=\"dcterms:created\">$date</a>\n";
 		if(strpos($uri, 'http://twitter.com/') !== FALSE) {
 			$ex = explode('/', $uri);
-			$data = "${smob_root}data/twitter/" . $ex[5];
+			$data = SMOB_ROOT.'data/twitter/' . $ex[5];
 		} else { 
 			$data = str_replace('post', 'data', $uri);
 		}
 		$ht .= " [<a href=\"$data\">RDF</a>]\n";
 		if(SMOBAuth::check()) {
-			if(strpos($uri, $smob_root) !== FALSE) {
+			if(strpos($uri, SMOB_ROOT) !== FALSE) {
 				$ex = explode('/', $uri);
-				$action = "${smob_root}delete/".$ex[5];
+				$action = SMOB_ROOT.'delete/'.$ex[5];
 				$ht .= " [<a href=\"$action\" onclick=\"javascript:return confirm('Are you sure ? This cannot be undone.')\">Delete post</a>]";			
 			} 
 			$action = $this->get_publish_uri();
@@ -185,8 +183,7 @@ $(document).ready(function(){
 	
 	// URI for publishing
 	private function get_publish_uri() {
-		global $smob_root;
-		return "${smob_root}?r=" . urlencode($this->uri);
+		return SMOB_ROOT.'?r' . urlencode($this->uri);
 	}
 		
 	// Get the users mentioned in that post	
@@ -216,7 +213,6 @@ WHERE {
 	}
 	
 	public function set_data($ts, $content, $reply_of, $location, $location_uri, $mappings) {
-		global $foaf_uri, $smob_root;
 
 		$user_uri = SMOBTools::user_uri();
 		$this->ts = $ts;
@@ -224,9 +220,9 @@ WHERE {
 		$this->uri($ts);
 		
 		$triples[] = array(SMOBTools::uri($this->uri), "a", "sioct:MicroblogPost");
-		$triples[] = array("sioc:has_container", SMOBTools::uri($smob_root));
+		$triples[] = array("sioc:has_container", SMOBTools::uri(SMOB_ROOT));
 		$triples[] = array("sioc:has_creator", SMOBTools::uri($user_uri));
-		$triples[] = array("foaf:maker", SMOBTools::uri($foaf_uri));
+		$triples[] = array("foaf:maker", SMOBTools::uri(FOAF_URI));
 		$triples[] = array("dct:created", SMOBTools::date($this->ts));
 		$triples[] = array("dct:title", SMOBTools::literal("Update - ".$this->ts));
 		$triples[] = array("sioc:content", SMOBTools::literal($content));
@@ -234,12 +230,12 @@ WHERE {
 			$triples[] = array("sioc:reply_of", SMOBTools::uri($reply_of));			
 		}
 
-		$triples[] = array(SMOBTools::uri($smob_root), "a", "smob:Hub");
+		$triples[] = array(SMOBTools::uri(SMOB_ROOT), "a", "smob:Hub");
 
 		$opo_uri = $this->uri.'#presence';
 		$triples[] = array(SMOBTools::uri($opo_uri), "a", "opo:OnlinePresence");
 		$triples[] = array("opo:declaredOn", SMOBTools::uri($user_uri));
-		$triples[] = array("opo:declaredBy", SMOBTools::uri($foaf_uri));
+		$triples[] = array("opo:declaredBy", SMOBTools::uri(FOAF_URI));
 		$triples[] = array("opo:StartTime", SMOBTools::date($this->ts));
 		$triples[] = array("opo:customMessage", SMOBTools::uri($this->uri));
 		if($location_uri) {
@@ -261,7 +257,7 @@ WHERE {
 				elseif($mapping[0] == 'tag' || $mapping[0] == 'location') {
 					$tag = $mapping[1];
 					$uri = $mapping[2];
-					$tagging = "${smob_root}tagging/".uniqid();
+					$tagging = SMOB_ROOT.'tagging/'.uniqid();
 					$triples[] = array(SMOBTools::uri($tagging), "a", "tags:RestrictedTagging");
 					$triples[] = array(SMOBTools::uri($tagging), "tags:taggedResource", SMOBTools::uri($this->uri));
 					$triples[] = array(SMOBTools::uri($tagging), "tags:associatedTag", SMOBTools::literal($tag));
@@ -276,8 +272,7 @@ WHERE {
 	}
 	
 	private function uri() {
-		global $smob_root;
-		$this->uri = "${smob_root}post/".$this->ts;
+		$this->uri = SMOB_ROOT.'post/'.$this->ts;
 	}
 	
 	private function graph() {
@@ -342,10 +337,9 @@ WHERE {
 	}
 	
 	public function tweet() {
-		global $twitter_user, $twitter_pass;
 		$dest = 'http://twitter.com/statuses/update.xml';
 		$postfields = 'status='.urlencode($this->content).'&source=smob';
-		$userpwd = $twitter_user.':'.$twitter_pass;
+		$userpwd = TWITTER_USER.':'.TWITTER_PASS;
 		SMOBTools::do_curl($dest, $postfields, $userpwd);
 		print '<li>Notified on Twitter !</li>';
 	}
