@@ -42,9 +42,9 @@ class SMOBStore {
 	PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
 
 		$query";		
-				
+						
 		$rs = $store->query($query);
-
+		
 		if ($errors = $store->getErrors()) {
 			error_log("SMOB SPARQL Error:\n" . join("\n", $errors));
 			return array();
