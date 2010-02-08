@@ -1,9 +1,10 @@
-# v2.2 [2010-02-04]
+# v2.2 [2010-02-08]
 
 - Geolocation of messages based on their presence data
 - Ability to purge messages older than X days
 - Ability to delete a message
-- Bugfixes
+- Updated installer
+- Various bugfixes and code-cleaning
 
 # v2.1 [2010-02-04]
 

@@ -187,14 +187,19 @@ function install_smob_settings(){
 function install_user_settings(){
 
 	var client_uri = $("#smob-uri").val();
-	var client_twitter_login = $("#smob-twitter-login").val();
-	var client_twitter_pass = $("#smob-twitter-pass").val();
+
+	var twitter_read = $('input[name=smob-twitter-read]:checked').val();
+	var twitter_post = $('input[name=smob-twitter-post]:checked').val();
+
+	var twitter_login = $("#smob-twitter-login").val();
+	var twitter_pass = $("#smob-twitter-pass").val();
+
 	var auth = $('input[name=smob-auth]:checked').val()	
 
 	$("#smob-user-pane-in").hide("normal");
 	$("#smob-user-pane-out").show("normal");
 
-	$.get("ajax/install.php?cmd=setup-user&client_uri="+urlencode(client_uri)+"&client_twitter_login="+urlencode(client_twitter_login)+"&client_twitter_pass="+urlencode(client_twitter_pass)+"&auth="+auth+getCacheBusterParam(), function(data){
+	$.get("ajax/install.php?cmd=setup-user&client_uri="+urlencode(client_uri)+"&twitter_login="+urlencode(twitter_login)+"&twitter_pass="+urlencode(twitter_pass)+"&twitter_read="+urlencode(twitter_read)+"&twitter_post="+urlencode(twitter_post)+"&auth="+auth+getCacheBusterParam(), function(data){
 		$("#smob-user-pane-out").html(data);
 	});
 }
