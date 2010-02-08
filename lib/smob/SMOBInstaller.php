@@ -74,23 +74,30 @@ class SMOBInstaller {
 		<div id="smob-user-pane-in">
 			<form>
 				<fieldset>
-					<legend>User settings</legend>
+					<legend>FOAF settings</legend>
 					<label for="smob-uri">FOAF URI:</label> <input type="text" id="smob-uri" name="smob-uri" value="" size="50"><br />
-					<label for="smob-auth">Authentication method:</label> <br/>
-						<input type="radio" name="smob-auth" id="smob-auth" value="htpasswd" checked="true"> htpasswd (default)<br/>
-						<input type="radio" name="smob-auth" id="smob-auth" value="foafssl"> foafssl<br/>
+					<p class="note">
+					Your FOAF URI is required in order to sign your posts. 
+					(It will also be used as well to authenticate via FOAF-SSL if you wish to do so.)
+					<b>Please note that this is your personal URI and not the URL of your FOAF profile. For more information about the difference between both, you can check the <a href="http://pedantic-web.org/fops.html#inconsist">Pedantic Web page</a> on the topic. In addition, that URI must be dereferencable and must return RDF information about itself. If you do not have a FOAF profile, you can create one <a href="http://foafbuilder.qdos.com/">here</a> or <a href="http://www.ldodds.com/foaf/foaf-a-matic">there</a>, or use your Twitter account via <a href="http://semantictweet.com">SemanticTweet</a></b> 
+					</p>
+				</fieldset>
+				<fieldset>
+					<legend>Authentication method</legend>
+					<input type="radio" name="smob-auth" id="smob-auth" value="htpasswd" checked="true"> htpasswd (default)<br/>
+					<input type="radio" name="smob-auth" id="smob-auth" value="foafssl"> foafssl<br/>
+				</fieldset>
+				<fieldset>
+					<legend>Twitter integration</legend>
+					<input type="checkbox" id="smob-twitter-read" name="smob-twitter-read"> Integrate my Twitter messages in SMOB<br />
+					<input type="checkbox" id="smob-twitter-post" name="smob-twitter-post"> Publish my SMOB updated to Twitter<br />					
 					<label for="smob-twitter-login">Twitter login:</label> <input type="text" id="smob-twitter-login" name="smob-twitter-login" value="" size="50"><br />
 					<label for="smob-twitter-pass">Twitter pass:</label> <input type="password" id="smob-twitter-pass" name="smob-twitter-pass" value="" size="50"><br />
+					<p class="note">
+					Twitter login / password is optional.
+					</p>
 				</fieldset>	
 			</form>
-			<p class="note">
-			Your FOAF URI is required in order to sign your posts. 
-			(It will also be used as well to authenticate via FOAF-SSL if you wish to do so.)
-			<b>Please note that this is your personal URI and not the URL of your FOAF profile. For more information about the difference between both, you can check the <a href="http://pedantic-web.org/fops.html#inconsist">Pedantic Web page</a> on the topic. In addition, that URI must be dereferencable and must return RDF information about itself. If you do not have a FOAF profile, you can create one <a href="http://foafbuilder.qdos.com/">here</a> or <a href="http://www.ldodds.com/foaf/foaf-a-matic">there</a>, or use your Twitter account via <a href="http://semantictweet.com">SemanticTweet</a></b> 
-			<br/>
-			<br/>
-			Twitter login / password is optional.
-			</p>
 		</div>
 		<div id="smob-user-pane-out">
 			<em>Request sent...</em>

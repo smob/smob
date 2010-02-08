@@ -123,8 +123,12 @@ define('PURGE', '$purge');
 
 function setupUser() {
 	$foaf_uri = $_GET['client_uri'];
-	$client_twitter_login = $_GET['client_twitter_login'];
-	$client_twitter_pass = $_GET['client_twitter_pass'];
+
+	$twitter_read = ($_GET['twitter_read'] == 'on') ? 1 : 0;
+	$twitter_post = ($_GET['twitter_post'] == 'on') ? 1 : 0;
+
+	$twitter_login = $_GET['twitter_login'];
+	$twitter_pass = $_GET['twitter_pass'];
 	$auth = $_GET['auth'];
 	
 	if(!SMOBTools::checkFoaf($foaf_uri)) {
@@ -136,8 +140,11 @@ function setupUser() {
 	$config = "
 define('FOAF_URI', '$foaf_uri');
 
-define('TWITTER_USER', '$client_twitter_login');
-define('TWITTER_PASS', '$client_twitter_pass');
+define('TWITTER_READ', '$twitter_read');
+define('TWITTER_POST', '$twitter_post');
+
+define('TWITTER_USER', '$twitter_login');
+define('TWITTER_PASS', '$twitter_pass');
 
 define('AUTH', '$auth');
 		

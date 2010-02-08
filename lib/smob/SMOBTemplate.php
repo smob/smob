@@ -74,7 +74,7 @@ $form .= '
 ';
 	
 		$form .= '<fieldset><legend>Broadcast</legend>';
-		if(TWITTER_USER && TWITTER_PASS) {
+		if(TWITTER_POST) {
 			$form .= "<input type='checkbox' name='twitter' id='twitter' checked='true'/>Twitter as ".TWITTER_USER."<br/>";
 		}
 		$form .= "<input type='checkbox' name='sindice' id='sindice' checked='true'/>Ping Sindice<br/>";
@@ -95,6 +95,9 @@ $form .= '
 			
 	public function header($publisher, $reply_of = null, $ismap = null) {
 		global $type;
+		if(!defined(SMOB_ROOT)) {
+			define('SMOB_ROOT', '');
+		}
 		if($publisher) {
 			list($form_js, $form) = SMOBTemplate::publisher_header($reply_of);
 		}
