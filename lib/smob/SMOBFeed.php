@@ -9,8 +9,7 @@ class SMOBFeed {
 	var $posts;
 	
 	public function __construct() {
-		global $foaf_uri;
-		$r = new SMOBPostListUser($foaf_uri, 1);
+		$r = new SMOBPostListUser(FOAF_URI, 1);
 		$this->posts = $r->posts;
 	}
 
@@ -27,7 +26,6 @@ class SMOBFeed {
 	}
 	
 	public function rss_header() {
-		global $smob_root;
 		$version = SMOBTools::version();
 		$owner = SMOBTools::ownername();
 		$title = "SMOB Hub of $owner";
@@ -44,9 +42,9 @@ class SMOBFeed {
 	xmlns:admin='http://webns.net/mvcb/'
 > 
 
-<channel rdf:about='$smob_root'>
+<channel rdf:about='".SMOB_ROOT."'>
 	<title>$title</title>
-	<link>$smob_root</link>
+	<link>".SMOB_ROOT."</link>
 	<description>$title</description>
 	<dc:creator>$owner</dc:creator>
 	<dc:date>$ts</dc:date>

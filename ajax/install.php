@@ -85,26 +85,14 @@ function createStore($host, $name, $user, $pwd){
 	// write databsed information in the config file
 	$config = "<?php
 
-	include_once(dirname(__FILE__).'/../lib/arc/ARC2.php');
-	include_once(dirname(__FILE__).'/../lib/xmlrpc/lib/xmlrpc.inc');
+include_once(dirname(__FILE__).'/../lib/arc/ARC2.php');
+include_once(dirname(__FILE__).'/../lib/xmlrpc/lib/xmlrpc.inc');
 
-	\$arc_config = array(
-		'db_host' => '$host', 
-		'db_name' => '$name',
-		'db_user' => '$user',
-		'db_pwd' => '$pwd',
-		'store_name' => '$store_name',
-	
-		'store_triggers_path' => dirname(__FILE__).'/../lib/smob/',
-		'store_triggers' => array(
-			'insert' => array('foafLoad'),
-			'load' => array('foafLoad'),
-		),
-		'endpoint_features' => array(
-	    	'select', 'construct', 'ask', 'describe', 'load'
-		),
-		'sem_html_formats' => 'rdfa',
-	);
+define('DB_HOST', '$host');
+define('DB_NAME', '$name');
+define('DB_USER', '$user');
+define('DB_PASS', '$pwd');
+define('DB_STORE', '$store_name');
 	
 ";
 	$f = fopen(dirname(__FILE__).'/../config/config.php', 'w');
@@ -121,9 +109,8 @@ function setupSMOB() {
 	$purge = $_GET['purge'];
 	
 	$config = "
-	\$smob_root = '$smob_root';
-	
-	\$purge = '$purge';	
+define('SMOB_ROOT', '$smob_root');
+define('PURGE', '$purge');
 ";
 
 	$f = fopen(dirname(__FILE__).'/../config/config.php', 'a');
@@ -147,12 +134,12 @@ function setupUser() {
 	}
 	
 	$config = "
-		\$foaf_uri = '$foaf_uri';
+define('FOAF_URI', '$foaf_uri');
 
-		\$twitter_user = '$client_twitter_login';
-		\$twitter_pass = '$client_twitter_pass';
+define('TWITTER_USER', '$client_twitter_login');
+define('TWITTER_PASS', '$client_twitter_pass');
 
-		\$auth_method = '$auth';
+define('AUTH', '$auth');
 		
 ?>";
 

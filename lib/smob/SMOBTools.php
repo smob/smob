@@ -40,8 +40,7 @@ WHERE {
 	
 	// Name of the Hub owner
 	public function ownername() {
-		global $foaf_uri;
-		$query = "SELECT ?name WHERE { <$foaf_uri> foaf:name ?name } LIMIT 1";
+		$query = "SELECT ?name WHERE { <".FOAF_URI."> foaf:name ?name } LIMIT 1";
 		$res = SMOBSTore::query($query);
 		return $res[0]['name'];
 	}
@@ -52,6 +51,27 @@ WHERE {
 		$name = "SELECT DISTINCT ?o WHERE { <$foaf> ?p ?o } LIMIT 1";
 		$res = SMOBStore::query($name);
 		return sizeof($res) == 1;
+	}
+	
+	// Generate arc config file
+	function arc_config() {
+		return array(
+			'db_host' => DB_HOST, 
+			'db_name' => DB_NAME,
+			'db_user' => DB_USER,
+			'db_pwd' => DB_PASS,
+			'store_name' => DB_STORE,
+
+			'store_triggers_path' => dirname(__FILE__).'/../',
+			'store_triggers' => array(
+				'insert' => array('foafLoad'),
+				'load' => array('foafLoad'),
+			),
+			'endpoint_features' => array(
+		    	'select', 'construct', 'ask', 'describe', 'load'
+			),
+			'sem_html_formats' => 'rdfa',
+		);
 	}
 	
 	// Check if allowed to LOAD / DELETE
@@ -84,13 +104,12 @@ WHERE {
 	
 	// Get current location
 	public function location() {
-		global $foaf_uri;
 		$query = "
 SELECT DISTINCT ?time ?location ?name WHERE {
 	GRAPH ?g {
 		?presence opo:currentLocation ?location ;
 			opo:StartTime ?time ;
-			opo:declaredBy <$foaf_uri> .
+			opo:declaredBy <".FOAF_URI."> .
 		?location rdfs:label ?name
 		}
 	}
@@ -175,7 +194,7 @@ LIMIT 1";
 	function is_auth() {
 		require_once(dirname(__FILE__).'/../foaf-ssl/libAuthentication.php');
 		// need cookies here 
-		global $foaf_ssl, $foaf_uri;
+		global $foaf_ssl;
 		if($foaf_ssl) {
 			session_start();
 			if($_COOKIE['auth']==1) {
@@ -188,7 +207,7 @@ LIMIT 1";
 			if ($is_auth == 1) {
 				setcookie("uri", "$auth_uri");
 				setcookie("auth", "1");
-				if ($auth_uri == $foaf_uri) {
+				if ($auth_uri == FOAF_URI) {
 					return true;
 				}			
 			}
@@ -208,21 +227,18 @@ LIMIT 1";
 	}
 	
 	function user_uri() {
-		global $smob_root;
-		return "${smob_root}me";
+		return SMOB_ROOT.'me';
 	}
 	
 	function get_uri($uri, $type) {
-		global $smob_root;
 		$uri = urlencode($uri);
 		$uri = str_replace("%2F", "/", $uri);
-		return "${smob_root}$type/$uri";
+		return SMOB_ROOT."$type/$uri";
 	}
 	
 	function get_post_uri($uri) {
-		global $smob_root;
 		$uri = str_replace(' ', '+', $uri);
-		return "${smob_root}post/$uri";
+		return SMOB_ROOT."post/$uri";
 	}
 	
 	

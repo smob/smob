@@ -10,7 +10,7 @@ $pattern = "{ <$uri> rev:rating \"1\"^^xsd:integer . }";
 
 $star = SMOBStore::query("ASK $pattern", true);
 
-$query = ($star ? 'DELETE FROM' : 'INSERT INTO') . " <${smob_root}data/stars> $pattern";
+$query = ($star ? 'DELETE FROM' : 'INSERT INTO') . " <".SMOB_ROOT."data/stars> $pattern";
 
 echo $query;
 

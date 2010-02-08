@@ -10,9 +10,8 @@ class SMOBTweet {
 	var $pass;
 	
 	public function __construct() {
-		global $twitter_user, $twitter_pass;
-		$this->user = $twitter_user;
-		$this->pass = $twitter_pass;
+		$this->user = TWITTER_USER;
+		$this->pass = TWITTER_PASS;
 	}
 		
 	public function getposts() {
@@ -31,10 +30,7 @@ class SMOBTweet {
 		}
 	}
 		
-	private function load_tweet($tweet) {
-
-		global $smob_root, $foaf_uri;
-	
+	private function load_tweet($tweet) {	
 		$id = $tweet->id;
 		$username = $tweet->user->screen_name;
 
@@ -59,9 +55,9 @@ class SMOBTweet {
 		$triples[] = array("dct:title", SMOBTools::literal("Update - ".$ts));
 		$triples[] = array("sioc:content", SMOBTools::literal($content));
 		if(strpos($content, '@'.$this->user)!==false) {
-			$triples[] = array("sioc:addressed_to", SMOBTools::uri($foaf_uri));
+			$triples[] = array("sioc:addressed_to", SMOBTools::uri(FOAF_URI));
 			$triples[] = array("sioc:addressed_to", SMOBTools::uri('http://twitter.com/'.$this->user.'#me'));
-			$triples[] = array(SMOBTools::uri($foaf_uri), 'sioc:name', SMOBTools::literal($this->user));
+			$triples[] = array(SMOBTools::uri(FOAF_URI), 'sioc:name', SMOBTools::literal($this->user));
 			$triples[] = array(SMOBTools::uri('http://twitter.com/'.$this->user.'#me'), 'sioc:name', SMOBTools::literal($this->user));
 		}
 				
@@ -75,7 +71,7 @@ class SMOBTweet {
 		$triples[] = array("opo:StartTime", SMOBTools::date($ts));
 		$triples[] = array("opo:customMessage", SMOBTools::uri($uri));
 		
-		$graph = "${smob_root}data/twitter/$id";
+		$graph = SMOB_ROOT."data/twitter/$id";
 		$rdf = SMOBTools::render_sparql_triples($triples);	
 		
 		$query = "INSERT INTO <$graph> { $rdf }";	

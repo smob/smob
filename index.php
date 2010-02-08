@@ -18,7 +18,7 @@ if(!SMOBTools::check_config()) {
 			if(!$remote_user) die();
 			$local_user = SMOBTools::user_uri();
 			$follow = "<$remote_user> sioc:follows <$local_user> . ";	
-			$local = "INSERT INTO <${smob_root}data/followers> { $follow }";
+			$local = "INSERT INTO <".SMOB_ROOT."data/followers> { $follow }";
 			SMOBStore::query($local);
 		} 
 		// Add a new following
@@ -33,7 +33,7 @@ if(!SMOBTools::check_config()) {
 				// Store the new relationship locally
 				$local_user = SMOBTools::user_uri();			
 				$follow = "<$local_user> sioc:follows <$remote_user> . ";
-				$local = "INSERT INTO <${smob_root}data/followings> { $follow }";
+				$local = "INSERT INTO <".SMOB_ROOT."data/followings> { $follow }";
 				SMOBStore::query($local);
 				SMOBTemplate::header('');
 				print "<a href='$remote_user'>$remote_user</a> was added to your following list and was notified about your subscription";
@@ -52,7 +52,7 @@ if(!SMOBTools::check_config()) {
 			$remote_user = $u;
 			$local_user = SMOBTools::user_uri();
 			$follow = "<$remote_user> sioc:follows <$local_user> . ";	
-			$local = "DELETE FROM <${smob_root}data/followers> { $follow }";
+			$local = "DELETE FROM <".SMOB_ROOT."data/followers> { $follow }";
 			SMOBStore::query($local);
 		} 
 		// Remove a following
@@ -60,10 +60,10 @@ if(!SMOBTools::check_config()) {
 			$remote_user = $u;
 			$local_user = SMOBTools::user_uri();
 			$follow = "<$local_user> sioc:follows <$remote_user> . ";			
-			$local = "DELETE FROM <${smob_root}data/followings> { $follow }";
+			$local = "DELETE FROM <".SMOB_ROOT."data/followings> { $follow }";
 			SMOBStore::query($local);
 		}
-		header("Location: ${smob_root}${t}s");
+		header("Location: ".SMOB_ROOT."${t}s");
 	}	
 	elseif($t == 'rss_owner') {
 		header ("Content-type: text/xml");
@@ -74,7 +74,8 @@ if(!SMOBTools::check_config()) {
 		if($_POST) {
 			SMOBTools::checkAccess($_POST);
 		}
-		$ep = ARC2::getStoreEndpoint($arc_config);
+		print_r(SMOBTools::arc_config());
+		$ep = ARC2::getStoreEndpoint(SMOBTools::arc_config());
 		$ep->go();	
 	} else {
 		$smob = new SMOB($t, $u, $p);
