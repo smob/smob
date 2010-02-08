@@ -1,8 +1,6 @@
 // Publishing functions
 function publish() {
-
 	var lod = '';
-	
 	$("#lod-form :checked").each(function() {
 		lod = lod + ' ' + $(this).val();		
 	})
@@ -94,70 +92,116 @@ function getnews() {
 function process(){
 	showStatus();
 	switch(state) {
-	case 0:
-		log("STEP 1: Let's create the SMOB database now ...");
-		$("#head").hide("normal");
-		$("#create-db-pane").show("normal");	
-		setStep("Go !");
-		nextStep();
-		break;
-	case 1:
-		$("#skip").hide();
-		createDB();
-		nextStep();
-		break;
-	case 2:
-		log("STEP 3: Let's configure your SMOB settings ...");
-		$("#skip").show();
-		$("#create-db-pane").hide("normal");
-		$("#smob-config-pane").show("normal");
-		setStep("Go !");
-		nextStep();
-		break;
-	case 3:
-		$("#skip").hide();
-		setupSMOB();
-		nextStep();
-		break;
-	case 4:
-		log("STEP 4: Done !");
-		$("#create-db-pane").hide("normal");
-		$("#somb-config-pane").hide("normal");
-		$("#step").hide();
-		$("#skip").hide();
-		$("#done-pane").show("normal");
-		break;
-	default:
-	  log("I'm in trouble - please restart ...");
+		// DB creation	
+		case 0:
+			log("STEP 1: SMOB database setup ...");
+			$("#head").hide("normal");
+			$("#smob-db-pane").show("normal");	
+			setStep("Go !");
+			nextStep();
+			break;
+		case 1:
+			$("#skip").hide();
+			install_db_settings();
+			nextStep();
+			break;
+		// SMOB settings	
+		case 2:
+			log("STEP 3: SMOB settings ...");
+			$("#skip").show();
+			$("#smob-db-pane").hide("normal");
+			$("#smob-settings-pane").show("normal");
+			setStep("Go !");
+			nextStep();
+			break;
+		case 3:
+			$("#skip").hide();
+			install_smob_settings();
+			nextStep();
+			break;
+		// User settings
+		case 4:
+			log("STEP 4: User settings ...");
+			$("#skip").show();
+			$("#smob-settings-pane").hide("normal");
+			$("#smob-user-pane").show("normal");
+			setStep("Go !");
+			nextStep();
+			break;
+		case 5:
+			$("#skip").hide();
+			install_user_settings();
+			nextStep();
+			break;
+		// End						
+		case 6:
+			log("STEP 4: Done !");
+			$("#create-db-pane").hide("normal");
+			$("#smob-settings-pane").hide("normal");
+			$("#smob-user-pane").hide("normal");
+			$("#step").hide();
+			$("#skip").hide();
+			$("#done-pane").show("normal");
+			break;
+		// Default
+		default:
+	  		log("I'm in trouble - please restart ...");
 	}	
 }
 
 function resetInstall(){
 	log("Ready.");
-	$("#create-db-pane").hide();
+	$("#smob-db-pane").hide();
 	$("#done-pane").hide();
 	$("#skip").hide();
 	setStep("START!");
 	state = 0;
 }
 
-function createDB(){
+function install_db_settings(){
 	var host = $("#db-host").val();
 	var name = $("#db-name").val();
 	var user = $("#db-user").val();
 	var pwd = $("#db-pwd").val();
 
-	$("#create-db-pane-in").hide("normal");
-	$("#create-db-pane-out").show("normal");
+	$("#smob-db-pane-in").hide("normal");
+	$("#smob-db-pane-out").show("normal");
 
 	$.get("ajax/install.php?cmd=create-db&host="+urlencode(host)+"&name="+name+"&user="+user+"&pwd="+pwd+getCacheBusterParam(), function(data){
-		$("#create-db-pane-out").html(data);
+		$("#smob-db-pane-out").html(data);
 	});
 }
 
-function setupSMOB(){
+function install_smob_settings(){
 	var smob_root = $("#smob-root").val();	
-	var server_gmap = $("#smob-gmap").val();
+	var purge = $("#smob-purge").val();			
+		
+	$("#smob-settings-pane-in").hide("normal");
+	$("#smob-settings-pane-out").show("normal");
+	
+	$.get("ajax/install.php?cmd=setup-smob&smob_root="+urlencode(smob_root)+"&purge="+urlencode(purge)+getCacheBusterParam(), function(data){
+		$("#smob-settings-pane-out").html(data);
+	});		
+}
+
+function install_user_settings(){
+
+	var client_uri = $("#smob-uri").val();
+	var client_twitter_login = $("#smob-twitter-login").val();
+	var client_twitter_pass = $("#smob-twitter-pass").val();
+	var auth = $('input[name=smob-auth]:checked').val()	
+
+	$("#smob-user-pane-in").hide("normal");
+	$("#smob-user-pane-out").show("normal");
+
+	$.get("ajax/install.php?cmd=setup-user&client_uri="+urlencode(client_uri)+"&client_twitter_login="+urlencode(client_twitter_login)+"&client_twitter_pass="+urlencode(client_twitter_pass)+"&auth="+auth+getCacheBusterParam(), function(data){
+		$("#smob-user-pane-out").html(data);
+	});
+}
+
+/*
+function install_user_settings(){
+	var smob_root = $("#smob-root").val();	
 	var purge = $("#smob-purge").val();			
 	var client_uri = $("#smob-uri").val();
 	var client_twitter_login = $("#smob-twitter-login").val();
@@ -167,11 +211,10 @@ function setupSMOB(){
 	$("#smob-config-pane-in").hide("normal");
 	$("#smob-config-pane-out").show("normal");
 	
-	$.get("ajax/install.php?cmd=setup-smob&smob_root="+urlencode(smob_root)+"&server_gmap="+urlencode(server_gmap)+"&purge="+urlencode(purge)+"&client_uri="+urlencode(client_uri)+"&client_twitter_login="+urlencode(client_twitter_login)+"&client_twitter_pass="+urlencode(client_twitter_pass)+"&auth="+auth+getCacheBusterParam(), function(data){
+	$.get("ajax/install.php?cmd=setup-smob&smob_root="+urlencode(smob_root)+"&purge="+urlencode(purge)+"&client_uri="+urlencode(client_uri)+"&client_twitter_login="+urlencode(client_twitter_login)+"&client_twitter_pass="+urlencode(client_twitter_pass)+"&auth="+auth+getCacheBusterParam(), function(data){
 		$("#smob-config-pane-out").html(data);
-	});
-			
-}
+	});		
+}*/
 
 function log(msg){
 	$("#console").text(msg);	
@@ -182,7 +225,7 @@ function setStep(msg){
 }
 
 function showStatus(){
-	$("#status").text(state + " of 4");	
+	$("#status").text(state + " of 6");	
 }
 
 function nextStep(){
