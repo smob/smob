@@ -42,6 +42,8 @@ class SMOBPostListMap extends SMOBPostList {
 					$content = '<ul>';
 					foreach($posts as $p) {
 						list($url, $txt, $name) = $p;
+						$txt = strip_tags($txt);
+						$txt = str_replace("'", "\'", $txt);
 						$content .= "<li><a href=\"$url\">$txt</a> by $name</li>";
 					}
 					$content .= '</ul>';
