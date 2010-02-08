@@ -148,7 +148,7 @@ xml:lang="fr">
   <base href="<?php echo $root; ?>" />
   <script type="text/javascript">
 	var state = 0;
-	var maxstate = 4;
+	var maxstate = 6;
 	$(function() {
 		$("#step").click(function () {
 			process();

@@ -15,6 +15,11 @@ if(isset($_GET['cmd'])){
 	elseif($cmd =="setup-smob") {
 		setupSMOB();         
 	}
+	
+	elseif($cmd =="setup-user") {
+		setupUser();         
+	}
+	
 	else echo "<p>Sorry, I didn't understand the command ...</p>";            
 }
 
@@ -113,12 +118,27 @@ function setupSMOB() {
 	if(substr($smob_root, -1) != '/') {
 		$smob_root = "$smob_root/";
 	}		
+	$purge = $_GET['purge'];
+	
+	$config = "
+	\$smob_root = '$smob_root';
+	
+	\$purge = '$purge';	
+";
+
+	$f = fopen(dirname(__FILE__).'/../config/config.php', 'a');
+	fwrite($f, $config);
+	fclose($f);
+	
+	print "<p>Settings saved.</p>";
+}
+
+
+function setupUser() {
 	$foaf_uri = $_GET['client_uri'];
 	$client_twitter_login = $_GET['client_twitter_login'];
 	$client_twitter_pass = $_GET['client_twitter_pass'];
-	$server_gmap = $_GET['server_gmap'];
 	$auth = $_GET['auth'];
-	$purge = $_GET['purge'];
 	
 	if(!SMOBTools::checkFoaf($foaf_uri)) {
 		print "<p>An error occurred with your FOAF URI. <b>Please ensure that it dereferences to an RDF file and that this file contains information about your URI.<b><br/>You will have to <a href='$smob_root'>restart the install process<a/></p>";
@@ -127,21 +147,15 @@ function setupSMOB() {
 	}
 	
 	$config = "
-	\$smob_root = '$smob_root';
-	\$foaf_uri = '$foaf_uri';
+		\$foaf_uri = '$foaf_uri';
 
-	\$twitter_user = '$client_twitter_login';
-	\$twitter_pass = '$client_twitter_pass';
+		\$twitter_user = '$client_twitter_login';
+		\$twitter_pass = '$client_twitter_pass';
 
-	\$gmap_key = '$server_gmap';
-	
-	\$purge = '$purge';
-	
-	\$auth_method = '$auth';
-	
-	
+		\$auth_method = '$auth';
+		
 ?>";
-	
+
 	$f = fopen(dirname(__FILE__).'/../config/config.php', 'a');
 	fwrite($f, $config);
 	fclose($f);

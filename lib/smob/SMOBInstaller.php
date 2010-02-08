@@ -31,12 +31,12 @@ class SMOBInstaller {
 			<li>Download <a href="http://phpxmlrpc.sourceforge.net/">XML-RPC for PHP</a>, unzip it in the current <code>lib</code> folder and rename it from <code>xmlrpc-version</code> to <code>xmlrpc</code>;</li>
 			<li>Make the <code>config</code> directory writable by your web server;
 			<li>If your SMOB hub is not in the <code>/smob</code> directory of your website, please edit the <code>.htaccess</code> file accordingly;</li>
-			<li>Edit the <code>auth/.htaccess</code> file for authentication purposes. If you use <code>htpasswd</code> authentication, do not forget to create this file.</li>
+			<li>Edit the <code>auth/.htaccess</code> file for authentication purposes. If you use <code>htpasswd</code> authentication, do not forget to create this file. You can use the <a href="http://www.htaccesstools.com/htpasswd-generator/">htpasswd generator here</a>.</li>
 		</ul>
 	</div>
-	<div id="create-db-pane">
+	<div id="smob-db-pane">
 		<h2>2. Database setup of SMOB</h2>
-		<div id="create-db-pane-in">
+		<div id="smob-db-pane-in">
 			<form>
 				<fieldset>
 					<legend>MySQL database settings</legend>
@@ -50,22 +50,34 @@ class SMOBInstaller {
 			If the database does not exist yet, it will be created it for you.
 			</p>
 		</div>
-		<div id="create-db-pane-out">
+		<div id="smob-db-pane-out">
 			<em>Request sent...</em>
 		</div>
 	</div>
-	<div id="smob-config-pane">
-		<h2>3. SMOB config</h2>
-		<div id="smob-config-pane-in">
+	<div id="smob-settings-pane">
+		<h2>3. SMOB settings</h2>
+		<div id="smob-settings-pane-in">
 			<form>
 				<fieldset>
 					<legend>SMOB settings</legend>
 					<label for="smob-root">SMOB hub address:</label> <input type="text" id="smob-root" name="smob-root" value="$root" size="50"><br />
-					<label for="smob-gmap">GoogleMap API key (optional):</label> <input type="text" id="smob-gmap" name="smob-gmap" value="" size="50"><br />	
-					<label for="smob-purge">Purge posts after X days (0 to keep them):</label> <input type="text" id="smob-purge" name="smob-purge" value="5" size="50"><br />	
+					<label for="smob-purge">Purge posts after <input type="text" id="smob-purge" name="smob-purge" value="5" size="2"> days (0 to keep them)</label> <br />	
+				</fieldset>	
+			</form>
+		</div>
+		<div id="smob-settings-pane-out">
+			<em>Request sent...</em>
+		</div>
+	</div> 
+	<div id="smob-user-pane">
+		<h2>4. User settings</h2>
+		<div id="smob-user-pane-in">
+			<form>
+				<fieldset>
+					<legend>User settings</legend>
 					<label for="smob-uri">FOAF URI:</label> <input type="text" id="smob-uri" name="smob-uri" value="" size="50"><br />
 					<label for="smob-auth">Authentication method:</label> <br/>
-						<input type="radio" name="smob-auth" id="smob-auth" value="htpasswd" checked="true"> htpasswd<br/>
+						<input type="radio" name="smob-auth" id="smob-auth" value="htpasswd" checked="true"> htpasswd (default)<br/>
 						<input type="radio" name="smob-auth" id="smob-auth" value="foafssl"> foafssl<br/>
 					<label for="smob-twitter-login">Twitter login:</label> <input type="text" id="smob-twitter-login" name="smob-twitter-login" value="" size="50"><br />
 					<label for="smob-twitter-pass">Twitter pass:</label> <input type="password" id="smob-twitter-pass" name="smob-twitter-pass" value="" size="50"><br />
@@ -80,36 +92,14 @@ class SMOBInstaller {
 			Twitter login / password is optional.
 			</p>
 		</div>
-		<div id="smob-config-pane-out">
+		<div id="smob-user-pane-out">
 			<em>Request sent...</em>
 		</div>
-	</div> 
+	</div>
 	<div id="done-pane">
 	</div>
 	<button id="step">Ready ? Go !</button>
 _END_;
 	}
-
-/*				
-	// Browsing a single post
-	private function post() {
-		$post = new SMOBPost(SMOBTools::get_post_uri($this->uri, 'post'));
-		return $post->render();
-	}
-	
-	// RDF data for a single post
-	private function data() {
-		$post = new SMOBPost(SMOBTools::get_post_uri($this->uri, 'post'));
-		return $post->raw();
-	}
-
-	// Browsing a list of posts
-	private function posts() {
-		$class = 'SMOBPostList'.ucfirst($this->type);
-		$list = new $class($this->uri, $this->page);
-		return $list->render();		
-	}
-	*/
-
 }
 
