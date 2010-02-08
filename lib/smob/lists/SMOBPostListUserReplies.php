@@ -3,14 +3,12 @@
 class SMOBPostListUserReplies extends SMOBPostList {
 
 	public function title() {
-		global $foaf_uri;
-		return "Posts addressed to $foaf_uri";
+		return "Posts addressed to ". FOAF_URI;
 	}
 	
 	public function load_pattern() {
-		global $foaf_uri;
 		return "
-	?post sioc:addressed_to <$foaf_uri> .";
+	?post sioc:addressed_to " . FOAF_URI . '.';
 	}
 
 }
