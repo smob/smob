@@ -3,6 +3,7 @@
 - Geolocation of messages based on their presence data
 - Ability to purge messages older than X days
 - Ability to delete a message
+- Creating a FOAF profile if not provided
 - Updated installer
 - Various bugfixes and code-cleaning
 
