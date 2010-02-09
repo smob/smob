@@ -74,7 +74,6 @@ if(!SMOBTools::check_config()) {
 		if($_POST) {
 			SMOBTools::checkAccess($_POST);
 		}
-		print_r(SMOBTools::arc_config());
 		$ep = ARC2::getStoreEndpoint(SMOBTools::arc_config());
 		$ep->go();	
 	} else {
