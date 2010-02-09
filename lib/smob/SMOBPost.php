@@ -187,7 +187,7 @@ $(document).ready(function(){
 	
 	// URI for publishing
 	private function get_publish_uri() {
-		return SMOB_ROOT.'?r' . urlencode($this->uri);
+		return SMOB_ROOT.'?r=' . urlencode($this->uri);
 	}
 		
 	// Get the users mentioned in that post	
