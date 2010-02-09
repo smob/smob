@@ -292,7 +292,7 @@ WHERE {
 	}
 	
 	public function delete() {
-		$uri = SMOBTools::get_post_uri($this->uri, 'post');
+		$uri = $this->uri; 
 		$graph = str_replace('/post/', '/data/', $uri);
 		SMOBStore::query("DELETE FROM <$graph>");
 		$this->notify('DELETE FROM');
@@ -313,7 +313,11 @@ WHERE {
 				$query = 'query='.urlencode("$action <$graph>");
 				$res = SMOBTools::do_curl($endpoint, $query);
 			}
-			print '<li>Notification sent to your followers !</li>';
+			if($action == 'LOAD') {
+				print '<li>Notification sent to your followers !</li>';
+			} else {
+				return;
+			}
 		}
 	}
 

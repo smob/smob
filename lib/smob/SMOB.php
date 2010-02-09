@@ -69,8 +69,7 @@ class SMOB {
 		if(!SMOBAuth::check()) die();
 		$post = new SMOBPost(SMOBTools::get_post_uri($this->uri, 'post'));
 		$post->delete();
-		$this->type = 'posts';
-		return $this->posts();
+		header("Location: ".SMOB_ROOT);
 	}
 	
 	// RDF data for a single post
