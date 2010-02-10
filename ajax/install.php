@@ -28,6 +28,7 @@ function createDB(){
 	$name =  $_GET['name'];
 	$user = $_GET['user'];
 	$pwd = $_GET['pwd'];
+	$store = $_GET['store'];
 
 	$ret = "<p>";
 	$dbExists = false;
@@ -45,7 +46,7 @@ function createDB(){
 	
 	if(!$dbExists) {
 		if (mysql_query("CREATE DATABASE " . $name, $con)) {
-			return createStore($host, $name, $user, $pwd); 
+			return createStore($host, $name, $user, $pwd, $store); 
 		}
 		else {
 			$ret .= "Error creating database: " . mysql_error() . "</p>";
@@ -55,22 +56,20 @@ function createDB(){
 	
 	mysql_close($con);
 	
-	return createStore($host, $name, $user, $pwd);
+	return createStore($host, $name, $user, $pwd, $store);
 
 }
 
-function createStore($host, $name, $user, $pwd){
+function createStore($host, $name, $user, $pwd, $store_name){
 
 	include_once(dirname(__FILE__).'/../lib/arc/ARC2.php');
-	
-	$store_name = 'smob';
-	 
+		 
 	$config = array(
 	  'db_host' => $host,
 	  'db_name' => $name,
 	  'db_user' => $user,
 	  'db_pwd' => $pwd,
-	  'store_name' => $store_name
+	  'store_name' => $store_name,
 	);
 	
 	$store = ARC2::getStore($config);

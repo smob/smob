@@ -42,6 +42,7 @@ class SMOBInstaller {
 					<legend>MySQL database settings</legend>
 					<label for="db-host">database host:</label> <input type="text" id="db-host" name="db-host" value="localhost" size="50"><br />
 					<label for="db-name">database name:</label> <input type="text" id="db-name" name="db-name" value="smob" size="20"><br />
+					<label for="db-store">RDF store name:</label> <input type="text" id="db-store" name="db-store" value="smob" size="20"><br />
 					<label for="db-user">user name:</label> <input type="text" id="db-user" name="db-user" value="root" size="10"><br />
 					<label for="db-pwd">password:</label> <input type="password" id="db-pwd" name="db-pwd" value="root" size="10"><br />
 				</fieldset>
