@@ -163,11 +163,12 @@ function install_db_settings(){
 	var name = $("#db-name").val();
 	var user = $("#db-user").val();
 	var pwd = $("#db-pwd").val();
+	var store = $("#db-store").val();
 
 	$("#smob-db-pane-in").hide("normal");
 	$("#smob-db-pane-out").show("normal");
 
-	$.get("ajax/install.php?cmd=create-db&host="+urlencode(host)+"&name="+name+"&user="+user+"&pwd="+pwd+getCacheBusterParam(), function(data){
+	$.get("ajax/install.php?cmd=create-db&host="+urlencode(host)+"&name="+name+"&user="+user+"&pwd="+pwd+"&store="+store+getCacheBusterParam(), function(data){
 		$("#smob-db-pane-out").html(data);
 	});
 }
