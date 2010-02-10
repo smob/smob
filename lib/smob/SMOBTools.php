@@ -13,26 +13,27 @@ class SMOBTools {
 	
 	// Remove posts older than X days
 	public function purge($purge) {
-		if($purge > 0) {
-			$date = date('c', time()-$purge*24*3600);
-			$query = "
-SELECT ?graph
+		$purge = 1;
+		$date = date('c', time()-$purge*24*3600);
+		$query = "
+SELECT DISTINCT ?graph
 WHERE {
 	GRAPH ?graph {
 		?post a sioct:MicroblogPost ;
-			dct:created ?date .
-		FILTER (?date < '$date')
+			dct:created ?date ;
+			foaf:maker ?author .
+		FILTER (?date < '$date') .
+		FILTER (?author != <".FOAF_URI.">) .
 	} 
 	OPTIONAL { ?post rev:rating ?star }
 	FILTER (!bound(?star))
 }";
-			$res = SMOBStore::query($query);
-			if($res) {
-				foreach($res as $r) {
-					$g = $r['graph'];
-					$query = "DELETE FROM <$g> ";
-					SMOBStore::query($query);
-				}
+		$res = SMOBStore::query($query);
+		if($res) {
+			foreach($res as $r) {
+				$g = $r['graph'];
+				$query = "DELETE FROM <$g> ";
+				SMOBStore::query($query);
 			}
 		}		
 	}
