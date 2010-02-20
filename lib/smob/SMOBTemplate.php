@@ -1,4 +1,4 @@
-<?	
+<?php	
 
 /*
 	Deals with all the rendering aspect, from the complete application to individual posts
@@ -181,7 +181,7 @@ xml:lang="fr">
 	
 <?php echo $form; ?>	
 
-<?		
+<?php		
 	}
 	
 	public function footer() {
@@ -242,7 +242,7 @@ jQuery(function(){
 
 </html>
 
-<?		
+<?php		
 	}
 	
 	public function users($type, $users) {

@@ -1,4 +1,4 @@
-<?
+<?php
 
 /* 
 	Helper methods for the authentication

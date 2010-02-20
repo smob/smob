@@ -1,4 +1,4 @@
-<?
+<?php
 
 /*
 	The class responsible of all the actions towards the local triple-store

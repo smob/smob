@@ -1,4 +1,4 @@
-<?
+<?php
 
 /* 
 	The installer class

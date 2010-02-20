@@ -1,4 +1,4 @@
-<?
+<?php
 
 /* 
 	Interacting with the Twitter API to retrieve twitter timeline in SMOB
