@@ -1,3 +1,7 @@
+#
+
+- Fixed issue 7
+
 # v2.2 [2010-02-08]
 
 - Geolocation of messages based on their presence data

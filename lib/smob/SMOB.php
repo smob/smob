@@ -1,4 +1,4 @@
-<?
+<?php
 
 /* 
 	The main class - controls the action, launches all the stuff
