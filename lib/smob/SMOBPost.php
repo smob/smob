@@ -170,7 +170,7 @@ WHERE {
 		$ht .= '  </div>';
 		$ht .= '</div>';
 		$ht .= "</div>\n\n";
-		$ht .= "<script>
+		$ht .= "<script type="text/javascript">
 $(document).ready(function(){
 	$('#star$count').rating('ajax/star.php?u=$uri', {maxvalue: 1, curvalue: $star});
 	});
