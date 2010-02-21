@@ -13,7 +13,6 @@ class SMOBTools {
 	
 	// Remove posts older than X days
 	public function purge($purge) {
-		$purge = 1;
 		$date = date('c', time()-$purge*24*3600);
 		$query = "
 SELECT DISTINCT ?graph
