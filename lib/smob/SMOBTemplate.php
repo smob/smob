@@ -131,9 +131,9 @@ xml:lang="fr">
   <link rel="icon" type="image/png" href="<?php echo SMOB_ROOT; ?>img/smob-icon.png" />
   <link rel="stylesheet" type="text/css" href="<?php echo SMOB_ROOT; ?>css/style.css" />
 
-  <link type="text/css" href="http://jqueryui.com/latest/themes/base/ui.all.css" rel="stylesheet" />
+  <link type="text/css" href="http://jqueryui.com/latest/themes/base/jquery.ui.all.css" rel="stylesheet" />
 
-  <script src="http://www.google.com/jsapi"></script>	
+  <script type="text/javascript" src="http://www.google.com/jsapi"></script>	
   <script type="text/javascript">	
     google.load("jquery", "1.4.1");
     google.load("jqueryui", "1.7.2");
