@@ -8,7 +8,7 @@ class SMOBPostListUserReplies extends SMOBPostList {
 	
 	public function load_pattern() {
 		return "
-	?post sioc:addressed_to " . FOAF_URI . '.';
+	?post sioc:addressed_to <" . FOAF_URI . '> .';
 	}
 
 }
