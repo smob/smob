@@ -58,7 +58,7 @@ if($type == 'tag' || $type == 'user') {
 	$term = substr($term, 2);
 }
 // Remove last char if ,./?!+
-$stops = array(',','.','/','?','!','+', ':');
+$stops = array(',', '.', '/', '?', '!', '+', ':');
 $last = substr($term, strlen($term)-1);
 if(in_array($last, $stops)) {
 	$term = substr($term, 0, -1);
