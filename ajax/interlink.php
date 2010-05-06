@@ -57,6 +57,13 @@ if($type == 'tag' || $type == 'user') {
 } else if($type == 'location') {
 	$term = substr($term, 2);
 }
+// Remove last char if ,./?!+
+$stops = array(',','.','/','?','!','+', ':');
+$last = substr($term, strlen($term)-1);
+if(in_array($last, $stops)) {
+	$term = substr($term, 0, -1);
+	$original = substr($original, 0, -1);
+}
 
 // URIs from wrappers
 $wrappers = get_wrappers($type);
