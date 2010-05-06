@@ -55,6 +55,9 @@ WHERE {
 	private function process_content() {
 		// Process hyperlinks
 		$this->data['content'] = preg_replace( "`(http|ftp)+(s)?:(//)((\w|\.|\-|_)+)(/)?(\S+)?`i", "<a href=\"\\0\" target=\"_blank\">http://\\4</a>", $this->data['content']); 
+		// Process & and < symbols
+		$this->data['content'] = str_replace('&', '&amp;', $this->data['content']);
+		$this->data['content'] = str_replace('<', '&lt;', $this->data['content']);
 		// Process users
 		$users = $this->get_users();
 		if($users) {
