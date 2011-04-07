@@ -1,6 +1,6 @@
 RewriteEngine on
 # Fix the following line in the installer
-RewriteBase /smob/
+#RewriteBase /smob/
 
 RewriteRule ^post/(.*)$ index.php?t=post&u=$1 [L,QSA]
 RewriteRule ^user/(.*)$ index.php?t=user&u=$1 [L,QSA]
@@ -28,4 +28,5 @@ RewriteRule ^remove/follower/(.*)$ index.php?a=remove&t=follower&u=$1 [L,QSA]
 
 RewriteRule ^sparql(.*)$ index.php?t=sparql [L,QSA]
 
+RewriteRule ^callback(.*)$ index.php?t=callback [L,QSA]
 

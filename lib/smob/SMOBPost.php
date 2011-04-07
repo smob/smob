@@ -3,6 +3,7 @@
 /*
 	Representing posts
 */
+include_once(dirname(__FILE__).'/../publisher.php');
 	
 class SMOBPost {
 	
@@ -304,18 +305,22 @@ WHERE {
 	public function notify($action = 'LOAD') {
 		$followers = SMOBTools::followers();
 		if($followers) {
-			foreach($followers as $follow) {
-				// In case some hubs are still in 2.0
-				$uri = $follow['uri'];
-				if (substr($uri, -2) == 'me') {
-					$endpoint = substr($uri, 0, -2) . 'sparql';
-				} else {
-					$endpoint = $uri . 'sparql';
-				}
-				$graph = $this->graph();
-				$query = 'query='.urlencode("$action <$graph>");
-				$res = SMOBTools::do_curl($endpoint, $query);
-			}
+			// Publish new feed to the hub
+
+            //$hub_url = 'http://pubsubhubbub.appspot.com/publish';
+            $hub_url = HUB_URL.'publish';
+
+            $p = new Publisher($hub_url);
+            $topic_url = SMOB_ROOT.'me/rss';
+            // notify the hub that the specified topic_url (ATOM feed) has been updated  
+            $result = $p->publish_update($topic_url);
+            if ($result) {
+                error_log("$topic_url was successfully published to $hub_url",0);
+            } else {
+                error_log("$topic_url was NOT successfully published to $hub_url",0);
+                error_log($p->last_response(),0);
+            }
+            
 			if($action == 'LOAD') {
 				print '<li>Notification sent to your followers !</li>';
 			} else {
