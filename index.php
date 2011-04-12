@@ -208,7 +208,7 @@ if(!SMOBTools::check_config()) {
                     <$link#presence> <http://online-presence.net/opo/ns#declaredOn> <$author> .
                     <$link#presence> <http://online-presence.net/opo/ns#declaredBy> <$author#id> .
                     <$link#presence> <http://online-presence.net/opo/ns#StartTime> \"$date\"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
-                    <$link#presence> <http://online-presence.net/opo/ns#customMessage> <$link> . }"
+                    <$link#presence> <http://online-presence.net/opo/ns#customMessage> <$link> . }";
                     
                     SMOBStore::query($query);
                 }
