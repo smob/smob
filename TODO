@@ -1,7 +1,7 @@
 [x] 1. svn to git migration
 [] 2. Update project page to inform about github code migration
 
-[] 3. Add publication and subscription to an external hub capability
+[x] 3. Add publication and subscription to an external hub capability
     * index.php
     [] Add new following : needed to check if the following already exists?
     [] Ping to update the followers list remotely: the URL will work only if $u
@@ -33,6 +33,10 @@
      [x] Hub complains about "Could not find any record for topic URL: http://smob.domain.com/rdf" or "...<?xml version..."
       Solution: parse and convert the RSS back to RDF in subscriber?  
 
+[] 11. Creator tag is empty in /me/rss with HTTP authentication
+
+[x] 12. Create another RSS link where RDF is included as content:encoded tag. This is another solution for #9.
+
 [] X. WebId...
 
 [] X. Include PPO...
@@ -46,4 +50,3 @@
 [] X. Sindice notifications/autodiscovery...
 
 [] X. Get list of Hubs
-

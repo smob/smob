@@ -3,7 +3,6 @@
 /*
 	Representing posts
 */
-include_once(dirname(__FILE__).'/../publisher.php');
 	
 class SMOBPost {
 	
@@ -88,10 +87,58 @@ WHERE {
 	// Render the post as RSS 1.0 item
 	public function rss() {
 		$uri = $this->uri;
+		$graph = $this->graph();
 		$content = $this->data['content'];
 		$ocontent = strip_tags($content);
 		$date = $this->data['date'];
 		$name = $this->data['name'];
+		//Adding the RDF to content 
+        $turtle = $this->turtle();
+        $content = "INSERT INTO <$graph> { $turtle }";
+		
+		$item = "	
+<item rdf:about=\"$uri\">
+	<title>$ocontent</title>
+	<link>$uri</link>
+	<description>$ocontent</description>
+	<dc:creator>$name</dc:creator>
+	<dc:date>$date</dc:date>
+	<content:encoded><![CDATA[$content]]></content:encoded>
+</item>
+";
+		return $item;
+	}
+	
+	// Render the post as RSS 1.0 item with RDF in content tag 
+	// Function not used now, as rss is is adding the RDF
+	public function rssrdf() {
+		$uri = $this->uri;
+		$graph = $this->graph();
+		$content = $this->data['content'];
+		$ocontent = strip_tags($content);
+		$date = $this->data['date'];
+		$name = $this->data['name'];
+
+        ////when user_agent is the Hub, delete the post marked to be deleted
+        //// Has the post been deleted?
+        //$query = "ASK { GRAPH <$graph> {<$uri> <http://smob.me/ns#Status> \"DELETED\"^^<http://www.w3.org/2001/XMLSchema#string> .}}";
+        //$res = SMOBStore::query($query, true);
+        //error_log($res,0);
+
+        //if ($res == 1) {
+        //    $content = "DELETE FROM <$graph>";
+        //    // If the Hub is getting the post to be deleted
+        //    if (isset($_SERVER['REMOTE_HOST']) && $_SERVER['REMOTE_HOST'] == HUB_URL) {
+
+        //        // Real delete
+        //        $res = SMOBStore::query($content);
+        //        error_log($res,0);
+        //    }
+        //} else {
+		//Adding the RDF to content 
+		$graph = $this->graph();
+        $turtle = $this->turtle();
+        $content = "INSERT INTO <$graph> { $turtle }";
 		
 		$item = "	
 <item rdf:about=\"$uri\">
@@ -157,7 +204,12 @@ WHERE {
 		if(SMOBAuth::check()) {
 			if(strpos($uri, SMOB_ROOT) !== FALSE) {
 				$ex = explode('/', $uri);
+				error_log("DEBUG: post delete path: ".join(' ', $ex),0);
+			    error_log("DEBUG: post uri: ".$uri,0);
 				$action = SMOB_ROOT.'delete/'.$ex[5];
+				// the previous line doesn't work as the post is in the position 4
+                $action = str_replace('post', 'delete', $uri);
+				error_log("DEBUG: is going to be run the action: ".$action,0);
 				$ht .= " [<a href=\"$action\" onclick=\"javascript:return confirm('Are you sure ? This cannot be undone.')\">Delete post</a>]";			
 			} 
 			$action = $this->get_publish_uri();
@@ -307,25 +359,28 @@ WHERE {
 		if($followers) {
 			// Publish new feed to the hub
 
-            //$hub_url = 'http://pubsubhubbub.appspot.com/publish';
-            $hub_url = HUB_URL.'publish';
-
-            $p = new Publisher($hub_url);
-            $topic_url = SMOB_ROOT.'me/rss';
-            // notify the hub that the specified topic_url (ATOM feed) has been updated  
-            $result = $p->publish_update($topic_url);
-            if ($result) {
-                error_log("$topic_url was successfully published to $hub_url",0);
-            } else {
-                error_log("$topic_url was NOT successfully published to $hub_url",0);
-                error_log($p->last_response(),0);
+            //@TODO: should the hub_url be stored somewhere?
+            $hub_url = HUB_URL_PUBLISH;
+            $topic_url = SMOB_ROOT.'me'.FEED_PATH;
+            // Reusing do_curl function
+            $feed = urlencode($topic_url);
+            $result = SMOBTools::do_curl($hub_url, $postfields ="hub.mode=publish&hub.url=$feed");
+            // all good -- anything in the 200 range 
+            if (substr($result[2],0,1) == "2") {
+                error_log("DEBUG: $topic_url was successfully published to hubsub $hub_url",0);
             }
+            error_log("DEBUG: Server answer: ".join(' ', $result),0);
             
 			if($action == 'LOAD') {
 				print '<li>Notification sent to your followers !</li>';
 			} else {
 				return;
-			}
+			}      
+//			if($action == 'DELETE FROM') {
+//				print '<li>Delete notification sent to your followers !</li>';
+//			} else {
+//				return;
+//			}
 		}
 	}
 
@@ -384,5 +439,31 @@ WHERE {
 		}
 		exit();
 	}
+	
+	public function turtle() {
+	    // Function similar to raw, but it returns the turtle triples as text instead of a new page
+		$turtle = "";
+		$uri = $this->graph();
+		$query = "
+SELECT *
+WHERE { 
+	GRAPH <$uri> {
+		?s ?p ?o
+	}
+}";
+
+		$data = SMOBStore::query($query);
+		foreach($data as $triple) {
+			$s = $triple['s'];
+			$p = $triple['p'];
+			$o = $triple['o'];	
+			$ot = $triple['o type'];	
+			$odt = in_array('o datatype', array_keys($triple)) ? '^^<'.$triple['o datatype'].'>' : '';
+			$turtle .= "<$s> <$p> ";
+			$turtle .= ($ot == 'uri') ? "<$o> " : "\"$o\"$odt ";
+			$turtle .= ".\n" ;
+		}
+		return $turtle;
+	}	
 		
 }

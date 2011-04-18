@@ -1,6 +1,6 @@
 RewriteEngine on
 # Fix the following line in the installer
-#RewriteBase /smob/
+RewriteBase /smob/
 
 RewriteRule ^post/(.*)$ index.php?t=post&u=$1 [L,QSA]
 RewriteRule ^user/(.*)$ index.php?t=user&u=$1 [L,QSA]
@@ -22,6 +22,7 @@ RewriteRule ^ping/follower/(.*)$ index.php?a=add&t=follower&u=$1 [L,QSA]
 RewriteRule ^ping/item/(.*)$ index.php?a=add&t=item&u=$1 [L,QSA]
 
 RewriteRule ^me/rss$ index.php?t=rss_owner [L,QSA]
+RewriteRule ^me/rssrdf$ index.php?t=rssrdf_owner [L,QSA]
 
 RewriteRule ^remove/following/(.*)$ index.php?a=remove&t=following&u=$1 [L,QSA]
 RewriteRule ^remove/follower/(.*)$ index.php?a=remove&t=follower&u=$1 [L,QSA]
@@ -29,4 +30,9 @@ RewriteRule ^remove/follower/(.*)$ index.php?a=remove&t=follower&u=$1 [L,QSA]
 RewriteRule ^sparql(.*)$ index.php?t=sparql [L,QSA]
 
 RewriteRule ^callback(.*)$ index.php?t=callback [L,QSA]
+RewriteRule ^callbackrdf(.*)$ index.php?t=callbackrdf [L,QSA]
+
+RewriteRule ^feedrdf$ sparql?query=CONSTRUCT\%20\%7B\%20?s\%20?p\%20?o\%20.\%20\%7D\%20WHERE\%20\%7B\%20GRAPH\%20?g\%20\%7B\%20?s\%20?p\%20?o\%20.\%20\%7D\%7D
+
+#RewriteRule ^select$ sparql?query=SELECT\%20*\%20WHERE\%20\%7BGRAPH\%20?g\%20\%7B\%20?s\%20?p\%20?o\%20.\%20\%7D\%7D
 
