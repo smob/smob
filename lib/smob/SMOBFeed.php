@@ -52,11 +52,13 @@ class SMOBFeed {
 	xmlns:cc='http://web.resource.org/cc/'
 	xmlns:content='http://purl.org/rss/1.0/modules/content/'
 	xmlns:admin='http://webns.net/mvcb/'
+	xmlns:atom='http://www.w3.org/2005/Atom'
 > 
 
 <channel rdf:about='".SMOB_ROOT."'>
 	<title>$title</title>
-	<link rel='hub' href='".HUB_URL_SUBSCRIBE."'>".SMOB_ROOT."</link>
+	<link>".SMOB_ROOT."</link>
+	<atom:link rel='hub' href='".HUB_URL_SUBSCRIBE."'/>
 	<description>$title</description>
 	<dc:creator>$owner</dc:creator>
 	<dc:date>$ts</dc:date>

@@ -364,7 +364,7 @@ LIMIT 1";
         foreach($xml->item as $item) {
             $link = (string) $item->link;
             $content = html_entity_decode((string) $item->content_encoded, ENT_COMPAT, "UTF-8");
-            $query = $content;
+            $query = "INSERT INTO <$link> { $content }";
             SMOBStore::query($query);
 			error_log("DEBUG: Added the triples: $query",0);
         }

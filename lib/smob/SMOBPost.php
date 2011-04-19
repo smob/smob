@@ -94,8 +94,8 @@ WHERE {
 		$name = $this->data['name'];
 		//Adding the RDF to content 
         $turtle = $this->turtle();
-        $content = "INSERT INTO <$graph> { $turtle }";
-		
+        //$content = "INSERT INTO <$graph> { $turtle }";
+		$content = $turtle;
 		$item = "	
 <item rdf:about=\"$uri\">
 	<title>$ocontent</title>
@@ -138,7 +138,8 @@ WHERE {
 		//Adding the RDF to content 
 		$graph = $this->graph();
         $turtle = $this->turtle();
-        $content = "INSERT INTO <$graph> { $turtle }";
+        //$content = "INSERT INTO <$graph> { $turtle }";
+		$content = $turtle;
 		
 		$item = "	
 <item rdf:about=\"$uri\">
@@ -461,7 +462,7 @@ WHERE {
 			$odt = in_array('o datatype', array_keys($triple)) ? '^^<'.$triple['o datatype'].'>' : '';
 			$turtle .= "<$s> <$p> ";
 			$turtle .= ($ot == 'uri') ? "<$o> " : "\"$o\"$odt ";
-			$turtle .= ".\n" ;
+			$turtle .= ". " ;
 		}
 		return $turtle;
 	}	
