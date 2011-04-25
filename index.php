@@ -46,7 +46,7 @@ if(!SMOBTools::check_config()) {
 			    // Subscribe to the hub
 
                 // Get the Publisher (following) Hub
-			    $remote_user_feed = $remote_user.FEED_PATH;
+			    $remote_user_feed = $remote_user.FEED_URL_PATH;
 			    $xml = simplexml_load_file($remote_user_feed);
                 if(count($xml) == 0)
                     return;
@@ -113,7 +113,7 @@ if(!SMOBTools::check_config()) {
 		    // Unsubscribe to the Hub
 
             //@TODO: following Hub should be stored?, 
-		    $remote_user_feed = $remote_user.FEED_PATH;
+		    $remote_user_feed = $remote_user.FEED_URL_PATH;
 		    $xml = simplexml_load_file($remote_user_feed);
             if(count($xml) == 0)
                 return;
@@ -138,8 +138,17 @@ if(!SMOBTools::check_config()) {
 	}	
 	elseif($t == 'rss_owner') {
 		header ("Content-type: text/xml");
-		$tweet = new SMOBFeed();
-		$tweet->rss();
+		//$tweet = new SMOBFeed();
+		//$tweet->rss();
+		error_log("DEBUG: rssfilepath: ".FEED_FILE_PATH);
+		if (!file_exists(FEED_FILE_PATH)) {
+		    error_log("DEBUG: initial RSS file does not exists", 0);
+		    SMOBTools::initial_rss_file();
+		}
+        $rssfile = fopen(FEED_FILE_PATH, 'r'); 
+        $rss = fread($rssfile, filesize(FEED_FILE_PATH));
+        fclose($rssfile);
+        echo($rss);
 	}
 	// function to server RDF inside item content
 	// is not being used for now

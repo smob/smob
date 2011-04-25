@@ -153,7 +153,37 @@ WHERE {
 ";
 		return $item;
 	}
-	
+
+
+    public function add2rssfile() {
+		$uri = $this->uri;
+		// the data array is only generated when the post is loaded from the triple store
+		// but it is not generated when the post is generated from user interface
+		// it has no sense to get it from the triple store if it is still in memory
+		//$content = $this->data['content'];
+		//$ocontent = strip_tags($content);
+		//$date = $this->data['date'];
+		//$name = $this->data['name'];
+		
+		$date = date($this->ts);
+		$content = $this->content;
+		$ocontent = strip_tags($content);
+		// @FIXME: can not get the name from new post data model, although it is stored in the triples
+		//$name = SMOBTools::uri(SMOBTools::user_uri());
+		$name = "";
+		
+		
+		//Adding the RDF to content 
+		$turtle = $this->turtle();
+		
+		SMOBTools::add2rssfile($uri, $ocontent, $date, $name, $turtle);
+    }
+
+    public function deletefromrssfile() {
+        $uri = $this->uri;
+        SMOBTools::deletefromrssfile($uri);
+    }
+
 	// Render the post in RDFa/XHTML
 	public function render() {
 		global $sioc_nick, $count;
@@ -350,8 +380,9 @@ WHERE {
 	
 	public function delete() {
 		$uri = $this->uri; 
-		$graph = str_replace('/post/', '/data/', $uri);
+		$graph = $this->graph(); 
 		SMOBStore::query("DELETE FROM <$graph>");
+		$this->deletefromrssfile();
 		$this->notify('DELETE FROM');
 	}
 	
@@ -362,7 +393,7 @@ WHERE {
 
             //@TODO: should the hub_url be stored somewhere?
             $hub_url = HUB_URL_PUBLISH;
-            $topic_url = SMOB_ROOT.'me'.FEED_PATH;
+            $topic_url = SMOB_ROOT.'me'.FEED_URL_PATH;
             // Reusing do_curl function
             $feed = urlencode($topic_url);
             $result = SMOBTools::do_curl($hub_url, $postfields ="hub.mode=publish&hub.url=$feed");
@@ -374,14 +405,11 @@ WHERE {
             
 			if($action == 'LOAD') {
 				print '<li>Notification sent to your followers !</li>';
+			} elseif($action == 'DELETE FROM') {
+				print '<li>Delete notification sent to your followers !</li>';
 			} else {
 				return;
-			}      
-//			if($action == 'DELETE FROM') {
-//				print '<li>Delete notification sent to your followers !</li>';
-//			} else {
-//				return;
-//			}
+			}
 		}
 	}
 

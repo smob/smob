@@ -315,6 +315,175 @@ LIMIT 1";
 		return '"' . addslashes($date) . '"^^xsd:dateTime';
 	}
 
+    function add2rssfile($uri, $ocontent, $date, $name, $turtle) {
+
+        error_log("DEBUG: add2rssfile($uri, $ocontent, $date, $name, $turtle)",0);
+        $xml = new DOMDocument();
+        
+        $item = $xml->createElement("item");
+
+        $title = $xml->createElement("title");
+        $title->appendChild($xml->createTextNode($ocontent));
+        $item->appendChild($title);
+
+        $description = $xml->createElement("description");
+        $description->appendChild($xml->createTextNode($ocontent));
+        $item->appendChild($description);
+
+        $dc_creator = $xml->createElement("dc:creator");
+        $dc_creator->appendChild($xml->createTextNode($name));
+        $item->appendChild($dc_creator);
+
+        $dc_date = $xml->createElement("dc:date");
+        $dc_date->appendChild($xml->createTextNode($date));
+        $item->appendChild($dc_date);
+
+        $link = $xml->createElement("link");
+        $link->appendChild($xml->createTextNode($uri));
+        $item->appendChild($link);
+
+        $content_encoded = $xml->createElement("content:encoded");
+        $content_encoded->appendChild($xml->createCDATASection($turtle));
+        $item->appendChild($content_encoded);
+        
+        $xml->appendChild($item);
+        
+        $xml->formatOutput = true;
+        error_log("DEBUG: ".$xml->saveXML($item),0);
+        SMOBTools::additem2rssfile($item);
+    }
+    
+    function additem2rssfile($item) {
+
+        error_log("DEBUG: additem2rssfile",0);
+        $xml = new DOMDocument();
+        $xml->formatOutput = true;
+        $xml->load(FEED_FILE_PATH);
+
+        $seq = $xml->getElementsByTagNameNS("http://www.w3.org/1999/02/22-rdf-syntax-ns#","Seq")->item(0);
+        
+        $link = $item->getElementsByTagName("link")->item(0)->nodeValue;
+        $li = $xml->createElementNS("http://www.w3.org/1999/02/22-rdf-syntax-ns#","li");
+        $li->setAttributeNS("http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdf:resource", $link); 
+        //$seq->appendChild($li);
+        $seq->insertBefore($li, $seq->firstChild);
+        
+        $root = $xml->documentElement;
+        $item = $xml->importNode($item, true);
+        //$root->appendChild($item);
+        $lastitem = $item->getElementsByTagName("item")->lastChild;
+        $root->insertBefore($item, $lastitem);
+
+        error_log("DEBUG: ".$xml->saveXML($item),0);
+        
+        error_log("DEBUG: new RSS file content: ".$xml->saveXML());
+	    $filesaved = $xml->save(FEED_FILE_PATH); 
+    }
+    
+    function additemstring2rssfile($itemstring) {
+
+        $newxml = new DOMDocument();
+        $newxml->loadXML($itemstring);
+        $newitem = $newxml->getElementsByTagName("item")->item(0);
+        error_log("DEBUG: new item to add to RSS file: ".$newitem->nodeValue);
+        
+        SMOBTools::additem2rssfile($newitem);
+    }
+
+    function deletefromrssfile($uri) {
+    
+        $xml = new DOMDocument();
+        $xml->load(FEED_FILE_PATH);
+
+        $links = $xml->getElementsByTagName("link");
+        foreach($links as $link) {
+            if ($link->nodeValue == $uri) {
+
+                $item = $link->parentNode;
+	            $content_encoded = $item->getElementsByTagNameNS("http://purl.org/rss/1.0/modules/content/","encoded")->item(0);
+                error_log("DEBUG: deleting content: ".$content_encoded->nodeValue, 0);
+
+	            $empty_content_encoded = $xml->createElement("content:encoded");
+                $empty_content_encoded->appendChild(
+                	//$xml->createCDATASection("")
+                	$xml->createTextNode("")
+                );
+	            $item->replaceChild($empty_content_encoded, $content_encoded);    
+
+	        }          
+        }
+        error_log("DEBUG: xml".$xml->saveXML());  
+	    $filesaved = $xml->save(FEED_FILE_PATH);
+    }	
+    
+	function get_rdf_from_rss($rssstring) {
+        $xml = new DOMDocument();
+        $xml->loadXML($rssstring);
+        
+        $items = $xml->getElementsByTagName("item");
+        foreach( $items as $item )   {
+            $content_encoded = $item->getElementsByTagNameNS("http://purl.org/rss/1.0/modules/content/","encoded")->item(0);
+            //utf8_decode
+            $content = html_entity_decode(htmlentities($content_encoded->nodeValue, ENT_COMPAT, 'UTF-8'), 
+                                     ENT_COMPAT,'ISO-8859-15');
+	        error_log("DEBUG: RSS item content".$content_encoded->nodeValue);
+            $link = $item->getElementsByTagName("link")->item(0)->nodeValue;
+            if (empty($content)) {
+                $query = "DELETE FROM <$link>";
+                //SMOBTools::deletefromrssfile($link);
+            } else {
+                $query = "INSERT INTO <$link> { $content }";
+                //SMOBTools::additem2rssfile($item);
+            }   
+            SMOBStore::query($query);
+		    error_log("DEBUG: Query executed: $query",0);   
+        }
+	}
+	
+	// Function to get the scheme and domain host URL
+	function host($url) {
+	    $host = parse_url($url, PHP_URL_SCHEME) . "://" .  parse_url($url, PHP_URL_HOST) ;
+	    return $host;
+	}
+	
+	function initial_rss_file() {
+		$version = SMOBTools::version();
+		$owner = SMOBTools::ownername();
+		$title = "SMOB Hub of $owner";
+		$ts = date('c');
+		$rssfile = fopen(FEED_FILE_PATH,'w');
+		$rss = "<?xml version='1.0' encoding='utf-8'?>
+<rdf:RDF
+	xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+	xmlns:dc='http://purl.org/dc/elements/1.1/'
+	xmlns='http://purl.org/rss/1.0/'
+	xmlns:dcterms='http://purl.org/dc/terms/'
+	xmlns:cc='http://web.resource.org/cc/'
+	xmlns:content='http://purl.org/rss/1.0/modules/content/'
+	xmlns:admin='http://webns.net/mvcb/'
+	xmlns:atom='http://www.w3.org/2005/Atom'
+> 
+
+<channel rdf:about='".SMOB_ROOT."'>
+	<title>$title</title>
+	<link>".SMOB_ROOT."</link>
+	<atom:link rel='hub' href='".HUB_URL_SUBSCRIBE."'/>
+	<description>$title</description>
+	<dc:creator>$owner</dc:creator>
+	<dc:date>$ts</dc:date>
+	<admin:generatorAgent rdf:resource='http://smob.me/#smob?v=$version' />
+	<items>
+		<rdf:Seq>
+		</rdf:Seq>
+	</items>
+</channel>
+</rdf:RDF>
+";
+        fwrite($rssfile, $rss);
+        error_log("DEBUG: Created initial RSS file",0);
+        fclose($rssfile);
+	}
+
 	function rss2rdf($post_data) {
 	    // Function to convert RSS to RDF, some elements as tags will be missing
         //@FIXME: this solution is a bit hackish
@@ -329,7 +498,7 @@ LIMIT 1";
             $link = (string) $item->link;
             $date = (string) $item->dc_date;
             $description = (string) $item->description;
-            $site = $this->host($link);
+            $site = SMOBTools::host($link);
             $author = $site . "/me";
 
             $query = "INSERT INTO <$link> {
@@ -349,30 +518,6 @@ LIMIT 1";
             SMOBStore::query($query);
 			error_log("DEBUG: Added the triples: $query",0);
         }
-	}
-	
-	function get_rdf_from_rss($post_data) {
-        //@FIXME: this solution is a bit hackish
-        $post_data = str_replace('dc:date', 'dc_date', $post_data);
-        $post_data = str_replace('content:encoded', 'content_encoded', $post_data);
-        
-        // Parsing the new feeds to load in the triple store
-        $xml = simplexml_load_string($post_data);
-        if(count($xml) == 0)
-            return;
-        error_log("DEBUG: xml received from publisher: ".print_r($xml,1),0);
-        foreach($xml->item as $item) {
-            $link = (string) $item->link;
-            $content = html_entity_decode((string) $item->content_encoded, ENT_COMPAT, "UTF-8");
-            $query = "INSERT INTO <$link> { $content }";
-            SMOBStore::query($query);
-			error_log("DEBUG: Added the triples: $query",0);
-        }
-	}
-	// Function to get the scheme and domain host URL
-	function host($url) {
-	    $host = parse_url($url, PHP_URL_SCHEME) . "://" .  parse_url($url, PHP_URL_HOST) ;
-	    return $host;
 	}
 }
 
