@@ -165,7 +165,7 @@ WHERE {
 		//$date = $this->data['date'];
 		//$name = $this->data['name'];
 		
-		$date = date($this->ts);
+		$date = $this->ts;
 		$content = $this->content;
 		$ocontent = strip_tags($content);
 		// @FIXME: can not get the name from new post data model, although it is stored in the triples
