@@ -7,15 +7,16 @@
 #SSLOptions +StdEnvVars
 #SSLOptions +ExportCertData
 
-# If you want a simple .htaccess authentication, uncomment the following 
-# lines and create a corresponding htpasswd file, containing
-# login:pass
-# see http://www.htaccesstools.com/htpasswd-generator/ for generation
+# If you don't want basic HTTP authentication, comment the following 
+# lines. Otherwise, uncoment them and create a corresponding .htpasswd file, 
+# containing login:pass
+# See http://www.htaccesstools.com/htpasswd-generator/ for generation
+# Or use the example auth/.htpasswd provided for user admin and password admin 
 
-# AuthUserFile /path/to/.htpassed
-# AuthGroupFile /dev/null
-# AuthName "Restricted area !"
-# AuthType Basic
-# <Limit GET>
-# require valid-user
-# </Limit>
+AuthUserFile /path/to/.htpasswd
+AuthGroupFile /dev/null
+AuthName "Restricted area !"
+AuthType Basic
+<Limit GET>
+require valid-user
+</Limit>

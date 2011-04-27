@@ -1,0 +1,24 @@
+<VirtualHost *:80>
+      DocumentRoot       /var/www/yoursmobpath
+      ServerName         yourdomain.com
+      ServerAlias        www.yourdomain.com
+
+      # Logs
+      LogLevel           warn
+      ErrorLog           /var/www/yoursmobpath/var/log/error.log
+      CustomLog          /var/www/yoursmobpath/var/log/access.log combined
+      RewriteEngine on
+      RewriteLog         "/var/www/yoursmobpath/var/log/rewrite.log"
+      
+      # To enable PHP logs
+      #php_flag log_errors on
+      #php_value error_reporting 6143
+      # To write the log to a file
+      #php_value error_log /var/www/yoursmobpath/php.log
+      
+      <Directory /var/www/yoursmobpath/>
+           AllowOverride AuthConfig Indexes Limit FileInfo
+           Options +SymLinksIfOwnerMatch +MultiViews
+      </Directory>
+</VirtualHost>
+
