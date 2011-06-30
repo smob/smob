@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" 
+  "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
+
+<html
+  xmlns="http://www.w3.org/1999/xhtml" 
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:dcterms="http://purl.org/dc/terms/"
+  xmlns:foaf="http://xmlns.com/foaf/0.1/" 
+  xmlns:doap="http://usefulinc.com/ns/doap#"
+xml:lang="fr">
+
+<head profile="http://ns.inria.fr/grddl/rdfa/">
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <title>SMOB - Semantic MicrOBlogging</title>
+  <link rel="stylesheet" type="text/css" href="./style.css" />
+  <link rel="icon" type="image/png" href="./img/smob-icon.png" />
+</head>
+
+<body about="http://smob.me/#smob" typeof="doap:Project">
+
+<div id="full">
+
+<div id="header">
+<h1><a href="http://smob.me/">SMOB</a></h1>
+<h2><span class="smob">S</span>emantic-<span class="smob">M</span>icr<span class="smob">OB</span>logging</h2>
+</div>
+
+<div id="main">
+
+<div class="left">	
+	
+<h2 id="about">About</h2>
+
+<p property="doap:description">
+	<a href="http://smob.me">SMOB</a> is a Semantic MicroBlogging framework that enables an open, distributed and semantic microblogging experience based on state-of-the-art <a rel="sioc:topic" href="http://dbpedia.org/resource/Semantic_Web">Semantic Web</a> and <a rel="sioc:topic" href="http://dbpedia.org/resource/Linked_Data">Linked Data</a> technologies. 
+</p>	
+<p>
+	It relies on distributed hubs that communicate each other to exchange microblog posts and subscriptions (i.e. following / followers). Anyone can install his own hub and start following other users, while SMOB also allows cross-posting on other platforms such as <a href="http://twitter.com">Twitter</a>.
+</p>
+
+<h2 id="technologies">Technologies</h2>
+
+<p>
+	SMOB is entirely based on Semantic Web and Linked Data technologies.
+	In particular, SMOB:
+</p>
+<ul>
+	<li>uses different ontologies to represent the structure of microblog posts and information about users in <a href="http://www.w3.org/RDF/">RDF</a> (<a href="http://sioc-project.org">SIOC</a>, <a href="http://foaf-project.org">FOAF</a>, <a href="http://online-presence.net">OPO</a>);</li>
+	<li>allow interlinking of microblog posts with the <a href="http://richard.cyganiak.de/2007/10/lod/">Linking Open Data cloud</a>, thanks to <a href="http://moat-project.org">MOAT</a> and <a href="http://commontag.org">CommonTag</a>;</li>
+	<li>provides open and machine-readable information about the aforementioned structure and interlinkage using <a href="http://rdfa.info">RDFa</a>;</li>
+	<li>store RDF data of each hub in a local triple-store thanks to <a href="http://arc.semsol.org">ARC2</a>;</li>
+	<li>uses <a href="http://www.w3.org/TR/rdf-sparql-query/">SPARQL</a> to build the user front-end and to offer a public SPARQL endpoint for each hub;</li>
+	<li>uses the currently-standardized <a href="http://www.w3.org/TR/2009/WD-sparql11-update-20091022/">SPARQL Update</a> (and its protocol) for remote synchronization of posts and users between hubs;</li>
+	<li>notifies <a href="http://sindice.com">Sindice</a> for each new post to enable discovering and querying microblog posts across the (Semantic) Web.</li>
+</ul>
+
+<h2 id="team">Team</h2>
+
+<p>
+SMOB has been developed at <a href="http://deri.ie">DERI</a>, <a href="http://nuigalway.ie">NUI Galway</a> in the <a href="http://uss.deri.ie">Unit Social Software</a> by the following people.
+</p>
+
+<p>R&amp;D lead</p>
+<ul>
+	<li><a href="http://apassant.net">Alexandre Passant</a></li>
+</ul>
+
+<p>R&amp;D team and advisors (past and present members, by alphabetical order)</p>
+<ul>
+	<li><a href="http://captsolo.net/">Uldis Bojars</a></li>
+	<li><a href="http://www.johnbreslin.com/">John Breslin</a></li>
+	<li><a href="http://tuukka.iki.fi/">Tuukka Hastrup</a></li>
+	<li><a href="http://lalic.paris-sorbonne.frmembres/page_perso.php?nom=Laublet">Philippe Laublet</a></li>
+	<li><a href="http://apassant.net">Alexandre Passant</a></li>
+	<li><a href="http://milstan.net">Milan Stankovic</a></li>
+</ul>
+
+<h2 id="publications">Publications</h2>
+
+<p>
+	The following publications describe the earliest SMOB architecture and principles:
+</p>
+<ul>
+<li><a href="http://www.semanticscripting.org/SFSW2008/papers/11.pdf">Microblogging: A Semantic Web and Distributed Approach</a> (Paper at <a href="http://www.semanticscripting.org/SFSW2008/">SFSW2008</a>)</li>
+<li><a href="http://www.semanticscripting.org/SFSW2008/papers/12.pdf">A Distributed Semantic Microblogging Platform</a> (Challenge submission <a href="http://www.semanticscripting.org/SFSW2008/">SFSW2008</a>)</li>
+</ul>
+<p>
+	Since SMOB v2.0 is a major rewriting of the architecture and includes new features, these publications may be obsolete.
+	However, new publications are currently under review and may be linked from there in the future.
+</p>
+
+<h2 id="download">Download</h2>
+
+<p>
+	SMOB can be downloaded from its <a href="http://code.google.com/p/smob/downloads/list">google-code download page</a>.
+	If you wish, you can also get its source code via <a href="http://code.google.com/p/smob/source/checkout"> the subversion repository</a>, at your own risks. 
+</p>
+
+
+<h2 id="video">Video Demo</h2>
+
+<p>
+<video width="320" height="240" controls>
+  <source src="./video/smob_demo.ogv"  type='video/ogg; codecs="theora, vorbis"'>
+</video>
+</br>Watch it <a href="./video/">full size</a>
+</br>Or <a href="./video/smob_demo.ogv">download it</a>
+</p>
+
+<h2 id="bugtracker">Bugs and features</h2>
+
+<p>
+ 	If you wish to signal a bug or report a feature request, please fill-in an issue on the <a href="http://code.google.com/p/smob/issues/list">SMOB issue tracker</a>.
+</p>
+
+<h2 id="licence">Licence</h2>
+
+<p>
+	SMOB is &copy; 2008 - 2010 by <a href="http://deri.ie">DERI</a>, <a href="http://nuigalway.ie">National University of Ireland, Galway</a> and is available under the terms of the <a href="http://www.gnu.org/licenses/gpl-2.0.html">GNU General Public Licence v2.0</a>.
+</p>
+
+<h2 id="support">Commercial support</h2>
+
+<p>
+	While SMOB is provided under the terms of the GNU GPL, we provide commercial support for it. For any enquiries, such as development of new features or custom integration of SMOB for enterprise microblogging purposes, please contact us at <code>alexandre.passant[AT]deri.org</code>, indicating <code>[SMOB Support]</code> in the subject line.
+</p>
+		
+<h2 id="acknowledgements">Acknowledgements</h2>
+
+<p>
+	SMOB is supported by <a href="http://www.sfi.ie/">Science Foundation Ireland</a> under grant number SFI/08/CE/I1380 (Líon 2).
+</p>
+
+</div>
+
+<div class="right"> 
+
+<h2>Navigation</h2>
+<ul>
+<li><a href='#about'>About</a></li>
+<li><a href='#technologies'>Technologies</a></li>
+<li><a href='#team'>Team</a></li>
+<li><a href='#publications'>Publications</a></li>
+<li><a href='#download'>Download</a></li>
+<li><a href='#bugtracker'>Bugs and features</a></li>
+<li><a href='#lisense'>License</a></li>
+<li><a href='#support'>Commercial support</a></li>
+<li><a href='#acknowledgements'>Acknowledgments</a></li>
+</ul>
+	
+</div>
+
+<div style="clear: both;"> </div>
+</div>
+
+<div id="footer">
+<p>
+	&copy; 2008 - 2010 <a href="http://deri.ie">DERI</a>, <a href="http://nuigalway.ie">National University of Ireland, Galway</a>
+</p>
+<p>
+	This page is valid <a href="http://validator.w3.org/check?uri=referer">XHTML</a> and <a href="http://www.w3.org/2007/08/pyRdfa/extract?uri=referer">contains RDFa markup</a>.
+</p>
+<p>
+	<a href="http://www.sfi.ie/"><img alt="SFI" src="./img/sfi.gif" class="button"/></a>
+	<a href="http://www.nuigalway.ie/"><img alt="NUI Galway" src="./img/nuigalway.gif" class="button"/></a>
+	<a href="http://www.deri.ie/"><img alt="DERI Galway" src="./img/derigalway.gif" class="button"/></a>
+</p>
+</div>
+
+</div>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-259358-12");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+</body>
+
+</html>
