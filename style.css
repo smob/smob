@@ -21,7 +21,7 @@ a:hover {
 }
 
 #header { 
-	background: url("./img/smob-logo.png") no-repeat left;
+	background: url("/smob/img/smob-logo.png") no-repeat left;
 	padding-left: 220px;
 	padding-top: 8px;
 	height: 100px;
