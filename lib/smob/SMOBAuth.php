@@ -100,6 +100,29 @@ class SMOBAuth {
 	{
 		if ($uri)
 		{
+			// while not support for several certificates/keys, delete the existing 
+			// ones before insert another to ensure there's only one
+			$query = '
+        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+        PREFIX rsa: <http://www.w3.org/ns/auth/rsa#> 
+        PREFIX cert: <http://www.w3.org/ns/auth/cert#>
+        PREFIX foaf: <http://xmlns.com/foaf/0.1/> .
+        DELETE {
+          ?sig a rsa:RSAPublicKey .
+          ?sig cert:identity <'.$uri.'> .
+					?sig rsa:modulus ?mod .
+					?sig rsa:public_exponent ?exp .
+        }
+        WHERE {
+          ?sig a rsa:RSAPublicKey;
+              cert:identity <'.$uri.'> ;
+					    rsa:modulus ?mod ;
+					    rsa:public_exponent ?exp .
+        }';
+			$res = SMOBStore::query($query);
+			error_log('result deleting:',0);
+			error_log(print_r($res,1),0);
+			
 			SMOBStore::query('LOAD <'.$uri.'>');
 
 			/* list names */
