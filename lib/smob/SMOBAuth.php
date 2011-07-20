@@ -115,8 +115,7 @@ class SMOBAuth {
 					rsa:public_exponent [ cert:decimal ?exp ] .
 			  }';
 			// for some reason the previous query doesn't work in ARC
-			// sig is not needed, replazed by bnode
-			// eliminate #me as it should be in the certificate URI
+			// sig is not needed, replaced by bnode
 			$q = '
 			  PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 			  PREFIX rsa: <http://www.w3.org/ns/auth/rsa#> 
@@ -124,7 +123,7 @@ class SMOBAuth {
 			  PREFIX foaf: <http://xmlns.com/foaf/0.1/> .
 			  SELECT ?mod ?exp  WHERE {
 				[] a rsa:RSAPublicKey;
-          cert:identity <'.$uri.'#me>;
+          cert:identity <'.$uri.'>;
 					rsa:modulus ?mod ;
 					rsa:public_exponent ?exp .
 			  }';
