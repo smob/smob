@@ -522,6 +522,58 @@ LIMIT 1";
 			error_log("DEBUG: Added the triples: $query",0);
         }
 	}
+
+
+  function select_all_from_graph($graph) {
+    $query = "
+SELECT *
+WHERE { 
+  GRAPH <$graph> {
+    ?s ?p ?o
+  }
+}";
+    $query = "SELECT * FROM <$graph> WHERE {?s ?p ?o}";
+    $data = SMOBStore::query($query);
+    return $data;
+  }
+
+  function triples_array2turtle($data) {
+    foreach($data as $triple) {
+      $s = $triple['s'];
+      $p = $triple['p'];
+      $o = $triple['o'];  
+      $ot = $triple['o type'];  
+      $odt = in_array('o datatype', array_keys($triple)) ? '^^<'.$triple['o datatype'].'>' : '';
+      $turtle .= "<$s> <$p> ";
+      $turtle .= ($ot == 'uri') ? "<$o> " : "\"$o\"$odt ";
+      $turtle .= ". " ;
+    }
+    return $turtle;
+  }
+
+  public function triples_from_graph($graph) {
+    $turtle = "";
+    $query = "
+SELECT *
+WHERE { 
+  GRAPH <$graph> {
+    ?s ?p ?o
+  }
+}";
+    $data = SMOBStore::query($query);
+    foreach($data as $triple) {
+      $s = $triple['s'];
+      $p = $triple['p'];
+      $o = $triple['o'];  
+      $ot = $triple['o type'];  
+      $odt = in_array('o datatype', array_keys($triple)) ? '^^<'.$triple['o datatype'].'>' : '';
+      $turtle .= "<$s> <$p> ";
+      $turtle .= ($ot == 'uri') ? "<$o> " : "\"$o\"$odt ";
+      $turtle .= ". " ;
+    }
+    return $turtle;
+  }
+
 }
 
 ?>

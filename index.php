@@ -220,7 +220,31 @@ if(!SMOBTools::check_config()) {
             $post_data = file_get_contents("php://input");
 	            error_log("DEBUG: received PUT with content: $post_data",0);
         }
-	} else {
+  } elseif($t == 'private') {
+    // TODO: The private profile graph is the same as the profile graph, privacy preferences will decide what is visible
+    // TODO: Authorize depending on the WebID URI
+    if(!SMOBAuth::check()) {
+      error_log("not authenticated");
+      //if($a && $a == 'edit'){
+      //  header( 'Location: '.SMOB_ROOT.'auth?redirect=private/edit' ) ;
+      //} else {
+      //  header( 'Location: '.SMOB_ROOT.'auth?redirect=private' ) ;
+      //}; 
+      header( 'Location: '.SMOB_ROOT.'auth' ) ;
+    } else {
+      error_log("authenticated");
+      if($a && $a == 'edit'){
+        echo PrivateProfile::view_private_profile_form();
+      } else {
+        echo PrivateProfile::view_private_profile();
+        exit();
+      }; 
+    }; 
+  } elseif($t == 'logout'){
+    session_start();
+    session_destroy();
+    echo 'bye';
+  } else {
 		$smob = new SMOB($t, $u, $p);
 		$smob->reply_of($r);
 		$smob->go();

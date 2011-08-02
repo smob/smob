@@ -14,6 +14,7 @@ require_once(dirname(__FILE__).'/SMOBTemplate.php');
 require_once(dirname(__FILE__).'/SMOBTools.php');
 require_once(dirname(__FILE__).'/SMOBTweet.php');
 require_once(dirname(__FILE__).'/SMOBURIWrapper.php');
+require_once(dirname(__FILE__).'/PrivateProfile.php');
 
 class SMOB {
 	

@@ -31,6 +31,10 @@ RewriteRule ^sparql(.*)$ index.php?t=sparql [L,QSA]
 
 RewriteRule ^callback(.*)$ index.php?t=callback [L,QSA]
 RewriteRule ^callbackrdf(.*)$ index.php?t=callbackrdf [L,QSA]
+#RewriteRule ^me/private(.*)$ lib/smob/SMOBPrivacyTemplate.php [L,QSA]
+RewriteRule ^private/edit(.*)$ index.php?t=private&a=edit [L,QSA]
+RewriteRule ^private(.*)$ index.php?t=private [L,QSA]
+RewriteRule ^logout(.*)$ index.php?t=logout [L,QSA]
 
 RewriteRule ^feedrdf$ sparql?query=CONSTRUCT\%20\%7B\%20?s\%20?p\%20?o\%20.\%20\%7D\%20WHERE\%20\%7B\%20GRAPH\%20?g\%20\%7B\%20?s\%20?p\%20?o\%20.\%20\%7D\%7D
 

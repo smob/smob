@@ -16,6 +16,10 @@ class SMOBAuth {
 	function grant() {
 		session_start();
 		if(AUTH == 'foafssl') {
+		  // TODO: instead of checking a config variable, we should just check if a
+		  // certificate is provided 
+		  // TODO, the WebID URI in the certificate should also match the owner 
+		  // WebID URI for site access or the hub WebID for private profile access
 		  error_log('foafssl authentication',0);
 			$foafssl  = SMOBAuth::getAuth();
 			if($foafssl['isAuthenticated']) {
@@ -24,6 +28,7 @@ class SMOBAuth {
 				$_SESSION['grant'] = false;
 			}
 		} else {
+		  // nothing else checked if not foafssl?, what about http authentication?
 			$_SESSION['grant'] = true;				
 		}
 		error_log($foafssl['authDiagnostic'],0);
@@ -124,6 +129,10 @@ class SMOBAuth {
 			error_log(print_r($res,1),0);
 			
 			SMOBStore::query('LOAD <'.$uri.'>');
+			// should it be stored in a named graph?
+			SMOBStore::query('LOAD <'.$uri.'> INTO <'.$uri.'>');
+			// then the delete would be just
+			// 'DELETE FROM <'.$uri.'>'
 
 			/* list names */
 			$q = '

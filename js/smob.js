@@ -37,16 +37,16 @@ function charsleft() {
 }
 
 // Tab generation for the interlinking
-function addTab(data) {
+function addTab(formid, tabid, data) {
 	var obj = JSON.parse(data);
-	$("#lod-form").append("<div id='" + obj.id + "'>" + obj.html + "</div>");
-	$("#tabs").tabs("add", '#'+obj.id, obj.term);
-	size = $('#tabs').tabs("length");
+	$(formid).append("<div id='" + obj.id + "'>" + obj.html + "</div>");
+	$(tabid).tabs("add", '#'+obj.id, obj.term);
+	size = $(tabid).tabs("length");
 }
 
 // LOD links suggestion
-function interlink() {
-	var text = $('#content').val() + '#'; 
+function interlink(domid, formid, tabid) {
+	var text = $(domid).val() + '#'; 
 	var words = jQuery.trim(text).split(' ');	
 	var current_words = words.length - 1;
 	
@@ -57,7 +57,7 @@ function interlink() {
 		first = current.charAt(0);
 		if(first == '#') {
 			$.get("ajax/interlink.php?type=tag&term="+urlencode(current)+getCacheBusterParam(), function(data){
-				addTab(data);
+				addTab(formid, tabid, data);
 			});
 		}
 		else if(first == 'L') {
@@ -77,6 +77,43 @@ function interlink() {
 	}
 }
 
+function interlink_interest(domid, formid, tabid) {
+  // to eliminate me in /smob/me/ajax...
+  path = "";
+  if (location.pathname.split("/").length > 3) {
+    path = "/"+location.pathname.split("/")[1]+"/";
+  }
+	var text = $(domid).val() + '#'; 
+	var words = jQuery.trim(text).split(' ');	
+	var current_words_interest = words.length - 1;
+	
+	if(current_words_interest > numwords_interest) {		
+		numwords_interest = current_words_interest;
+		words.pop();
+		current = words.pop();
+		first = current.charAt(0);
+		if(first == '#') {
+			$.get(path+"ajax/interlink.php?type=tag&term="+urlencode(current)+getCacheBusterParam(), function(data){
+				addTab(formid, tabid, data);
+			});
+		}
+		else if(first == 'L') {
+			if(current.length > 1) {
+				second = current.charAt(1);
+				if(second == ':') {
+					$.get(path+"ajax/interlink.php?type=location&term="+urlencode(current)+getCacheBusterParam(), function(data){
+						addTab(data);
+					});
+				}
+			}
+		} else if(first == '@') {	
+			$.get(path+"ajax/interlink.php?type=user&term="+urlencode(current)+getCacheBusterParam(), function(data){
+				addTab(data);
+			});
+		
+		}
+	}
+}
 // Get news ?
 function getnews() {
 	var np = $('#np').html(); 

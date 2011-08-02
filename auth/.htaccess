@@ -2,10 +2,10 @@
 # shoud work. If note, please read
 # http://foaf.me/Enabling_SSL_Client_Certificates_on_Apache.php
 
-#SSLVerifyClient optional_no_ca
-#SSLVerifyDepth 1
-#SSLOptions +StdEnvVars
-#SSLOptions +ExportCertData
+SSLVerifyClient optional_no_ca
+SSLVerifyDepth 1
+SSLOptions +StdEnvVars
+SSLOptions +ExportCertData
 
 # If you don't want basic HTTP authentication, comment the following 
 # lines. Otherwise, uncoment them and create a corresponding .htpasswd file, 
@@ -13,10 +13,10 @@
 # See http://www.htaccesstools.com/htpasswd-generator/ for generation
 # Or use the example auth/.htpasswd provided for user admin and password admin 
 
-AuthUserFile /path/to/.htpasswd
-AuthGroupFile /dev/null
-AuthName "Restricted area !"
-AuthType Basic
-<Limit GET>
-require valid-user
-</Limit>
+#AuthUserFile /path/to/.htpasswd
+#AuthGroupFile /dev/null
+#AuthName "Restricted area !"
+#AuthType Basic
+#<Limit GET>
+#require valid-user
+#</Limit>
